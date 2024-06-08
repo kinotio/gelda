@@ -1,0 +1,19 @@
+{
+  "trailingComma": "none",
+  "arrowParens": "always",
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "printWidth": 100,
+  "useTabs": false,
+  "semi": false,
+  "quoteProps": "consistent",
+  "bracketSpacing": true,
+  "overrides": [
+    {
+      "files": ["**/*.css", "**/*.scss"],
+      "options": {
+        "singleQuote": false
+      }
+    }
+  ]
+}
