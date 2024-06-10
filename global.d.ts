@@ -3,6 +3,8 @@ declare global {
     interface ProcessEnv {
       NODE_ENV: 'development' | 'production'
       NEXT_DATABASE_URL: string
+      NEXT_PUBLIC_SUPABASE_URL: string
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: string
     }
   }
 }
