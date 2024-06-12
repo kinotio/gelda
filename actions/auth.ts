@@ -1,6 +1,6 @@
 'use server'
 
-import { db } from '@/drizzle'
+import { db } from '@/lib/drizzle'
 
 export function sigin() {}
 
