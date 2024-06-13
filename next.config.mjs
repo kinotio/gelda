@@ -1,4 +1,11 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  middleware: [
+    {
+      matcher: '/:path*',
+      src: 'middleware.ts'
+    }
+  ]
+}
 
 export default nextConfig

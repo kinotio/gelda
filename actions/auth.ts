@@ -43,7 +43,9 @@ export async function signin(form: TSignInForm) {
       }
     }
 
-    cookies().set('__token', signJwt({ user_id: user.id, is_logged: true }))
+    const token = await signJwt({ user_id: user.id, role: user.role, is_logged: true })
+
+    cookies().set('__token', token)
 
     return {
       success: true,
