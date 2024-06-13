@@ -5,6 +5,7 @@ declare global {
       NEXT_DATABASE_URL: string
       NEXT_PUBLIC_SUPABASE_URL: string
       NEXT_PUBLIC_SUPABASE_ANON_KEY: string
+      NEXT_JWT_SECRET: string
     }
   }
 }

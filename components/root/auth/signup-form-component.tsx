@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { EyeIcon, EyeOffIcon, AlertCircle } from 'lucide-react'
 
@@ -29,6 +30,8 @@ export default function SignupFormComponent() {
   const [message, setMessage] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
 
+  const router = useRouter()
+
   const password = watch('password')
 
   const onSubmit: SubmitHandler<TSignUpForm> = (form) => {
@@ -37,6 +40,7 @@ export default function SignupFormComponent() {
       .then(({ success, message }) => {
         setSuccess(success)
         setMessage(message)
+        router.push('/auth/signin')
       })
       .finally(() => {
         setLoading(false)
