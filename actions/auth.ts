@@ -6,7 +6,7 @@ import { db, eq } from '@/lib/drizzle'
 import { hash, compare } from '@/lib/bcrypt'
 import { signJwt } from '@/lib/jwt'
 
-import { usersTable } from '@/database/schema'
+import { users } from '@/database/schema'
 
 import { signinSchema, signupSchema } from '@/utils/validators'
 import { PG_UNIQUE_VIOLATION_ERROR_CODE } from '@/utils/constants'
@@ -24,8 +24,8 @@ export async function signin(form: TSignInForm) {
   }
 
   try {
-    const users = await db.select().from(usersTable).where(eq(usersTable.email, data.email))
-    const user = users[0]
+    const usersResult = await db.select().from(users).where(eq(users.email, data.email))
+    const user = usersResult[0]
 
     if (!user) {
       return {
@@ -77,7 +77,7 @@ export async function signup(form: TSignUpForm) {
       password: hashedPassword
     }
 
-    await db.insert(usersTable).values(userData)
+    await db.insert(users).values(userData)
 
     return {
       success: true,

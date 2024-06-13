@@ -36,7 +36,7 @@ export default function SigninFormComponent() {
       .then(({ success, message }) => {
         setSuccess(success)
         setMessage(message)
-        router.push('/user')
+        router.push('/client')
       })
       .finally(() => {
         setLoading(false)
