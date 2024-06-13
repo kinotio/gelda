@@ -8,7 +8,8 @@ import { Button } from '@/components/ui/button'
 
 import type { TSignUpForm } from '@/types'
 
-import { NAME_PATTERN, EMAIL_PATTERN, PASSWORD_PATTERN } from '@/constants'
+import { NAME_PATTERN, EMAIL_PATTERN, PASSWORD_PATTERN } from '@/utils/constants'
+import { signupSchema } from '@/utils/validators'
 
 export default function SignupFormComponent() {
   const {
@@ -20,7 +21,11 @@ export default function SignupFormComponent() {
 
   const password = watch('password')
 
-  const onSubmit: SubmitHandler<TSignUpForm> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<TSignUpForm> = (form) => {
+    const { success, data } = signupSchema.safeParse(form)
+    if (!success) return
+    console.log(data)
+  }
 
   return (
     <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
