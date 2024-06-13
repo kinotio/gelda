@@ -1,9 +1,8 @@
 import Link from 'next/link'
 import { ChromeIcon, GithubIcon } from 'lucide-react'
 
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+import SignupFormComponent from '@/components/root/auth/signup-form-component'
+import SocialAuthComponent from '@/components/root/auth/social-auth-component'
 
 export default function Register() {
   return (
@@ -24,114 +23,8 @@ export default function Register() {
             </Link>
           </p>
         </div>
-        <form className='space-y-6' action='#' method='POST'>
-          <div>
-            <Label
-              htmlFor='name'
-              className='block text-sm font-medium text-gray-900 dark:text-gray-300'
-            >
-              Name
-            </Label>
-            <div className='mt-1'>
-              <Input
-                id='name'
-                name='name'
-                type='text'
-                autoComplete='name'
-                required
-                className='block w-full appearance-none rounded-md border border-gray-400 px-3 py-2 placeholder-gray-500 shadow-sm focus:border-gray-700 focus:outline-none focus:ring-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder-gray-500'
-              />
-            </div>
-          </div>
-          <div>
-            <Label
-              htmlFor='email'
-              className='block text-sm font-medium text-gray-900 dark:text-gray-300'
-            >
-              Email address
-            </Label>
-            <div className='mt-1'>
-              <Input
-                id='email'
-                name='email'
-                type='email'
-                autoComplete='email'
-                required
-                className='block w-full appearance-none rounded-md border border-gray-400 px-3 py-2 placeholder-gray-500 shadow-sm focus:border-gray-700 focus:outline-none focus:ring-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder-gray-500'
-              />
-            </div>
-          </div>
-          <div>
-            <Label
-              htmlFor='password'
-              className='block text-sm font-medium text-gray-900 dark:text-gray-300'
-            >
-              Password
-            </Label>
-            <div className='mt-1'>
-              <Input
-                id='password'
-                name='password'
-                type='password'
-                autoComplete='password'
-                required
-                className='block w-full appearance-none rounded-md border border-gray-400 px-3 py-2 placeholder-gray-500 shadow-sm focus:border-gray-700 focus:outline-none focus:ring-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder-gray-500'
-              />
-            </div>
-          </div>
-          <div>
-            <Label
-              htmlFor='password'
-              className='block text-sm font-medium text-gray-900 dark:text-gray-300'
-            >
-              Confirm Password
-            </Label>
-            <div className='mt-1'>
-              <Input
-                id='confirmPassword'
-                name='confirmPassword'
-                type='password'
-                autoComplete='confirm-password'
-                required
-                className='block w-full appearance-none rounded-md border border-gray-400 px-3 py-2 placeholder-gray-500 shadow-sm focus:border-gray-700 focus:outline-none focus:ring-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder-gray-500'
-              />
-            </div>
-          </div>
-          <div>
-            <Button
-              type='submit'
-              className='flex w-full justify-center rounded-md border border-transparent bg-gray-900 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 dark:bg-gray-400 dark:hover:bg-gray-500 dark:focus:ring-gray-600'
-            >
-              Sign up
-            </Button>
-          </div>
-        </form>
-        <div className='relative'>
-          <div className='absolute inset-0 flex items-center'>
-            <div className='w-full border-t border-gray-400 dark:border-gray-600' />
-          </div>
-          <div className='relative flex justify-center text-sm'>
-            <span className='bg-white px-2 text-gray-500 dark:bg-gray-950 dark:text-gray-400'>
-              Or continue with
-            </span>
-          </div>
-        </div>
-        <div className='grid grid-cols-2 gap-4'>
-          <Button
-            variant='outline'
-            className='flex w-full justify-center rounded-md border border-gray-400 py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:ring-gray-600'
-          >
-            <GithubIcon className='mr-2 h-5 w-5' />
-            GitHub
-          </Button>
-          <Button
-            variant='outline'
-            className='flex w-full justify-center rounded-md border border-gray-400 py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:ring-gray-600'
-          >
-            <ChromeIcon className='mr-2 h-5 w-5' />
-            Google
-          </Button>
-        </div>
+        <SignupFormComponent />
+        <SocialAuthComponent />
       </div>
     </div>
   )
