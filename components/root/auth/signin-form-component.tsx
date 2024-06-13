@@ -10,6 +10,8 @@ import { Checkbox } from '@/components/ui/checkbox'
 
 import type { TSignInForm } from '@/types'
 
+import { signinSchema } from '@/utils/validators'
+
 export default function SigninFormComponent() {
   const {
     register,
@@ -17,7 +19,11 @@ export default function SigninFormComponent() {
     formState: { errors }
   } = useForm<TSignInForm>()
 
-  const onSubmit: SubmitHandler<TSignInForm> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<TSignInForm> = (form) => {
+    const { success, data } = signinSchema.safeParse(form)
+    if (!success) return
+    console.log(data)
+  }
 
   return (
     <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
