@@ -1,34 +1,59 @@
 'use client'
 
+import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { EyeIcon, EyeOffIcon, AlertCircle } from 'lucide-react'
 
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 import type { TSignUpForm } from '@/types'
 
 import { NAME_PATTERN, EMAIL_PATTERN, PASSWORD_PATTERN } from '@/utils/constants'
-import { signupSchema } from '@/utils/validators'
+
+import { signup } from '@/actions/auth'
 
 export default function SignupFormComponent() {
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors }
   } = useForm<TSignUpForm>()
+  const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false)
+  const [confirmPasswordVisibility, setconfirmPasswordVisibility] = useState<boolean>(false)
+  const [success, setSuccess] = useState<boolean>(false)
+  const [message, setMessage] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
 
   const password = watch('password')
 
   const onSubmit: SubmitHandler<TSignUpForm> = (form) => {
-    const { success, data } = signupSchema.safeParse(form)
-    if (!success) return
-    console.log(data)
+    setLoading(true)
+    signup(form)
+      .then(({ success, message }) => {
+        setSuccess(success)
+        setMessage(message)
+      })
+      .finally(() => {
+        setLoading(false)
+        reset()
+      })
   }
 
   return (
     <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
+      {!success && message !== '' ? (
+        <Alert variant='destructive'>
+          <AlertCircle className='h-4 w-4' />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{message}</AlertDescription>
+        </Alert>
+      ) : null}
+
       <div>
         <Label
           htmlFor='name'
@@ -73,16 +98,33 @@ export default function SignupFormComponent() {
           Password
         </Label>
         <div className='mt-1'>
-          <Input
-            id='password'
-            type='password'
-            placeholder='****************'
-            className='block w-full appearance-none rounded-md border border-gray-400 px-3 py-2 placeholder-gray-500 shadow-sm focus:border-gray-700 focus:outline-none focus:ring-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder-gray-500'
-            {...register('password', {
-              required: 'Password is required',
-              pattern: PASSWORD_PATTERN
-            })}
-          />
+          <div className='relative'>
+            <Input
+              id='password'
+              type={passwordVisibility ? 'text' : 'password'}
+              placeholder='****************'
+              className='block w-full appearance-none rounded-md border border-gray-400 px-3 py-2 placeholder-gray-500 shadow-sm focus:border-gray-700 focus:outline-none focus:ring-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder-gray-500'
+              {...register('password', {
+                required: 'Password is required',
+                pattern: PASSWORD_PATTERN
+              })}
+            />
+            <Button
+              variant='ghost'
+              size='icon'
+              type='button'
+              className='absolute top-1/2 right-3 -translate-y-1/2 h-7 w-7 hover:bg-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300'
+              onClick={() => setPasswordVisibility(!passwordVisibility)}
+            >
+              {passwordVisibility ? (
+                <EyeOffIcon className='h-4 w-4' />
+              ) : (
+                <EyeIcon className='h-4 w-4' />
+              )}
+
+              <span className='sr-only'>Toggle password visibility</span>
+            </Button>
+          </div>
           {errors.password && (
             <span className='text-red-500 text-sm'>{errors.password.message}</span>
           )}
@@ -96,17 +138,35 @@ export default function SignupFormComponent() {
           Re-Type Password
         </Label>
         <div className='mt-1'>
-          <Input
-            id='confirmPassword'
-            type='password'
-            placeholder='****************'
-            className='block w-full appearance-none rounded-md border border-gray-400 px-3 py-2 placeholder-gray-500 shadow-sm focus:border-gray-700 focus:outline-none focus:ring-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder-gray-500'
-            {...register('confirmPassword', {
-              required: 'Confirm Password is required',
-              validate: (value) => value === password || 'Passwords do not match',
-              pattern: PASSWORD_PATTERN
-            })}
-          />
+          <div className='relative'>
+            <Input
+              id='confirmPassword'
+              type={confirmPasswordVisibility ? 'text' : 'password'}
+              placeholder='****************'
+              className='block w-full appearance-none rounded-md border border-gray-400 px-3 py-2 placeholder-gray-500 shadow-sm focus:border-gray-700 focus:outline-none focus:ring-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder-gray-500'
+              {...register('confirmPassword', {
+                required: 'Confirm Password is required',
+                validate: (value) => value === password || 'Passwords do not match',
+                pattern: PASSWORD_PATTERN
+              })}
+            />
+            <Button
+              variant='ghost'
+              size='icon'
+              type='button'
+              className='absolute top-1/2 right-3 -translate-y-1/2 h-7 w-7 hover:bg-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300'
+              onClick={() => setconfirmPasswordVisibility(!confirmPasswordVisibility)}
+            >
+              {confirmPasswordVisibility ? (
+                <EyeOffIcon className='h-4 w-4' />
+              ) : (
+                <EyeIcon className='h-4 w-4' />
+              )}
+
+              <span className='sr-only'>Toggle password visibility</span>
+            </Button>
+          </div>
+
           {errors.confirmPassword && (
             <span className='text-red-500 text-sm'>{errors.confirmPassword.message}</span>
           )}
@@ -115,9 +175,10 @@ export default function SignupFormComponent() {
       <div>
         <Button
           type='submit'
+          disabled={loading}
           className='flex w-full justify-center rounded-md border border-transparent bg-gray-900 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 dark:bg-gray-400 dark:hover:bg-gray-500 dark:focus:ring-gray-600'
         >
-          Sign up
+          {loading ? 'Loading...' : 'Sign up'}
         </Button>
       </div>
     </form>

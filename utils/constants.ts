@@ -13,3 +13,5 @@ export const PASSWORD_PATTERN = {
   message:
     'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character'
 }
+
+export const PG_UNIQUE_VIOLATION_ERROR_CODE = 23505
