@@ -24,7 +24,7 @@
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.31.2",
-    "jsonwebtoken": "^9.0.2",
+    "jose": "^5.4.0",
     "lucide-react": "^0.390.0",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
