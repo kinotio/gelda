@@ -1,16 +1,64 @@
 'use server'
 
-import { db } from '@/lib/drizzle'
-import { hash } from '@/lib/bcrypt'
+import { cookies } from 'next/headers'
+
+import { db, eq } from '@/lib/drizzle'
+import { hash, compare } from '@/lib/bcrypt'
+import { signJwt } from '@/lib/jwt'
 
 import { usersTable } from '@/database/schema'
 
-import { signupSchema } from '@/utils/validators'
+import { signinSchema, signupSchema } from '@/utils/validators'
 import { PG_UNIQUE_VIOLATION_ERROR_CODE } from '@/utils/constants'
 
-import type { TSignUpForm } from '@/types'
+import type { TSignInForm, TSignUpForm } from '@/types'
 
-export async function sigin() {}
+export async function signin(form: TSignInForm) {
+  const { success, data } = signinSchema.safeParse(form)
+  if (!success) {
+    return {
+      success: false,
+      message:
+        'Submission failed: The provided data does not meet the required specifications. Please review and try again.'
+    }
+  }
+
+  try {
+    const users = await db.select().from(usersTable).where(eq(usersTable.email, data.email))
+    const user = users[0]
+
+    if (!user) {
+      return {
+        success: false,
+        message: 'Sign in failed: The email provided is not linked with an account.'
+      }
+    }
+
+    const isPasswordValid = await compare(data.password, user.password)
+
+    if (!isPasswordValid) {
+      return {
+        success: false,
+        message: 'Sign in failed: The password provided is incorrect.'
+      }
+    }
+
+    cookies().set('__token', signJwt({ user_id: user.id, is_logged: true }))
+
+    return {
+      success: true,
+      message: 'Sign in successful: You are now signed in.'
+    }
+  } catch (error) {
+    cookies().delete('__token')
+
+    return {
+      success: false,
+      message:
+        'Sign in failed: An error occurred while processing your request. Please try again later.'
+    }
+  }
+}
 
 export async function signup(form: TSignUpForm) {
   const { success, data } = signupSchema.safeParse(form)

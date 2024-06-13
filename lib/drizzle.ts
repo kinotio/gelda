@@ -1,5 +1,6 @@
 import { config } from 'dotenv'
 import { drizzle } from 'drizzle-orm/postgres-js'
+import { eq } from 'drizzle-orm'
 import postgres from 'postgres'
 
 config({ path: '.env' })
@@ -7,3 +8,4 @@ config({ path: '.env' })
 const client = postgres(process.env.NEXT_DATABASE_URL)
 
 export const db = drizzle(client)
+export { eq }
