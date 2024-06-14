@@ -76,7 +76,7 @@ export async function signup(form: TSignUpForm) {
       password: hashedPassword
     }
 
-    await createUser(data)
+    await createUser(userData)
 
     return {
       success: true,

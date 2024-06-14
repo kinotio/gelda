@@ -1,4 +1,5 @@
-import SidebarComponent from '@/components/client/sidebar-component'
+import HeaderComponent from '@/components/common/header-component'
+import Footercomponent from '@/components/common/footer-component'
 
 export default function ClientLayout({
   children
@@ -6,9 +7,10 @@ export default function ClientLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className='grid md:grid-cols-[300px_1fr] min-h-screen w-full'>
-      <SidebarComponent />
+    <div className='flex flex-col w-full min-h-screen'>
+      <HeaderComponent />
       {children}
+      <Footercomponent />
     </div>
   )
 }

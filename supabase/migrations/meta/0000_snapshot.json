@@ -1,5 +1,5 @@
 {
-  "id": "73699a1c-b06c-4b7e-85b4-67839e5ad6cc",
+  "id": "aabb083e-deec-4d34-9a57-d2486a690cc6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -10,10 +10,9 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
+          "notNull": true
         },
         "name": {
           "name": "name",
@@ -33,12 +32,12 @@
           "primaryKey": false,
           "notNull": true
         },
-        "roles": {
-          "name": "roles",
+        "role": {
+          "name": "role",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "default": "'user'"
+          "default": "'client'"
         },
         "created_at": {
           "name": "created_at",
