@@ -2,11 +2,10 @@
 
 import { cookies } from 'next/headers'
 
-import { db, eq } from '@/lib/drizzle'
 import { hash, compare } from '@/lib/bcrypt'
 import { signJwt } from '@/lib/jwt'
 
-import { users } from '@/database/schema'
+import { getUserByEmail, createUser } from '@/database'
 
 import { signinSchema, signupSchema } from '@/utils/validators'
 import { PG_UNIQUE_VIOLATION_ERROR_CODE } from '@/utils/constants'
@@ -24,7 +23,7 @@ export async function signin(form: TSignInForm) {
   }
 
   try {
-    const usersResult = await db.select().from(users).where(eq(users.email, data.email))
+    const usersResult = await getUserByEmail(data.email)
     const user = usersResult[0]
 
     if (!user) {
@@ -45,15 +44,13 @@ export async function signin(form: TSignInForm) {
 
     const token = await signJwt({ user_id: user.id, role: user.role, is_logged: true })
 
-    cookies().set('__token', token)
+    cookies().set('access-token', token)
 
     return {
       success: true,
       message: 'Sign in successful: You are now signed in.'
     }
   } catch (error) {
-    cookies().delete('__token')
-
     return {
       success: false,
       message:
@@ -79,7 +76,7 @@ export async function signup(form: TSignUpForm) {
       password: hashedPassword
     }
 
-    await db.insert(users).values(userData)
+    await createUser(data)
 
     return {
       success: true,
@@ -100,5 +97,14 @@ export async function signup(form: TSignUpForm) {
       message:
         'Registration failed: An error occurred while processing your request. Please try again later.'
     }
+  }
+}
+
+export async function signout() {
+  cookies().delete('access-token')
+
+  return {
+    success: true,
+    message: 'Sign out successful: You are now signed out.'
   }
 }

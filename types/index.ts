@@ -1,3 +1,9 @@
+export type TUser = {
+  name: string
+  email: string
+  role?: string
+}
+
 export type TSignInForm = {
   email: string
   password: string

@@ -1,3 +1,7 @@
+import pkg from '@/package.json'
+
+export const APP_VERSION = pkg.version
+
 export const NAME_PATTERN = {
   value: /^[A-Za-z\s]+$/,
   message: 'Name should only contain letters and spaces'
