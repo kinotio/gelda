@@ -13,45 +13,21 @@ export default function CardOpenedTicketsComponent() {
       </CardHeader>
       <CardContent className='h-[100px] overflow-auto'>
         <div className='flex flex-col gap-2'>
-          <div className='flex items-center justify-between'>
-            <div className='flex items-center gap-2'>
-              <div className='inline-flex items-center gap-2 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-600 dark:bg-green-900 dark:text-green-400'>
-                Open
+          {Array.from({ length: 10 }).map((_, idx) => (
+            <div className='flex items-center justify-between' key={idx}>
+              <div className='flex items-center gap-2'>
+                <div className='inline-flex items-center gap-2 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-600 dark:bg-green-900 dark:text-green-400'>
+                  Open
+                </div>
+                <Link className='font-medium' href='#'>
+                  #123 Printer not working
+                </Link>
               </div>
-              <Link className='font-medium' href='#'>
-                #123 Printer not working
-              </Link>
-            </div>
-            <div className='inline-flex items-center gap-2 rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-600 dark:bg-yellow-900 dark:text-yellow-400'>
-              Medium
-            </div>
-          </div>
-          <div className='flex items-center justify-between'>
-            <div className='flex items-center gap-2'>
-              <div className='inline-flex items-center gap-2 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-600 dark:bg-green-900 dark:text-green-400'>
-                Open
+              <div className='inline-flex items-center gap-2 rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-600 dark:bg-yellow-900 dark:text-yellow-400'>
+                Medium
               </div>
-              <Link className='font-medium' href='#'>
-                #125 Software update issue
-              </Link>
             </div>
-            <div className='inline-flex items-center gap-2 rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-600 dark:bg-yellow-900 dark:text-yellow-400'>
-              Medium
-            </div>
-          </div>
-          <div className='flex items-center justify-between'>
-            <div className='flex items-center gap-2'>
-              <div className='inline-flex items-center gap-2 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-600 dark:bg-green-900 dark:text-green-400'>
-                Open
-              </div>
-              <Link className='font-medium' href='#'>
-                #127 Network connection issue
-              </Link>
-            </div>
-            <div className='inline-flex items-center gap-2 rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-600 dark:bg-red-900 dark:text-red-400'>
-              High
-            </div>
-          </div>
+          ))}
         </div>
       </CardContent>
     </Card>

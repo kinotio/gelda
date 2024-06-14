@@ -1,7 +1,9 @@
 import Link from 'next/link'
+import { EyeIcon } from 'lucide-react'
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
 
 export default function CardResponsiblesComponent() {
   return (
@@ -14,18 +16,25 @@ export default function CardResponsiblesComponent() {
       </CardHeader>
       <CardContent className='h-[100px] overflow-auto'>
         <div className='flex flex-col gap-2'>
-          <div className='flex items-center justify-between'>
-            <div className='flex items-center gap-2'>
-              <div className='inline-flex items-center gap-2 rounded-full px-2 py-1 text-xs font-medium '>
-                <Avatar>
-                  <AvatarFallback>J</AvatarFallback>
-                </Avatar>
+          {Array.from({ length: 3 }).map((_, idx) => (
+            <div className='flex items-center justify-between' key={idx}>
+              <div className='flex items-center gap-2'>
+                <div className='inline-flex items-center gap-2 rounded-full px-2 py-1 text-xs font-medium '>
+                  <Avatar>
+                    <AvatarFallback>J</AvatarFallback>
+                  </Avatar>
+                </div>
+                <Link className='font-medium' href='#'>
+                  John Doe
+                </Link>
               </div>
-              <Link className='font-medium' href='#'>
-                John Doe
-              </Link>
+              <div className='flex gap-4'>
+                <EyeIcon />
+                <Badge variant='secondary'>14-04-2024</Badge>
+                <Badge>12h00</Badge>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </CardContent>
     </Card>

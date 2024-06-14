@@ -30,7 +30,7 @@ export default function CardRecentTicketsComponent() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Array.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).map((data, idx) => (
+            {Array.from({ length: 10 }).map((data, idx) => (
               <TableRow key={idx}>
                 <TableCell>
                   <Link className='font-medium' href='#'>
