@@ -29,7 +29,7 @@ export default function CardCreateTicketComponent() {
             </div>
             <div>
               <Label htmlFor='description'>Description</Label>
-              <Textarea id='description' placeholder='Describe the issue' rows={3} />
+              <Textarea id='description' placeholder='Describe the issue' rows={11} />
             </div>
             <div>
               <Label htmlFor='priority'>Priority</Label>
