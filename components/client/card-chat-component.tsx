@@ -8,7 +8,7 @@ export default function CardChatComponent() {
   return (
     <Card>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
-        <CardTitle className='text-sm font-medium'>Chat</CardTitle>
+        <CardTitle className='text-sm font-medium'>Gelda: Chat</CardTitle>
         <Button className='rounded-full' size='icon' variant='ghost'>
           <PlusIcon className='w-4 h-4' />
           <span className='sr-only'>New chat</span>
@@ -28,13 +28,18 @@ export default function CardChatComponent() {
         </div>
       </CardContent>
       <CardFooter>
-        <form className='flex w-full items-center space-x-2 pt-4'>
-          <Input autoComplete='off' className='flex-1' id='message' placeholder='Ask...' />
-          <Button size='icon' type='submit'>
-            <SendIcon className='h-4 w-4' />
-            <span className='sr-only'>Send</span>
-          </Button>
-        </form>
+        <div className='flex flex-col w-full'>
+          <form className='flex w-full items-center space-x-2 pt-4'>
+            <Input autoComplete='off' className='flex-1' id='message' placeholder='Ask...' />
+            <Button size='icon' type='submit'>
+              <SendIcon className='h-4 w-4' />
+              <span className='sr-only'>Send</span>
+            </Button>
+          </form>
+          <span className='flex w-full justify-center text-xs pt-2'>
+            Gelda can make mistakes. Consider checking important information.
+          </span>
+        </div>
       </CardFooter>
     </Card>
   )
