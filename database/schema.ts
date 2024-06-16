@@ -1,7 +1,9 @@
-import { integer, uuid, timestamp, pgTable, text, serial } from 'drizzle-orm/pg-core'
+import { integer, timestamp, pgTable, text, serial } from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
-  id: uuid('id').primaryKey(),
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
   password: text('password').notNull(),
@@ -11,11 +13,14 @@ export const users = pgTable('users', {
 })
 
 export const tickets = pgTable('tickets', {
-  id: uuid('id').primaryKey(),
-  userId: text('user_id').references(() => users.id),
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
   reference: serial('reference'),
   title: text('title').notNull(),
   description: text('description'),
+  creatorId: text('user_id').references(() => users.id),
+  responsibleId: text('user_id').references(() => users.id),
   statusId: integer('status_id').references(() => status.id),
   priorityId: integer('priority_id').references(() => priorities.id),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow(),

@@ -10,7 +10,8 @@
     "format": "prettier --write \"./**/*.{ts,tsx}\"",
     "drizzle:generate": "npx drizzle-kit generate",
     "drizzle:migrate": "npx drizzle-kit migrate",
-    "drizzle:push": "npx drizzle-kit push"
+    "drizzle:push": "npx drizzle-kit push",
+    "drizzle:seed": "npx tsx ./database/seeds.ts"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.0.4",
