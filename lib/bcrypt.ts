@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt'
 
-export const hash = (unhashedText: string, salt: string | number) => bcrypt.hash(unhashedText, salt)
+export const hash = (unhashedText: string, salt: string | number = 10) =>
+  bcrypt.hash(unhashedText, salt)
 
 export const compare = (unhashedText: string, hashedText: string) =>
   bcrypt.compare(unhashedText, hashedText)

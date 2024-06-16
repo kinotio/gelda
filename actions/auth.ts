@@ -42,7 +42,7 @@ export async function signin(form: TSignInForm) {
       }
     }
 
-    const token = await signJwt({ user_id: user.id, role: user.role, is_logged: true })
+    const token = await signJwt({ user_id: user.id, roleId: user.roleId, is_logged: true })
 
     cookies().set('access-token', token)
 
@@ -70,7 +70,7 @@ export async function signup(form: TSignUpForm) {
   }
 
   try {
-    const hashedPassword = await hash(data.password, 10)
+    const hashedPassword = await hash(data.password)
     const userData = {
       ...data,
       password: hashedPassword

@@ -8,7 +8,8 @@ export const usersRelations = relations(users, ({ one, many }) => ({
 }))
 
 export const ticketsRelations = relations(tickets, ({ one }) => ({
-  user: one(users, { fields: [tickets.userId], references: [users.id] }),
+  creator: one(users, { fields: [tickets.creatorId], references: [users.id] }),
+  responsible: one(users, { fields: [tickets.responsibleId], references: [users.id] }),
   status: one(status, { fields: [tickets.statusId], references: [status.id] }),
   priority: one(priorities, { fields: [tickets.priorityId], references: [priorities.id] })
 }))
