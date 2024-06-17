@@ -4,8 +4,8 @@ import './globals.css'
 
 const inter = Inter({
   subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter'
+  weight: ['100', '200', '400', '700'],
+  display: 'swap'
 })
 
 export const metadata: Metadata = { title: 'Gelda' }
