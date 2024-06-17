@@ -3,41 +3,45 @@ import type { NextRequest } from 'next/server'
 
 import { verifyJwt } from '@/lib/jwt'
 
+import { PATH, TOKEN_NAME } from '@/utils/constants'
+
 export async function middleware(request: NextRequest) {
-  const token = request.cookies.get('access-token')?.value as string
+  const token = request.cookies.get(TOKEN_NAME)?.value as string
   const path = request.nextUrl.pathname
 
   if (!token) {
-    if (path === '/' || ['/auth/signin', '/auth/signup'].includes(path)) {
+    if (path === PATH.HOME || [PATH.SIGNIN, PATH.SIGNUP].includes(path)) {
       return NextResponse.next()
     }
-    return NextResponse.redirect(new URL('/auth/signin', request.url))
+    return NextResponse.redirect(new URL(PATH.SIGNIN, request.url))
   }
 
   try {
-    const { role } = await verifyJwt(token)
+    const { role_id } = await verifyJwt(token)
 
-    if (path === '/auth/signin' || path === '/auth/signup') {
-      return NextResponse.redirect(new URL('/', request.url))
-    } else if (role === 'client') {
-      if (path.startsWith('/admin')) {
-        return NextResponse.redirect(new URL('/client', request.url))
+    if (path === PATH.SIGNIN || path === PATH.SIGNUP) {
+      return NextResponse.redirect(new URL(PATH.HOME, request.url))
+    } else if (role_id === 'client') {
+      if (path.startsWith(PATH.ADMIN)) {
+        return NextResponse.redirect(new URL(PATH.CLIENT, request.url))
       }
-      return path.startsWith('/client')
+      return path.startsWith(PATH.CLIENT)
         ? NextResponse.next()
-        : NextResponse.redirect(new URL('/client', request.url))
-    } else if (role === 'admin') {
-      if (path.startsWith('/client')) {
-        return NextResponse.redirect(new URL('/admin', request.url))
+        : NextResponse.redirect(new URL(PATH.CLIENT, request.url))
+    } else if (role_id === 'admin') {
+      if (path.startsWith(PATH.CLIENT)) {
+        return NextResponse.redirect(new URL(PATH.ADMIN, request.url))
       }
-      return path.startsWith('/admin')
+      return path.startsWith(PATH.ADMIN)
         ? NextResponse.next()
-        : NextResponse.redirect(new URL('/admin', request.url))
+        : NextResponse.redirect(new URL(PATH.ADMIN, request.url))
     }
   } catch (error) {
     request.cookies.delete('access-token')
-    return NextResponse.redirect(new URL('/auth/signin', request.url))
+    return NextResponse.redirect(new URL(PATH.SIGNIN, request.url))
   }
+
+  return NextResponse.next()
 }
 
 export const config = { matcher: ['/', '/auth/:path*', '/client/:path*', '/admin/:path*'] }

@@ -8,9 +8,7 @@ const inter = Inter({
   variable: '--font-inter'
 })
 
-export const metadata: Metadata = {
-  title: 'Gelda'
-}
+export const metadata: Metadata = { title: 'Gelda' }
 
 export default function Layout({
   children

@@ -19,3 +19,31 @@ export const PASSWORD_PATTERN = {
 }
 
 export const PG_UNIQUE_VIOLATION_ERROR_CODE = 23505
+
+export const ROLE_BY_NAME = {
+  CLIENT: 1,
+  SUPPORT: 2,
+  ADMIN: 3
+}
+
+export const STATUS_BY_NAME = {
+  OPEN: 1,
+  IN_PROGRESS: 2,
+  CLOSED: 3
+}
+
+export const PRIORITY_BY_NAME = {
+  LOW: 1,
+  MEDIUM: 2,
+  HIGH: 3
+}
+
+export const PATH = {
+  HOME: '/',
+  CLIENT: '/client',
+  ADMIN: '/admin',
+  SIGNIN: '/auth/signin',
+  SIGNUP: '/auth/signup'
+}
+
+export const TOKEN_NAME = 'access-token'
