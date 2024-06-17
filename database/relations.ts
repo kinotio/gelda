@@ -3,7 +3,8 @@ import { relations } from 'drizzle-orm'
 import { users, tickets, roles, status, priorities } from '@/database/schema'
 
 export const usersRelations = relations(users, ({ one, many }) => ({
-  tickets: many(tickets),
+  createdTickets: many(tickets),
+  responsibleOfTickets: many(tickets),
   role: one(roles, { fields: [users.roleId], references: [roles.id] })
 }))
 

@@ -3,7 +3,7 @@ import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
 import { eq } from 'drizzle-orm'
 
-import { users } from '@/database/schema'
+import { users, tickets, status, priorities } from '@/database/schema'
 
 import type { TSignUpForm, TUser } from '@/types'
 
@@ -11,14 +11,25 @@ config({ path: '.env' })
 
 const client = postgres(process.env.NEXT_DATABASE_URL)
 
-export const db = drizzle(client)
+export const db = drizzle(client, {
+  schema: {
+    users: users,
+    tickets: tickets,
+    status: status,
+    priorities: priorities
+  }
+})
 
 export const getUserById = async (id: string) => {
-  return await db.select().from(users).where(eq(users.id, id))
+  return await db.query.users.findFirst({
+    where: eq(users.id, id)
+  })
 }
 
 export const getUserByEmail = async (email: string) => {
-  return await db.select().from(users).where(eq(users.email, email))
+  return await db.query.users.findFirst({
+    where: eq(users.email, email)
+  })
 }
 
 export const createUser = async (data: TSignUpForm) => {

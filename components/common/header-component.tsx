@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { BellIcon } from 'lucide-react'
 
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
@@ -13,7 +13,10 @@ export default function HeaderComponent() {
           <Image src='/images/gelda-black.png' alt='Gelda' width={90} height={90} />
         </Link>
       </nav>
-      <div className='flex w-full justify-end'>
+      <div className='flex w-full justify-end items-center gap-2'>
+        <Button className='rounded-full' size='icon' variant='ghost'>
+          <BellIcon />
+        </Button>
         <Button className='rounded-full' size='icon' variant='ghost'>
           <Avatar>
             <AvatarFallback>A</AvatarFallback>
