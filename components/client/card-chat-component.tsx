@@ -14,7 +14,7 @@ export default function CardChatComponent() {
           <span className='sr-only'>New chat</span>
         </Button>
       </CardHeader>
-      <CardContent className='h-[400px] overflow-auto'>
+      <CardContent className='h-[375px] overflow-auto'>
         <div className='space-y-4'>
           <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900'>
             Hi

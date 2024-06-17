@@ -23,8 +23,7 @@ export async function signin(form: TSignInForm) {
   }
 
   try {
-    const usersResult = await getUserByEmail(data.email)
-    const user = usersResult[0]
+    const user = await getUserByEmail(data.email)
 
     if (!user) {
       return {
