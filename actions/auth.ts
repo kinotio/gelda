@@ -8,9 +8,11 @@ import { signJwt } from '@/lib/jwt'
 import { getUserByEmail, createUser } from '@/database'
 
 import { signinSchema, signupSchema } from '@/utils/validators'
-import { PG_UNIQUE_VIOLATION_ERROR_CODE } from '@/utils/constants'
+import { PG_UNIQUE_VIOLATION_ERROR_CODE, ROLE_BY_NAME } from '@/utils/constants'
 
 import type { TSignInForm, TSignUpForm } from '@/types'
+
+import { TOKEN_NAME } from '@/utils/constants'
 
 export async function signin(form: TSignInForm) {
   const { success, data } = signinSchema.safeParse(form)
@@ -41,9 +43,9 @@ export async function signin(form: TSignInForm) {
       }
     }
 
-    const token = await signJwt({ user_id: user.id, roleId: user.roleId, is_logged: true })
+    const token = await signJwt({ user_id: user.id, role_id: user.roleId })
 
-    cookies().set('access-token', token)
+    cookies().set(TOKEN_NAME, token)
 
     return {
       success: true,
@@ -72,7 +74,8 @@ export async function signup(form: TSignUpForm) {
     const hashedPassword = await hash(data.password)
     const userData = {
       ...data,
-      password: hashedPassword
+      password: hashedPassword,
+      roleId: ROLE_BY_NAME.CLIENT
     }
 
     await createUser(userData)
@@ -100,7 +103,7 @@ export async function signup(form: TSignUpForm) {
 }
 
 export async function signout() {
-  cookies().delete('access-token')
+  cookies().delete(TOKEN_NAME)
 
   return {
     success: true,
