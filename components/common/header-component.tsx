@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { BellIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import HeaderAvatarComponent from '@/components/common/header-avatar-component'
 
 export default function HeaderComponent() {
   return (
@@ -17,11 +17,8 @@ export default function HeaderComponent() {
         <Button className='rounded-full' size='icon' variant='ghost'>
           <BellIcon />
         </Button>
-        <Button className='rounded-full' size='icon' variant='ghost'>
-          <Avatar>
-            <AvatarFallback>A</AvatarFallback>
-          </Avatar>
-        </Button>
+
+        <HeaderAvatarComponent />
       </div>
     </header>
   )

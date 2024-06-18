@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { EyeIcon, EyeOffIcon, AlertCircle } from 'lucide-react'
@@ -12,37 +11,21 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
-import type { TSignInForm } from '@/types'
+import { useAuth } from '@/hooks/use-auth'
 
-import { signin } from '@/actions/auth'
+import { TSignInForm } from '@/types'
 
 export default function SigninFormComponent() {
+  const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false)
+
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors }
   } = useForm<TSignInForm>()
-  const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false)
-  const [success, setSuccess] = useState<boolean>(false)
-  const [message, setMessage] = useState<string>('')
-  const [loading, setLoading] = useState<boolean>(false)
+  const { loading, signIn, message, success } = useAuth()
 
-  const router = useRouter()
-
-  const onSubmit: SubmitHandler<TSignInForm> = (form) => {
-    setLoading(true)
-    signin(form)
-      .then(({ success, message }) => {
-        setSuccess(success)
-        setMessage(message)
-        router.push('/client')
-      })
-      .finally(() => {
-        setLoading(false)
-        reset()
-      })
-  }
+  const onSubmit: SubmitHandler<TSignInForm> = async (form: TSignInForm) => await signIn(form)
 
   return (
     <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
