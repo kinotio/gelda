@@ -36,3 +36,19 @@ export type TCommonEntity = {
 export type TStatus = TCommonEntity
 export type TPriority = TCommonEntity
 export type TRole = TCommonEntity
+
+export type TCookieOptions = {
+  days?: number
+  path?: string
+  domain?: string
+  SameSite?: 'None' | 'Lax' | 'Strict'
+  Secure?: boolean
+  HttpOnly?: boolean
+}
+
+export type TUseAuthResult = {
+  loading: boolean
+  signIn: (form: TSignInForm) => Promise<void>
+  message: string
+  success: boolean
+}
