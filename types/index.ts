@@ -1,7 +1,8 @@
 export type TUser = {
+  id: string
   name: string
   email: string
-  role?: string
+  roleId?: number
 }
 
 export type TSignInForm = {
@@ -14,5 +15,24 @@ export type TSignUpForm = {
   email: string
   password: string
   confirmPassword: string
-  role?: string
+  roleId: number
 }
+
+export type TTicket = {
+  id: string
+  reference?: number
+  title: string
+  description: string
+  status: number
+  priority: number
+  userId: number
+}
+
+export type TCommonEntity = {
+  id: number
+  name: string
+}
+
+export type TStatus = TCommonEntity
+export type TPriority = TCommonEntity
+export type TRole = TCommonEntity
