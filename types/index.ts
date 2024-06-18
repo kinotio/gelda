@@ -49,6 +49,7 @@ export type TCookieOptions = {
 export type TUseAuthResult = {
   loading: boolean
   signIn: (form: TSignInForm) => Promise<void>
+  signOut: () => void
   message: string
   success: boolean
 }
