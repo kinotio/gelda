@@ -3,58 +3,75 @@ import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
 import { eq } from 'drizzle-orm'
 
-import { users, tickets, status, priorities, roles } from '@/database/schema'
+import schema from '@/database/schema'
 
-import type { TSignUpForm, TUser } from '@/types'
+import type { TSignUpForm, TUser, TTicket } from '@/types'
 
 config({ path: '.env' })
 
 const client = postgres(process.env.NEXT_DATABASE_URL)
 
-export const db = drizzle(client, {
-  schema: {
-    users,
-    tickets,
-    status,
-    priorities,
-    roles
+export const db = drizzle(client, { schema })
+
+export const usersMethods = {
+  get: async () => {
+    return await db.query.users.findMany()
+  },
+  getById: async (id: string) => {
+    return await db.query.users.findFirst({
+      where: eq(schema.users.id, id)
+    })
+  },
+  getByEmail: async (email: string) => {
+    return await db.query.users.findFirst({
+      where: eq(schema.users.email, email)
+    })
+  },
+  create: async (data: TSignUpForm) => {
+    return await db.insert(schema.users).values(data)
+  },
+  update: async (data: TUser) => {
+    return await db.update(schema.users).set(data).where(eq(schema.users.email, data.email))
+  },
+  delete: async (data: TUser) => {
+    return await db.delete(schema.users).where(eq(schema.users.email, data.email))
   }
-})
-
-export const getUsers = async () => {
-  return await db.query.users.findMany()
 }
 
-export const getUserById = async (id: string) => {
-  return await db.query.users.findFirst({
-    where: eq(users.id, id)
-  })
+export const ticketsMethods = {
+  get: async () => {
+    return await db.query.tickets.findMany()
+  },
+  getById: async (id: string) => {
+    return await db.query.tickets.findFirst({
+      where: eq(schema.tickets.id, id)
+    })
+  },
+  create: async (data: TTicket) => {
+    return await db.insert(schema.tickets).values(data)
+  },
+  update: async (data: TTicket) => {
+    return await db.update(schema.tickets).set(data).where(eq(schema.tickets.id, data.id))
+  },
+  delete: async (data: TTicket) => {
+    return await db.delete(schema.tickets).where(eq(schema.tickets.id, data.id))
+  }
 }
 
-export const getUserByEmail = async (email: string) => {
-  return await db.query.users.findFirst({
-    where: eq(users.email, email)
-  })
+export const rolesMethods = {
+  get: async () => {
+    return await db.query.roles.findMany()
+  }
 }
 
-export const createUser = async (data: TSignUpForm) => {
-  return await db.insert(users).values(data)
+export const statusMethods = {
+  get: async () => {
+    return await db.query.status.findMany()
+  }
 }
 
-export const updateUser = async (data: TUser) => {
-  return await db.update(users).set(data).where(eq(users.email, data.email))
-}
-
-export const deleteUser = async (data: TUser) => {
-  return await db.delete(users).where(eq(users.email, data.email))
-}
-
-export const getTickets = async () => {
-  return await db.query.tickets.findMany()
-}
-
-export const getTicketById = async (id: string) => {
-  return await db.query.tickets.findFirst({
-    where: eq(tickets.id, id)
-  })
+export const prioritiesMethods = {
+  get: async () => {
+    return await db.query.priorities.findMany()
+  }
 }

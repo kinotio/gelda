@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'
 import { hash, compare } from '@/lib/bcrypt'
 import { signJwt } from '@/lib/jwt'
 
-import { getUserByEmail, createUser } from '@/database'
+import { usersMethods as users } from '@/database'
 
 import { signinSchema, signupSchema } from '@/utils/validators'
 import { PG_UNIQUE_VIOLATION_ERROR_CODE, ROLE_BY_NAME } from '@/utils/constants'
@@ -25,7 +25,7 @@ export async function signin(form: TSignInForm) {
   }
 
   try {
-    const user = await getUserByEmail(data.email)
+    const user = await users.getByEmail(data.email)
 
     if (!user) {
       return {
@@ -78,7 +78,7 @@ export async function signup(form: TSignUpForm) {
       roleId: ROLE_BY_NAME.CLIENT
     }
 
-    await createUser(userData)
+    await users.create(userData)
 
     return {
       success: true,

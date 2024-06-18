@@ -1,6 +1,6 @@
 import { integer, timestamp, pgTable, text, serial } from 'drizzle-orm/pg-core'
 
-export const users = pgTable('users', {
+const users = pgTable('users', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
@@ -12,7 +12,7 @@ export const users = pgTable('users', {
   updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow()
 })
 
-export const tickets = pgTable('tickets', {
+const tickets = pgTable('tickets', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
@@ -27,17 +27,21 @@ export const tickets = pgTable('tickets', {
   updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow()
 })
 
-export const roles = pgTable('roles', {
+const roles = pgTable('roles', {
   id: serial('id').primaryKey(),
   name: text('name')
 })
 
-export const status = pgTable('status', {
+const status = pgTable('status', {
   id: serial('id').primaryKey(),
   name: text('name')
 })
 
-export const priorities = pgTable('priorities', {
+const priorities = pgTable('priorities', {
   id: serial('id').primaryKey(),
   name: text('name')
 })
+
+const schema = { users, tickets, roles, status, priorities }
+
+export default schema
