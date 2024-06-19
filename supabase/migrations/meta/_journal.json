@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1718366950086,
-      "tag": "0000_chubby_earthquake",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1718546586118,
-      "tag": "0001_wakeful_nocturne",
+      "when": 1718800166371,
+      "tag": "0000_curious_shard",
       "breakpoints": true
     }
   ]
