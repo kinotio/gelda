@@ -25,16 +25,18 @@ export async function middleware(request: NextRequest) {
       if (path.startsWith(PATH.ADMIN)) {
         return NextResponse.redirect(new URL(PATH.CLIENT, request.url))
       }
+
       return path.startsWith(PATH.CLIENT)
         ? NextResponse.next()
         : NextResponse.redirect(new URL(PATH.CLIENT, request.url))
     } else if (role_id === ROLE_BY_NAME.ADMIN) {
       if (path.startsWith(PATH.CLIENT)) {
-        return NextResponse.redirect(new URL(PATH.ADMIN, request.url))
+        return NextResponse.redirect(new URL(PATH.ADMIN_DASHBOARD, request.url))
       }
+
       return path.startsWith(PATH.ADMIN)
         ? NextResponse.next()
-        : NextResponse.redirect(new URL(PATH.ADMIN, request.url))
+        : NextResponse.redirect(new URL(PATH.ADMIN_DASHBOARD, request.url))
     }
   } catch (error) {
     return NextResponse.redirect(new URL(PATH.SIGNIN, request.url))
