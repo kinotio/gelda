@@ -13,7 +13,7 @@ export type TSignInForm = {
 export type TSignUpForm = {
   name: string
   email: string
-  passwordHash: string
+  password: string
   confirmPassword: string
   roleId: number
 }
@@ -48,6 +48,7 @@ export type TCookieOptions = {
 export type TUseAuthResult = {
   loading: boolean
   signIn: (form: TSignInForm) => Promise<void>
+  signUp: (form: TSignUpForm) => Promise<void>
   signOut: () => void
   message: string
   success: boolean
