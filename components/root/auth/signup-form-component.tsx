@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { EyeIcon, EyeOffIcon, AlertCircle } from 'lucide-react'
 
@@ -14,39 +13,23 @@ import type { TSignUpForm } from '@/types'
 
 import { NAME_PATTERN, EMAIL_PATTERN, PASSWORD_PATTERN } from '@/utils/constants'
 
-import { signup } from '@/actions/auth'
+import { useAuth } from '@/hooks/use-auth'
 
 export default function SignupFormComponent() {
+  const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false)
+  const [confirmPasswordVisibility, setconfirmPasswordVisibility] = useState<boolean>(false)
+
   const {
     register,
     handleSubmit,
     watch,
-    reset,
     formState: { errors }
   } = useForm<TSignUpForm>()
-  const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false)
-  const [confirmPasswordVisibility, setconfirmPasswordVisibility] = useState<boolean>(false)
-  const [success, setSuccess] = useState<boolean>(false)
-  const [message, setMessage] = useState<string>('')
-  const [loading, setLoading] = useState<boolean>(false)
-
-  const router = useRouter()
+  const { loading, signUp, message, success } = useAuth()
 
   const password = watch('password')
 
-  const onSubmit: SubmitHandler<TSignUpForm> = (form) => {
-    setLoading(true)
-    signup(form)
-      .then(({ success, message }) => {
-        setSuccess(success)
-        setMessage(message)
-        router.push('/auth/signin')
-      })
-      .finally(() => {
-        setLoading(false)
-        reset()
-      })
-  }
+  const onSubmit: SubmitHandler<TSignUpForm> = async (form) => await signUp(form)
 
   return (
     <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>

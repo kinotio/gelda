@@ -1,15 +1,16 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { signin } from '@/actions/auth'
-
-import { TSignInForm } from '@/types'
+import { TSignInForm, TSignUpForm } from '@/types'
 
 import { PATH, TOKEN_NAME } from '@/utils/constants'
 
 import { useCookie } from '@/hooks/use-cookie'
 
 import { TUseAuthResult, TCookieOptions } from '@/types'
+
+import { signin } from '@/actions/auth/signin'
+import { signup } from '@/actions/auth/signup'
 
 export function useAuth(): TUseAuthResult {
   const [loading, setLoading] = useState<boolean>(false)
@@ -37,7 +38,25 @@ export function useAuth(): TUseAuthResult {
       }
     } catch (error) {
       setMessage('An error occurred during sign in.')
-      console.error('Sign in error:', error)
+      setSuccess(false)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const signUp = async (form: TSignUpForm) => {
+    setLoading(true)
+    try {
+      const { success, message } = await signup(form)
+      if (success) {
+        router.push(PATH.SIGNIN)
+        setSuccess(true)
+      } else {
+        setMessage(message)
+        setSuccess(false)
+      }
+    } catch (error) {
+      setMessage('An error occurred during sign up.')
       setSuccess(false)
     } finally {
       setLoading(false)
@@ -49,5 +68,5 @@ export function useAuth(): TUseAuthResult {
     router.push(PATH.SIGNIN)
   }
 
-  return { loading, signIn, signOut, message, success }
+  return { loading, signIn, signUp, signOut, message, success }
 }

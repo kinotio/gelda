@@ -1,8 +1,7 @@
 import Link from 'next/link'
-import { ChromeIcon, GithubIcon } from 'lucide-react'
 
 import SignupFormComponent from '@/components/root/auth/signup-form-component'
-import SocialAuthComponent from '@/components/root/auth/social-auth-component'
+// import SocialAuthComponent from '@/components/root/auth/social-auth-component'
 
 export default function Register() {
   return (
@@ -24,7 +23,7 @@ export default function Register() {
           </p>
         </div>
         <SignupFormComponent />
-        <SocialAuthComponent />
+        {/* <SocialAuthComponent /> */}
       </div>
     </div>
   )

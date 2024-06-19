@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 import SigninFormComponent from '@/components/root/auth/signin-form-component'
-import SocialAuthComponent from '@/components/root/auth/social-auth-component'
+// import SocialAuthComponent from '@/components/root/auth/social-auth-component'
 
 export default function Login() {
   return (
@@ -23,7 +23,7 @@ export default function Login() {
           </p>
         </div>
         <SigninFormComponent />
-        <SocialAuthComponent />
+        {/* <SocialAuthComponent /> */}
       </div>
     </div>
   )
