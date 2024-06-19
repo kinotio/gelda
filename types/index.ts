@@ -13,19 +13,18 @@ export type TSignInForm = {
 export type TSignUpForm = {
   name: string
   email: string
-  password: string
+  passwordHash: string
   confirmPassword: string
   roleId: number
 }
 
 export type TTicket = {
   id: string
-  reference?: number
   title: string
   description: string
-  status: number
-  priority: number
-  userId: number
+  statusId: number
+  priorityId: number
+  creatorId: string
 }
 
 export type TCommonEntity = {

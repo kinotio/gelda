@@ -1,47 +1,59 @@
 import { integer, timestamp, pgTable, text, serial } from 'drizzle-orm/pg-core'
 
-const users = pgTable('users', {
+export const users = pgTable('users', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
-  password: text('password').notNull(),
+  passwordHash: text('password_hash').notNull(),
   roleId: integer('role_id').references(() => roles.id),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow(),
   updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow()
 })
 
-const tickets = pgTable('tickets', {
+export const tickets = pgTable('tickets', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  reference: serial('reference'),
+  reference: serial('reference').unique(),
   title: text('title').notNull(),
   description: text('description'),
-  creatorId: text('user_id').references(() => users.id),
+  creatorId: text('user_id')
+    .references(() => users.id)
+    .notNull(),
+  statusId: integer('status_id')
+    .references(() => status.id)
+    .notNull(),
+  priorityId: integer('priority_id')
+    .references(() => priorities.id)
+    .notNull(),
   responsibleId: text('user_id').references(() => users.id),
-  statusId: integer('status_id').references(() => status.id),
-  priorityId: integer('priority_id').references(() => priorities.id),
+  resolutionId: integer('resolution_id').references(() => resolutions.id),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow(),
   updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow()
 })
 
-const roles = pgTable('roles', {
+export const roles = pgTable('roles', {
   id: serial('id').primaryKey(),
   name: text('name')
 })
 
-const status = pgTable('status', {
+export const status = pgTable('status', {
   id: serial('id').primaryKey(),
   name: text('name')
 })
 
-const priorities = pgTable('priorities', {
+export const priorities = pgTable('priorities', {
   id: serial('id').primaryKey(),
   name: text('name')
 })
 
-const schema = { users, tickets, roles, status, priorities }
+export const resolutions = pgTable('resolutions', {
+  id: serial('id').primaryKey(),
+  name: text('name')
+})
+
+const schema = { users, tickets, roles, status, priorities, resolutions }
 
 export default schema

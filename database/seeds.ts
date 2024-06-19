@@ -1,37 +1,48 @@
 import { db } from '@/database'
-import { status, roles, priorities, users } from '@/database/schema'
+import schema from '@/database/schema'
 import { hash } from '@/lib/bcrypt'
+import { ROLE_BY_NAME } from '@/utils/constants'
 
 const seedStatus = async () => {
-  await db.insert(status).values({ name: 'open' })
-  await db.insert(status).values({ name: 'closed' })
-  await db.insert(status).values({ name: 'in_progress' })
+  await db.insert(schema.status).values({ name: 'open' })
+  await db.insert(schema.status).values({ name: 'closed' })
+  await db.insert(schema.status).values({ name: 'in_progress' })
 }
 
 const seedRoles = async () => {
-  await db.insert(roles).values({ name: 'client' })
-  await db.insert(roles).values({ name: 'support' })
-  await db.insert(roles).values({ name: 'admin' })
+  await db.insert(schema.roles).values({ name: 'client' })
+  await db.insert(schema.roles).values({ name: 'support' })
+  await db.insert(schema.roles).values({ name: 'admin' })
 }
 
 const seedPriorities = async () => {
-  await db.insert(priorities).values({ name: 'low' })
-  await db.insert(priorities).values({ name: 'medium' })
-  await db.insert(priorities).values({ name: 'high' })
+  await db.insert(schema.priorities).values({ name: 'low' })
+  await db.insert(schema.priorities).values({ name: 'medium' })
+  await db.insert(schema.priorities).values({ name: 'high' })
+}
+
+const seedResolutions = async () => {
+  await db.insert(schema.resolutions).values({ name: 'resolved' })
+  await db.insert(schema.resolutions).values({ name: 'unresolved' })
 }
 
 const seedUsers = async () => {
   const hashedPassword = await hash('admin')
-  await db
-    .insert(users)
-    .values({ name: 'Admin', email: 'admin@gelda.com', password: hashedPassword, roleId: 3 })
+  await db.insert(schema.users).values({
+    name: 'Admin',
+    email: 'admin@gelda.com',
+    passwordHash: hashedPassword,
+    roleId: ROLE_BY_NAME.ADMIN
+  })
 }
 
 const clear = async () => {
-  await db.delete(status).execute()
-  await db.delete(roles).execute()
-  await db.delete(priorities).execute()
-  await db.delete(users).execute()
+  await db.delete(schema.resolutions).execute()
+  await db.delete(schema.status).execute()
+  await db.delete(schema.roles).execute()
+  await db.delete(schema.priorities).execute()
+  await db.delete(schema.resolutions).execute()
+  await db.delete(schema.users).execute()
 }
 
 const seed = async () => {
@@ -54,6 +65,13 @@ const seed = async () => {
     console.log('Priorities seeded successfully.')
   } catch (error) {
     console.error('Error seeding priorities:', error)
+  }
+
+  try {
+    await seedResolutions()
+    console.log('Resolutions seeded successfully.')
+  } catch (error) {
+    console.error('Error seeding resolutions:', error)
   }
 
   try {

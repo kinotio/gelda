@@ -1,16 +1,19 @@
-import { users, tickets, roles, status, priorities } from '@/database/schema'
+import schema from '@/database/schema'
 
-export type InsertUser = typeof users.$inferInsert
-export type SelectUser = typeof users.$inferSelect
+export type InsertUser = typeof schema.users.$inferInsert
+export type SelectUser = typeof schema.users.$inferSelect
 
-export type InsertTicket = typeof tickets.$inferInsert
-export type SelectTicket = typeof tickets.$inferSelect
+export type InsertTicket = typeof schema.tickets.$inferInsert
+export type SelectTicket = typeof schema.tickets.$inferSelect
 
-export type InsertRole = typeof roles.$inferInsert
-export type SelectRole = typeof roles.$inferSelect
+export type InsertRole = typeof schema.roles.$inferInsert
+export type SelectRole = typeof schema.roles.$inferSelect
 
-export type InsertStatus = typeof status.$inferInsert
-export type SelectStatus = typeof status.$inferSelect
+export type InsertStatus = typeof schema.status.$inferInsert
+export type SelectStatus = typeof schema.status.$inferSelect
 
-export type InsertPriority = typeof priorities.$inferInsert
-export type SelectPriority = typeof priorities.$inferSelect
+export type InsertPriority = typeof schema.priorities.$inferInsert
+export type SelectPriority = typeof schema.priorities.$inferSelect
+
+export type InsertResolution = typeof schema.resolutions.$inferInsert
+export type SelectResolution = typeof schema.resolutions.$inferSelect

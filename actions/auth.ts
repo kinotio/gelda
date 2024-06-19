@@ -28,7 +28,7 @@ export async function signin(form: TSignInForm) {
       return response(false, 'Sign in failed: The email provided is not linked with an account.')
     }
 
-    const isPasswordValid = await compare(data.password, user.password)
+    const isPasswordValid = await compare(data.password, user.passwordHash)
 
     if (!isPasswordValid) {
       return response(false, 'Sign in failed: The password provided is incorrect.')
@@ -58,7 +58,7 @@ export async function signup(form: TSignUpForm) {
     const hashedPassword = await hash(data.password)
     const userData = {
       ...data,
-      password: hashedPassword,
+      passwordHash: hashedPassword,
       roleId: ROLE_BY_NAME.CLIENT
     }
 
