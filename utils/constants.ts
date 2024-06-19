@@ -40,10 +40,20 @@ export const PRIORITY_BY_NAME = {
 
 export const PATH = {
   HOME: '/',
-  CLIENT: '/client',
-  ADMIN: '/admin',
+
   SIGNIN: '/auth/signin',
-  SIGNUP: '/auth/signup'
+  SIGNUP: '/auth/signup',
+
+  CLIENT: '/client',
+  CLIENT_DASHBOARD: '/client/dashboard',
+
+  ADMIN: '/admin',
+  ADMIN_DASHBOARD: '/admin/dashboard',
+  ADMIN_USERS: '/admin/users',
+  ADMIN_TICKETS: '/admin/tickets',
+  ADMIN_TICKETS_VIEW: '/admin/tickets/[id]',
+  ADMIN_AI: '/admin/ai',
+  ADMIN_SETTINGS: '/admin/settings'
 }
 
 export const TOKEN_NAME = 'access-token'
