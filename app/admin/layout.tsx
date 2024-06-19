@@ -12,7 +12,7 @@ export default function AdminLayout({
       <HeaderComponent />
       <div className='flex'>
         <SidebarComponent />
-        <div>{children}</div>
+        <div className='flex-1'>{children}</div>
       </div>
 
       <Footercomponent />
