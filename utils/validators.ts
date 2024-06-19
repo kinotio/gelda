@@ -2,7 +2,7 @@ import z from 'zod'
 
 export const signinSchema = z.object({
   email: z.string().email({ message: 'Invalid email' }),
-  password: z.string().min(8, { message: 'Password is required' })
+  password: z.string()
 })
 
 export const signupSchema = z.object({
