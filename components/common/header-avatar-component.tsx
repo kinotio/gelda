@@ -29,7 +29,11 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 
+import { useAuth } from '@/hooks/use-auth'
+
 export default function HeaderAvatarComponent() {
+  const { signOut } = useAuth()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -92,7 +96,7 @@ export default function HeaderAvatarComponent() {
           <span>Support</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => console.log('jajajajajaja')}>
+        <DropdownMenuItem onClick={() => signOut()}>
           <LogOut className='mr-2 h-4 w-4' />
           <span>Log out</span>
         </DropdownMenuItem>

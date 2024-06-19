@@ -44,5 +44,10 @@ export function useAuth(): TUseAuthResult {
     }
   }
 
-  return { loading, signIn, message, success }
+  const signOut = () => {
+    setUserToken('', { days: 0, path: '/', SameSite: 'Strict', Secure: true })
+    router.push(PATH.SIGNIN)
+  }
+
+  return { loading, signIn, signOut, message, success }
 }
