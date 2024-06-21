@@ -9,8 +9,7 @@ import { useCookie } from '@/hooks/use-cookie'
 
 import { TUseAuthResult, TCookieOptions } from '@/types'
 
-import { signin } from '@/actions/auth/signin'
-import { signup } from '@/actions/auth/signup'
+import { signin, signup } from '@/actions/auth'
 
 export function useAuth(): TUseAuthResult {
   const [loading, setLoading] = useState<boolean>(false)
