@@ -1,6 +1,7 @@
 'use client'
 
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import type { ColumnDef, Table as TableType } from '@tanstack/react-table'
+import { flexRender } from '@tanstack/react-table'
 
 import {
   Table,
@@ -11,18 +12,13 @@ import {
   TableRow
 } from '@/components/ui/table'
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-}
-
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel()
-  })
-
+export default function DataTableBody<T>({
+  table,
+  columns
+}: {
+  table: TableType<T>
+  columns: ColumnDef<T>[]
+}) {
   return (
     <div className='rounded-md border'>
       <Table>
