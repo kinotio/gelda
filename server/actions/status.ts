@@ -1,7 +1,7 @@
 'use server'
 
-import { statusMethods as status } from '@/server/data/status'
+import { database } from '@/server/config/database'
 
 export async function getStatus() {
-  return await status.get()
+  return await database.query.status.findMany()
 }
