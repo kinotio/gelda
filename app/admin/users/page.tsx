@@ -91,7 +91,7 @@ export const columns: ColumnDef<TUser>[] = [
   }
 ]
 
-export default function AdminUsers() {
+export default function Page() {
   const { users } = useUsers()
 
   return (

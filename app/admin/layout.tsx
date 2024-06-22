@@ -2,7 +2,7 @@ import HeaderComponent from '@/components/common/header-component'
 import Footercomponent from '@/components/common/footer-component'
 import SidebarComponent from '@/components/admin/sidebar-component'
 
-export default function AdminLayout({
+export default function Layout({
   children
 }: Readonly<{
   children: React.ReactNode

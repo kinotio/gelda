@@ -8,9 +8,9 @@ export const status = pgTable('status', {
   name: text('name')
 })
 
-export type InsertStatus = typeof status.$inferInsert
-export type SelectStatus = typeof status.$inferSelect
-
 export const statusRelations = relations(status, ({ many }) => ({
   tickets: many(tickets)
 }))
+
+export type InsertStatus = typeof status.$inferInsert
+export type SelectStatus = typeof status.$inferSelect

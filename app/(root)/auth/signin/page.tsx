@@ -3,7 +3,7 @@ import Link from 'next/link'
 import SigninFormComponent from '@/components/root/auth/signin-form-component'
 // import SocialAuthComponent from '@/components/root/auth/social-auth-component'
 
-export default function Login() {
+export default function Page() {
   return (
     <div className='flex min-h-[86dvh] items-center justify-center bg-white dark:bg-gray-950'>
       <div className='mx-auto w-full max-w-md space-y-8'>

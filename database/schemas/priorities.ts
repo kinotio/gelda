@@ -8,9 +8,9 @@ export const priorities = pgTable('priorities', {
   name: text('name')
 })
 
-export type InsertPriority = typeof priorities.$inferInsert
-export type SelectPriority = typeof priorities.$inferSelect
-
 export const prioritiesRelations = relations(priorities, ({ many }) => ({
   tickets: many(tickets)
 }))
+
+export type InsertPriority = typeof priorities.$inferInsert
+export type SelectPriority = typeof priorities.$inferSelect
