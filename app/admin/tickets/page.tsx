@@ -1,7 +1,6 @@
 'use client'
 
 import type { ColumnDef } from '@tanstack/react-table'
-
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -15,15 +14,12 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import DataTable from '@/components/ui/datatable'
-
 import { useTickets } from '@/hooks/use-tickets'
-import { TTicketTable } from '@/types/main'
-
+import { TicketInformationWithRelationType } from '@/lib/definitions'
 import { COLOR_BY_STATUS_ID, COLOR_BY_PRIORITY_ID, COLOR_BY_RESOLUTION_ID } from '@/lib/constants'
+import { formatDate } from '@/lib/dates'
 
-import { formatDate } from '@/utils/dates'
-
-export const columns: ColumnDef<TTicketTable>[] = [
+export const columns: ColumnDef<TicketInformationWithRelationType>[] = [
   {
     id: 'select',
     header: ({ table }) => (

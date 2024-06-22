@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { TUser } from '@/types/main'
-
+import { UserInformationPublicType } from '@/lib/definitions'
 import { getAllUsers } from '@/server/actions/users'
 
 export function useUsers() {
@@ -9,7 +8,7 @@ export function useUsers() {
   const [success, setSuccess] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
 
-  const [users, setUsers] = useState<TUser>()
+  const [users, setUsers] = useState<UserInformationPublicType>()
 
   const getUsers = async () => {
     try {

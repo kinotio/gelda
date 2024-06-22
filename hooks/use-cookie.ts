@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import { TCookieOptions } from '@/types/main'
+import { TCookieOptions } from '@/lib/definitions'
 
 export const useCookie = (key: string, initialValue: string) => {
   const [item, setItem] = useState(() => {

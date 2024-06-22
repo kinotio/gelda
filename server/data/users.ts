@@ -1,8 +1,8 @@
 import { eq } from 'drizzle-orm'
 
-import type { TSignUpForm, TUser } from '@/types/main'
-import schema from '@/server/schemas'
+import schema from '@/server/schema'
 import { database } from '@/server/config/database'
+import { UserInformationType } from '@/lib/definitions'
 
 export const usersMethods = {
   get: async () => {
@@ -20,13 +20,13 @@ export const usersMethods = {
       where: eq(schema.users.email, email)
     })
   },
-  create: async (data: TSignUpForm) => {
+  create: async (data: UserInformationType) => {
     return await database.insert(schema.users).values(data)
   },
-  update: async (data: TUser) => {
+  update: async (data: UserInformationType) => {
     return await database.update(schema.users).set(data).where(eq(schema.users.email, data.email))
   },
-  delete: async (data: TUser) => {
-    return await database.delete(schema.users).where(eq(schema.users.email, data.email))
+  delete: async (id: string) => {
+    return await database.delete(schema.users).where(eq(schema.users.id, id))
   }
 }

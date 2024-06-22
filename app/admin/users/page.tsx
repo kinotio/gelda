@@ -1,7 +1,6 @@
 'use client'
 
 import type { ColumnDef } from '@tanstack/react-table'
-
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -15,11 +14,10 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import DataTable from '@/components/ui/datatable'
-
 import { useUsers } from '@/hooks/use-users'
-import { TUser } from '@/types/main'
+import { UserInformationPublicType } from '@/lib/definitions'
 
-export const columns: ColumnDef<TUser>[] = [
+export const columns: ColumnDef<UserInformationPublicType>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -78,9 +76,6 @@ export const columns: ColumnDef<TUser>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(user.id)}>
-              Copy payment ID
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
             <DropdownMenuItem>View payment details</DropdownMenuItem>

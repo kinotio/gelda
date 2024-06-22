@@ -1,17 +1,12 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { TSignInForm, TSignUpForm } from '@/types/main'
-
 import { PATH, TOKEN_NAME } from '@/lib/constants'
-
 import { useCookie } from '@/hooks/use-cookie'
-
-import { TUseAuthResult, TCookieOptions } from '@/types/main'
-
+import { TCookieOptions, AuthSignInFormType, AuthSignUpFormType } from '@/lib/definitions'
 import { signin, signup } from '@/server/actions/auth'
 
-export function useAuth(): TUseAuthResult {
+export function useAuth() {
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [success, setSuccess] = useState<boolean>(false)
@@ -23,7 +18,7 @@ export function useAuth(): TUseAuthResult {
 
   const router = useRouter()
 
-  const signIn = async (form: TSignInForm) => {
+  const signIn = async (form: AuthSignInFormType) => {
     setLoading(true)
     try {
       const { success, message, data } = await signin(form)
@@ -43,7 +38,7 @@ export function useAuth(): TUseAuthResult {
     }
   }
 
-  const signUp = async (form: TSignUpForm) => {
+  const signUp = async (form: AuthSignUpFormType) => {
     setLoading(true)
     try {
       const { success, message } = await signup(form)

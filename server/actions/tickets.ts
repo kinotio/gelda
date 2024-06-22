@@ -1,7 +1,7 @@
 'use server'
 
 import { ticketsMethods as tickets } from '@/server/data/tickets'
-import type { TTicket } from '@/types/main'
+import { TicketInformationType } from '@/lib/definitions'
 import { response } from '@/server/lib/response'
 
 export async function getAllTickets() {
@@ -22,7 +22,7 @@ export async function getTicketById(id: string) {
   }
 }
 
-export async function createTicket(form: TTicket) {
+export async function createTicket(form: TicketInformationType) {
   try {
     const data = await tickets.create(form)
     return response(true, 'Ticket created successfully', data)

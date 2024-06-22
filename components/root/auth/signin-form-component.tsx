@@ -10,10 +10,8 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-
 import { useAuth } from '@/hooks/use-auth'
-
-import type { TSignInForm } from '@/types/main'
+import { AuthSignInFormType } from '@/lib/definitions'
 
 export default function SigninFormComponent() {
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false)
@@ -22,10 +20,11 @@ export default function SigninFormComponent() {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<TSignInForm>()
+  } = useForm<AuthSignInFormType>()
   const { loading, signIn, message, success } = useAuth()
 
-  const onSubmit: SubmitHandler<TSignInForm> = async (form: TSignInForm) => await signIn(form)
+  const onSubmit: SubmitHandler<AuthSignInFormType> = async (form: AuthSignInFormType) =>
+    await signIn(form)
 
   return (
     <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { TTicket } from '@/types/main'
-
+import { TicketInformationType } from '@/lib/definitions'
 import { getAllTickets } from '@/server/actions/tickets'
 
 export function useTickets() {
@@ -9,7 +8,7 @@ export function useTickets() {
   const [success, setSuccess] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
 
-  const [tickets, setTickets] = useState<TTicket>()
+  const [tickets, setTickets] = useState<TicketInformationType>()
 
   const getTickets = async () => {
     try {

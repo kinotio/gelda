@@ -1,10 +1,10 @@
 import { integer, timestamp, pgTable, text, serial } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 
-import { users } from '@/server/schemas/users'
-import { status } from '@/server/schemas/status'
-import { resolutions } from '@/server/schemas/resolutions'
-import { priorities } from '@/server/schemas/priorities'
+import { users } from '@/server/schema/users'
+import { status } from '@/server/schema/status'
+import { resolutions } from '@/server/schema/resolutions'
+import { priorities } from '@/server/schema/priorities'
 
 export const tickets = pgTable('tickets', {
   id: text('id')

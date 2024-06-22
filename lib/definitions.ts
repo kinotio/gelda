@@ -1,24 +1,34 @@
-export type TUser = {
-  id: string
-  name: string
-  email: string
-  roleId?: number
-}
-
-export type TSignInForm = {
+// Auth-related types
+export type AuthSignInFormType = {
   email: string
   password: string
 }
 
-export type TSignUpForm = {
+export type AuthSignUpFormType = {
   name: string
   email: string
-  passwordHash: string
+  password: string
   confirmPassword: string
-  roleId: number
 }
 
-export type TTicket = {
+// User-related types
+export type UserInformationBaseType = {
+  name: string
+  email: string
+}
+
+export type UserInformationType = {
+  passwordHash: string
+  roleId: number
+} & UserInformationBaseType
+
+export type UserInformationPublicType = {
+  id: string
+  createdAt: string
+} & UserInformationBaseType
+
+// Ticket-related types
+export type TicketInformationType = {
   id: string
   title: string
   description: string
@@ -28,23 +38,35 @@ export type TTicket = {
   resolutionId?: number
 }
 
-export type TTicketTable = {
+export type TicketInformationExtraType = {
+  createdAt: string
+  updateAt: string
+}
+
+export type TicketInformationWithRelationType = {
   status?: Record<string, string | number>
   priority?: Record<string, string | number>
   resolution?: Record<string, string | number>
   creator?: Record<string, string | number>
-  createdAt?: string
-} & TTicket
+} & TicketInformationType &
+  TicketInformationExtraType
 
-export type TCommonEntity = {
+// Common-related types
+export type CommonIdAndNameType = {
   id: number
   name: string
 }
 
-export type TStatus = TCommonEntity
-export type TPriority = TCommonEntity
-export type TRole = TCommonEntity
+// Status-related types
+export type TStatus = CommonIdAndNameType
 
+// Priority-related types
+export type TPriority = CommonIdAndNameType
+
+// Role-related types
+export type TRole = CommonIdAndNameType
+
+// Cookie-related types
 export type TCookieOptions = {
   days?: number
   path?: string
@@ -52,13 +74,4 @@ export type TCookieOptions = {
   SameSite?: 'None' | 'Lax' | 'Strict'
   Secure?: boolean
   HttpOnly?: boolean
-}
-
-export type TUseAuthResult = {
-  loading: boolean
-  signIn: (form: TSignInForm) => Promise<void>
-  signUp: (form: TSignUpForm) => Promise<void>
-  signOut: () => void
-  message: string
-  success: boolean
 }
