@@ -4,7 +4,7 @@ import { GithubIcon } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 
-import { APP_VERSION } from '@/utils/constants'
+import { APP_VERSION } from '@/lib/constants'
 
 export default function Footercomponent() {
   return (

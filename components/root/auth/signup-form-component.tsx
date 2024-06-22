@@ -9,9 +9,9 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
-import type { TSignUpForm } from '@/types'
+import type { TSignUpForm } from '@/types/main'
 
-import { NAME_PATTERN, EMAIL_PATTERN, PASSWORD_PATTERN } from '@/utils/constants'
+import { NAME_PATTERN, EMAIL_PATTERN, PASSWORD_PATTERN } from '@/lib/constants'
 
 import { useAuth } from '@/hooks/use-auth'
 

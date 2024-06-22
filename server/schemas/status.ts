@@ -1,7 +1,7 @@
 import { pgTable, text, serial } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 
-import { tickets } from '@/database/schemas/tickets'
+import { tickets } from '@/server/schemas/tickets'
 
 export const status = pgTable('status', {
   id: serial('id').primaryKey(),

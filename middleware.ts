@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-import { verifyJwt } from '@/lib/jwt'
+import { verifyJwt } from '@/lib/jsonwebtoken'
 
-import { PATH, TOKEN_NAME, ROLE_BY_NAME } from '@/utils/constants'
+import { PATH, TOKEN_NAME, ROLE_BY_NAME } from '@/lib/constants'
 
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get(TOKEN_NAME)?.value as string

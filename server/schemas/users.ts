@@ -1,8 +1,8 @@
 import { integer, timestamp, pgTable, text } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 
-import { tickets } from '@/database/schemas/tickets'
-import { roles } from '@/database/schemas/roles'
+import { tickets } from '@/server/schemas/tickets'
+import { roles } from '@/server/schemas/roles'
 
 export const users = pgTable('users', {
   id: text('id')

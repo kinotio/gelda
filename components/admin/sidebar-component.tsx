@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 
 import { UsersIcon, TicketIcon, SettingsIcon, BotIcon, BarChartBigIcon } from 'lucide-react'
 
-import { PATH } from '@/utils/constants'
+import { PATH } from '@/lib/constants'
 
 export default function SidebarComponent() {
   const pathname = usePathname()

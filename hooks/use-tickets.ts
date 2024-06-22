@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 
-import { TTicket } from '@/types'
+import { TTicket } from '@/types/main'
 
-import { getAllTickets } from '@/actions/tickets'
+import { getAllTickets } from '@/server/actions/tickets'
 
 export function useTickets() {
   const [loading, setLoading] = useState<boolean>(false)

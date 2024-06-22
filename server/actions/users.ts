@@ -1,8 +1,7 @@
 'use server'
 
-import { usersMethods as users } from '@/database'
-
-import { response } from '@/utils/response'
+import { usersMethods as users } from '@/server/data/users'
+import { response } from '@/server/lib/response'
 
 export async function getAllUsers() {
   try {

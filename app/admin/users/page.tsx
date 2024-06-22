@@ -17,7 +17,7 @@ import {
 import DataTable from '@/components/ui/datatable'
 
 import { useUsers } from '@/hooks/use-users'
-import { TUser } from '@/types'
+import { TUser } from '@/types/main'
 
 export const columns: ColumnDef<TUser>[] = [
   {

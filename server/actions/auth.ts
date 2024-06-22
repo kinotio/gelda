@@ -1,16 +1,12 @@
 'use server'
 
-import { hash, compare } from '@/lib/bcrypt'
-import { signJwt } from '@/lib/jwt'
-
-import { usersMethods as users } from '@/database'
-
-import { signinSchema, signupSchema } from '@/utils/validators'
-import { PG_UNIQUE_VIOLATION_ERROR_CODE, ROLE_BY_NAME } from '@/utils/constants'
-
-import type { TSignInForm, TSignUpForm } from '@/types'
-
-import { response } from '@/utils/response'
+import { hash, compare } from '@/server/lib/bcrypt'
+import { signJwt } from '@/lib/jsonwebtoken'
+import { usersMethods as users } from '@/server/data/users'
+import { signinSchema, signupSchema } from '@/server/lib/validators'
+import { PG_UNIQUE_VIOLATION_ERROR_CODE, ROLE_BY_NAME } from '@/lib/constants'
+import { response } from '@/server/lib/response'
+import { TSignInForm, TSignUpForm } from '@/lib/definitions'
 
 export async function signin(form: TSignInForm) {
   const { success, data } = signinSchema.safeParse(form)

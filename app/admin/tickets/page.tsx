@@ -17,11 +17,11 @@ import {
 import DataTable from '@/components/ui/datatable'
 
 import { useTickets } from '@/hooks/use-tickets'
-import { TTicketTable } from '@/types'
+import { TTicketTable } from '@/types/main'
 
-import { COLOR_BY_STATUS_ID, COLOR_BY_PRIORITY_ID, COLOR_BY_RESOLUTION_ID } from '@/utils/constants'
+import { COLOR_BY_STATUS_ID, COLOR_BY_PRIORITY_ID, COLOR_BY_RESOLUTION_ID } from '@/lib/constants'
 
-import { formatDate } from '@/utils/format'
+import { formatDate } from '@/utils/dates'
 
 export const columns: ColumnDef<TTicketTable>[] = [
   {
