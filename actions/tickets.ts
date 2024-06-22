@@ -4,47 +4,31 @@ import { ticketsMethods as tickets } from '@/database'
 
 import type { TTicket } from '@/types'
 
-export async function getTickets() {
+import { response } from '@/utils/response'
+
+export async function getAllTickets() {
   try {
     const data = await tickets.get()
-    return {
-      success: true,
-      data
-    }
+    return response(true, 'Tickets fetched successfully', data)
   } catch (error) {
-    return {
-      success: false,
-      error: 'An error occurred while fetching tickets'
-    }
+    return response(false, 'An error occurred while fetching tickets')
   }
 }
 
 export async function getTicketById(id: string) {
   try {
     const data = await tickets.getById(id)
-    return {
-      success: true,
-      data
-    }
+    return response(true, 'Ticket fetched successfully', data)
   } catch (error) {
-    return {
-      success: false,
-      error: 'An error occurred while fetching a ticket'
-    }
+    return response(false, 'An error occurred while fetching a ticket')
   }
 }
 
 export async function createTicket(form: TTicket) {
   try {
     const data = await tickets.create(form)
-    return {
-      success: true,
-      data
-    }
+    return response(true, 'Ticket created successfully', data)
   } catch (error) {
-    return {
-      success: false,
-      error: 'An error occurred while creating a ticket'
-    }
+    return response(false, 'An error occurred while creating a ticket')
   }
 }

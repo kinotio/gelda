@@ -13,7 +13,7 @@ export type TSignInForm = {
 export type TSignUpForm = {
   name: string
   email: string
-  password: string
+  passwordHash: string
   confirmPassword: string
   roleId: number
 }
@@ -25,7 +25,16 @@ export type TTicket = {
   statusId: number
   priorityId: number
   creatorId: string
+  resolutionId?: number
 }
+
+export type TTicketTable = {
+  status?: Record<string, string | number>
+  priority?: Record<string, string | number>
+  resolution?: Record<string, string | number>
+  creator?: Record<string, string | number>
+  createdAt?: string
+} & TTicket
 
 export type TCommonEntity = {
   id: number
