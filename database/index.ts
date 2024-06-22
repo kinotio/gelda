@@ -15,7 +15,9 @@ export const db = drizzle(client, { schema })
 
 export const usersMethods = {
   get: async () => {
-    return await db.query.users.findMany()
+    return await db.query.users.findMany({
+      where: eq(schema.users.roleId, 1)
+    })
   },
   getById: async (id: string) => {
     return await db.query.users.findFirst({
@@ -40,7 +42,14 @@ export const usersMethods = {
 
 export const ticketsMethods = {
   get: async () => {
-    return await db.query.tickets.findMany()
+    return await db.query.tickets.findMany({
+      with: {
+        status: true,
+        priority: true,
+        resolution: true,
+        creator: true
+      }
+    })
   },
   getById: async (id: string) => {
     return await db.query.tickets.findFirst({

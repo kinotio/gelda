@@ -1,7 +1,7 @@
 import type { Table } from '@tanstack/react-table'
 import { ChevronDown } from 'lucide-react'
 
-import { Input } from '@/components/ui/input'
+// import { Input } from '@/components/ui/input'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -13,12 +13,12 @@ import { Button } from '@/components/ui/button'
 export default function DataTableHeaders<T>({ table }: { table: Table<T> }) {
   return (
     <div className='flex items-center py-4'>
-      <Input
+      {/* <Input
         placeholder='Filter emails...'
         value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
         onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
         className='max-w-sm'
-      />
+      /> */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant='outline' className='ml-auto'>
