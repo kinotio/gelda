@@ -1,8 +1,8 @@
 import { eq } from 'drizzle-orm'
 
-import type { TTicket } from '@/types/main'
-import schema from '@/server/schemas'
+import schema from '@/server/schema'
 import { database } from '@/server/config/database'
+import { TicketInformationType } from '@/lib/definitions'
 
 export const ticketsMethods = {
   get: async () => {
@@ -20,13 +20,13 @@ export const ticketsMethods = {
       where: eq(schema.tickets.id, id)
     })
   },
-  create: async (data: TTicket) => {
+  create: async (data: TicketInformationType) => {
     return await database.insert(schema.tickets).values(data)
   },
-  update: async (data: TTicket) => {
+  update: async (data: TicketInformationType) => {
     return await database.update(schema.tickets).set(data).where(eq(schema.tickets.id, data.id))
   },
-  delete: async (data: TTicket) => {
-    return await database.delete(schema.tickets).where(eq(schema.tickets.id, data.id))
+  delete: async (id: string) => {
+    return await database.delete(schema.tickets).where(eq(schema.tickets.id, id))
   }
 }

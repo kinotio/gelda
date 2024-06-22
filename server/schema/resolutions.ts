@@ -1,11 +1,11 @@
 import { pgTable, text, serial } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 
-import { tickets } from '@/server/schemas/tickets'
+import { tickets } from '@/server/schema/tickets'
 
 export const resolutions = pgTable('resolutions', {
   id: serial('id').primaryKey(),
-  name: text('name')
+  name: text('name').notNull()
 })
 
 export const resolutionsRelations = relations(resolutions, ({ many }) => ({

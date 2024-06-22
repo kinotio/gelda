@@ -1,6 +1,6 @@
 {
-  "id": "6a06019a-35da-4c58-bd71-4943cbb40642",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "97e4012a-004c-4652-9e17-3f94b2d98097",
+  "prevId": "6a06019a-35da-4c58-bd71-4943cbb40642",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -18,7 +18,7 @@
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
@@ -40,7 +40,7 @@
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
@@ -62,7 +62,7 @@
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
@@ -84,7 +84,7 @@
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},

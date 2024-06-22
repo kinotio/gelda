@@ -8,11 +8,8 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-
-import type { TSignUpForm } from '@/types/main'
-
+import { AuthSignUpFormType } from '@/lib/definitions'
 import { NAME_PATTERN, EMAIL_PATTERN, PASSWORD_PATTERN } from '@/lib/constants'
-
 import { useAuth } from '@/hooks/use-auth'
 
 export default function SignupFormComponent() {
@@ -24,12 +21,12 @@ export default function SignupFormComponent() {
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm<TSignUpForm>()
+  } = useForm<AuthSignUpFormType>()
   const { loading, signUp, message, success } = useAuth()
 
   const password = watch('password')
 
-  const onSubmit: SubmitHandler<TSignUpForm> = async (form) => await signUp(form)
+  const onSubmit: SubmitHandler<AuthSignUpFormType> = async (form) => await signUp(form)
 
   return (
     <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
