@@ -1,7 +1,7 @@
 'use server'
 
-import { rolesMethods as roles } from '@/server/data/roles'
+import { database } from '@/server/config/database'
 
 export async function getRoles() {
-  return await roles.get()
+  return await database.query.roles.findMany()
 }

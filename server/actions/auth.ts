@@ -1,12 +1,15 @@
 'use server'
 
+import { eq } from 'drizzle-orm'
+
 import { hash, compare } from '@/server/lib/bcrypt'
 import { signJwt } from '@/lib/jsonwebtoken'
-import { usersMethods as users } from '@/server/data/users'
 import { signinSchema, signupSchema } from '@/server/lib/validators'
 import { PG_UNIQUE_VIOLATION_ERROR_CODE, ROLE_BY_NAME } from '@/lib/constants'
 import { response } from '@/server/lib/response'
 import { AuthSignInFormType, AuthSignUpFormType, UserInformationType } from '@/lib/definitions'
+import { database } from '@/server/config/database'
+import schema from '@/server/schema'
 
 export async function signin(form: AuthSignInFormType) {
   const { success, data } = signinSchema.safeParse(form)
@@ -18,7 +21,9 @@ export async function signin(form: AuthSignInFormType) {
   }
 
   try {
-    const user = await users.getByEmail(data.email)
+    const user = await database.query.users.findFirst({
+      where: eq(schema.users.email, data.email)
+    })
 
     if (!user) {
       return response(false, 'Sign in failed: The email provided is not linked with an account.')
@@ -59,7 +64,7 @@ export async function signup(form: AuthSignUpFormType) {
       roleId: ROLE_BY_NAME.CLIENT
     } as UserInformationType
 
-    await users.create(user)
+    await database.insert(schema.users).values(user)
 
     return response(true, 'Registration successful: Your account has been created.')
   } catch (error) {
