@@ -1,10 +1,8 @@
 'use server'
 
-import { ticketsMethods as tickets } from '@/database'
-
-import type { TTicket } from '@/types'
-
-import { response } from '@/utils/response'
+import { ticketsMethods as tickets } from '@/server/data/tickets'
+import type { TTicket } from '@/types/main'
+import { response } from '@/server/lib/response'
 
 export async function getAllTickets() {
   try {

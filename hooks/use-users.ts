@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 
-import { TUser } from '@/types'
+import { TUser } from '@/types/main'
 
-import { getAllUsers } from '@/actions/users'
+import { getAllUsers } from '@/server/actions/users'
 
 export function useUsers() {
   const [loading, setLoading] = useState<boolean>(false)

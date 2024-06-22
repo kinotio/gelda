@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { TSignInForm, TSignUpForm } from '@/types'
+import { TSignInForm, TSignUpForm } from '@/types/main'
 
-import { PATH, TOKEN_NAME } from '@/utils/constants'
+import { PATH, TOKEN_NAME } from '@/lib/constants'
 
 import { useCookie } from '@/hooks/use-cookie'
 
-import { TUseAuthResult, TCookieOptions } from '@/types'
+import { TUseAuthResult, TCookieOptions } from '@/types/main'
 
-import { signin, signup } from '@/actions/auth'
+import { signin, signup } from '@/server/actions/auth'
 
 export function useAuth(): TUseAuthResult {
   const [loading, setLoading] = useState<boolean>(false)

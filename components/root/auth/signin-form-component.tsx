@@ -13,7 +13,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 import { useAuth } from '@/hooks/use-auth'
 
-import type { TSignInForm } from '@/types'
+import type { TSignInForm } from '@/types/main'
 
 export default function SigninFormComponent() {
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false)

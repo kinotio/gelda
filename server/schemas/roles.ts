@@ -1,7 +1,7 @@
 import { pgTable, text, serial } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 
-import { users } from '@/database/schemas/users'
+import { users } from '@/server/schemas/users'
 
 export const roles = pgTable('roles', {
   id: serial('id').primaryKey(),
