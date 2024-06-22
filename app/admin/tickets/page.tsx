@@ -168,7 +168,7 @@ export const columns: ColumnDef<TTicketTable>[] = [
   }
 ]
 
-export default function AdminTickets() {
+export default function Page() {
   const { tickets } = useTickets()
 
   return (

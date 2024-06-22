@@ -16,11 +16,11 @@ export const users = pgTable('users', {
   updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow()
 })
 
-export type InsertUser = typeof users.$inferInsert
-export type SelectUser = typeof users.$inferSelect
-
 export const usersRelations = relations(users, ({ one, many }) => ({
   createdTickets: many(tickets),
   responsibleOfTickets: many(tickets),
   role: one(roles, { fields: [users.roleId], references: [roles.id] })
 }))
+
+export type InsertUser = typeof users.$inferInsert
+export type SelectUser = typeof users.$inferSelect

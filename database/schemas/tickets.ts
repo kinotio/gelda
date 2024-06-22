@@ -13,7 +13,7 @@ export const tickets = pgTable('tickets', {
   reference: serial('reference').unique(),
   title: text('title').notNull(),
   description: text('description'),
-  creatorId: text('user_id')
+  creatorId: text('creator_id')
     .references(() => users.id)
     .notNull(),
   statusId: integer('status_id')
@@ -22,14 +22,11 @@ export const tickets = pgTable('tickets', {
   priorityId: integer('priority_id')
     .references(() => priorities.id)
     .notNull(),
-  responsibleId: text('user_id').references(() => users.id),
+  responsibleId: text('responsible_id').references(() => users.id),
   resolutionId: integer('resolution_id').references(() => resolutions.id),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow(),
   updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow()
 })
-
-export type InsertTicket = typeof tickets.$inferInsert
-export type SelectTicket = typeof tickets.$inferSelect
 
 export const ticketsRelations = relations(tickets, ({ one }) => ({
   creator: one(users, { fields: [tickets.creatorId], references: [users.id] }),
@@ -47,3 +44,6 @@ export const ticketsRelations = relations(tickets, ({ one }) => ({
     references: [resolutions.id]
   })
 }))
+
+export type InsertTicket = typeof tickets.$inferInsert
+export type SelectTicket = typeof tickets.$inferSelect

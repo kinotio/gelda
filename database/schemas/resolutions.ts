@@ -8,9 +8,9 @@ export const resolutions = pgTable('resolutions', {
   name: text('name')
 })
 
-export type InsertResolution = typeof resolutions.$inferInsert
-export type SelectResolution = typeof resolutions.$inferSelect
-
 export const resolutionsRelations = relations(resolutions, ({ many }) => ({
   tickets: many(tickets)
 }))
+
+export type InsertResolution = typeof resolutions.$inferInsert
+export type SelectResolution = typeof resolutions.$inferSelect
