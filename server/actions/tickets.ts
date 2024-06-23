@@ -5,7 +5,7 @@ import { eq } from 'drizzle-orm'
 import { TicketInformationType } from '@/lib/definitions'
 import { response } from '@/server/lib/response'
 import { database } from '@/server/config/database'
-import schema from '@/server/schema'
+import { tickets } from '@/server/config/schema'
 
 export async function getAllTickets() {
   try {
@@ -26,7 +26,7 @@ export async function getAllTickets() {
 export async function getTicketById(id: string) {
   try {
     const data = await database.query.tickets.findFirst({
-      where: eq(schema.tickets.id, id)
+      where: eq(tickets.id, id)
     })
     return response(true, 'Ticket fetched successfully', data)
   } catch (error) {
@@ -36,7 +36,7 @@ export async function getTicketById(id: string) {
 
 export async function createTicket(form: TicketInformationType) {
   try {
-    const data = await database.insert(schema.tickets).values(form)
+    const data = await database.insert(tickets).values(form)
     return response(true, 'Ticket created successfully', data)
   } catch (error) {
     return response(false, 'An error occurred while creating a ticket')

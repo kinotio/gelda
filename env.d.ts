@@ -2,10 +2,8 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       NODE_ENV: 'development' | 'production'
-      NEXT_DATABASE_URL: string
-      NEXT_PUBLIC_SUPABASE_URL: string
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: string
-      NEXT_JWT_SECRET: string
+      SUPABASE_DATABASE_URL: string
+      JWT_SECRET: string
     }
   }
 }
