@@ -6,4 +6,4 @@ export const hash = (unhashedText: string, salt: string | number = 10) =>
 export const compare = (unhashedText: string, hashedText: string) =>
   bcrypt.compare(unhashedText, hashedText)
 
-export const generateSalt = () => bcrypt.genSalt(12)
+export const generateSalt = () => bcrypt.genSalt(10)

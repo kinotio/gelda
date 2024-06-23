@@ -20,3 +20,8 @@ INSERT INTO resolutions (name) VALUES
 INSERT INTO roles (name) VALUES
 ('client'),
 ('admin');
+
+-- Seed data for 'users' table with hashed passwords for admin role
+-- For information the password is `admin`
+INSERT INTO users (name, email, hashed_password, role_id) VALUES
+('Admin', 'admin@gelda.com', '$2b$10$zl3gugUjFEji1RXysQyMTOTDQyVBM2h0s2nGTTKtjWYmXSYzztvvG', (SELECT id FROM roles WHERE name = 'admin'));

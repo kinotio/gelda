@@ -35,6 +35,8 @@ export async function signin(form: AuthSignInFormType) {
       return response(false, 'Sign in failed: The password provided is incorrect.')
     }
 
+    await database.update(users).set({ lastLogin: new Date() }).where(eq(users.id, user.id))
+
     const token = await signJwt({ user_id: user.id, role_id: user.roleId })
 
     return response(true, 'Sign in successful: You are now signed in.', token)
