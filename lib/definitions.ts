@@ -18,7 +18,7 @@ export type UserInformationBaseType = {
 }
 
 export type UserInformationType = {
-  passwordHash: string
+  hashedPassword: string
   roleId: number
 } & UserInformationBaseType
 

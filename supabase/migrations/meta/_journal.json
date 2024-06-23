@@ -15,6 +15,13 @@
       "when": 1719079627554,
       "tag": "0001_perfect_blonde_phantom",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1719151229031,
+      "tag": "0002_brainy_hex",
+      "breakpoints": true
     }
   ]
 }

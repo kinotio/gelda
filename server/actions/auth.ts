@@ -4,15 +4,15 @@ import { eq } from 'drizzle-orm'
 
 import { hash, compare } from '@/server/lib/bcrypt'
 import { signJwt } from '@/lib/jsonwebtoken'
-import { signinSchema, signupSchema } from '@/server/lib/validators'
+import { signinFormSchemaValidator, signupFormSchemaValidator } from '@/server/lib/validators'
 import { PG_UNIQUE_VIOLATION_ERROR_CODE, ROLE_BY_NAME } from '@/lib/constants'
 import { response } from '@/server/lib/response'
 import { AuthSignInFormType, AuthSignUpFormType, UserInformationType } from '@/lib/definitions'
 import { database } from '@/server/config/database'
-import schema from '@/server/schema'
+import { users } from '@/server/config/schema'
 
 export async function signin(form: AuthSignInFormType) {
-  const { success, data } = signinSchema.safeParse(form)
+  const { success, data } = signinFormSchemaValidator.safeParse(form)
   if (!success) {
     return response(
       false,
@@ -22,14 +22,14 @@ export async function signin(form: AuthSignInFormType) {
 
   try {
     const user = await database.query.users.findFirst({
-      where: eq(schema.users.email, data.email)
+      where: eq(users.email, data.email)
     })
 
     if (!user) {
       return response(false, 'Sign in failed: The email provided is not linked with an account.')
     }
 
-    const isPasswordValid = await compare(data.password, user.passwordHash)
+    const isPasswordValid = await compare(data.password, user.hashedPassword)
 
     if (!isPasswordValid) {
       return response(false, 'Sign in failed: The password provided is incorrect.')
@@ -47,7 +47,7 @@ export async function signin(form: AuthSignInFormType) {
 }
 
 export async function signup(form: AuthSignUpFormType) {
-  const { success, data } = signupSchema.safeParse(form)
+  const { success, data } = signupFormSchemaValidator.safeParse(form)
   if (!success) {
     return response(
       false,
@@ -60,11 +60,11 @@ export async function signup(form: AuthSignUpFormType) {
     const user: UserInformationType = {
       name: data.name,
       email: data.email,
-      passwordHash: hashedPassword,
+      hashedPassword,
       roleId: ROLE_BY_NAME.CLIENT
     } as UserInformationType
 
-    await database.insert(schema.users).values(user)
+    await database.insert(users).values(user)
 
     return response(true, 'Registration successful: Your account has been created.')
   } catch (error) {
