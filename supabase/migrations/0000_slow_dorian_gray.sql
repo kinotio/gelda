@@ -13,11 +13,6 @@ CREATE TABLE IF NOT EXISTS "roles" (
 	"name" text
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "status" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"name" text
-);
---> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "tickets" (
 	"id" text PRIMARY KEY NOT NULL,
 	"reference" serial NOT NULL,
@@ -46,12 +41,6 @@ CREATE TABLE IF NOT EXISTS "users" (
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "tickets" ADD CONSTRAINT "tickets_creator_id_users_id_fk" FOREIGN KEY ("creator_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "tickets" ADD CONSTRAINT "tickets_status_id_status_id_fk" FOREIGN KEY ("status_id") REFERENCES "public"."status"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

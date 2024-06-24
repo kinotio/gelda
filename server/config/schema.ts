@@ -9,7 +9,10 @@ const user = {
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
   hashedPassword: text('hashed_password').notNull(),
-  roleId: integer('role_id').references(() => roles.id),
+  roleId: integer('role_id')
+    .references(() => roles.id)
+    .notNull(),
+  lastLogin: timestamp('last_login', { mode: 'date' }),
   emailVerifiedAt: timestamp('email_verified_at', { mode: 'date' }),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow(),
   updatedAt: timestamp('updated_at', { mode: 'date' })

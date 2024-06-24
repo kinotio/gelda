@@ -1,5 +1,6 @@
-import HeaderComponent from '@/components/common/header-component'
-import Footercomponent from '@/components/common/footer-component'
+import HeaderComponent from '@/components/shared/header-component'
+import Footercomponent from '@/components/shared/footer-component'
+import FloatingMenuComponent from '@/components/shared/floating-menu-component'
 
 export default function Layout({
   children
@@ -11,6 +12,7 @@ export default function Layout({
       <HeaderComponent />
       {children}
       <Footercomponent />
+      <FloatingMenuComponent />
     </div>
   )
 }

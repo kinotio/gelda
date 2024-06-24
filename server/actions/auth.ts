@@ -9,7 +9,7 @@ import { PG_UNIQUE_VIOLATION_ERROR_CODE, ROLE_BY_NAME } from '@/lib/constants'
 import { response } from '@/server/lib/response'
 import { AuthSignInFormType, AuthSignUpFormType, UserInformationType } from '@/lib/definitions'
 import { database } from '@/server/config/database'
-import { users } from '@/server/config/schema'
+import { users, sessionTokens } from '@/server/config/schema'
 
 export async function signin(form: AuthSignInFormType) {
   const { success, data } = signinFormSchemaValidator.safeParse(form)
@@ -35,7 +35,11 @@ export async function signin(form: AuthSignInFormType) {
       return response(false, 'Sign in failed: The password provided is incorrect.')
     }
 
+    await database.update(users).set({ lastLogin: new Date() }).where(eq(users.id, user.id))
+
     const token = await signJwt({ user_id: user.id, role_id: user.roleId })
+
+    await database.insert(sessionTokens).values({ token, userId: user.id })
 
     return response(true, 'Sign in successful: You are now signed in.', token)
   } catch (error) {
