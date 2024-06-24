@@ -7,7 +7,7 @@ import { response } from '@/server/lib/response'
 import { database } from '@/server/config/database'
 import { tickets } from '@/server/config/schema'
 
-export async function getAllTickets() {
+export async function getAll() {
   try {
     const data = await database.query.tickets.findMany({
       with: {
@@ -23,7 +23,7 @@ export async function getAllTickets() {
   }
 }
 
-export async function getTicketById(id: string) {
+export async function getById(id: string) {
   try {
     const data = await database.query.tickets.findFirst({
       where: eq(tickets.id, id)
@@ -34,7 +34,7 @@ export async function getTicketById(id: string) {
   }
 }
 
-export async function createTicket(form: TicketInformationType) {
+export async function create(form: TicketInformationType) {
   try {
     const data = await database.insert(tickets).values(form)
     return response(true, 'Ticket created successfully', data)

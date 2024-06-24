@@ -8,9 +8,10 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+
 import { AuthSignUpFormType } from '@/lib/definitions'
 import { NAME_PATTERN, EMAIL_PATTERN, PASSWORD_PATTERN } from '@/lib/constants'
-import { useAuth } from '@/hooks/use-auth'
+import { useSignup } from '@/hooks/auth/use-signup'
 
 export default function SignupFormComponent() {
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false)
@@ -22,7 +23,7 @@ export default function SignupFormComponent() {
     watch,
     formState: { errors }
   } = useForm<AuthSignUpFormType>()
-  const { loading, signUp, message, success } = useAuth()
+  const { loading, signUp, message, success } = useSignup()
 
   const password = watch('password')
 

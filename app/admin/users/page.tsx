@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import DataTable from '@/components/ui/datatable'
-import { useUsers } from '@/hooks/use-users'
+import { useUsers } from '@/hooks/users/use-users'
 import { UserInformationPublicType } from '@/lib/definitions'
 
 export const columns: ColumnDef<UserInformationPublicType>[] = [

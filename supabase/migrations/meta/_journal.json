@@ -22,6 +22,27 @@
       "when": 1719151229031,
       "tag": "0002_brainy_hex",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1719153079277,
+      "tag": "0003_rich_zemo",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1719155141726,
+      "tag": "0004_dear_onslaught",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1719155857858,
+      "tag": "0005_cold_mastermind",
+      "breakpoints": true
     }
   ]
 }

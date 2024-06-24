@@ -12,9 +12,6 @@ CREATE TABLE IF NOT EXISTS "statuses" (
 	"updated_at" timestamp
 );
 --> statement-breakpoint
-DROP TABLE "status";--> statement-breakpoint
-ALTER TABLE "tickets" DROP CONSTRAINT "tickets_status_id_status_id_fk";
---> statement-breakpoint
 ALTER TABLE "tickets" ALTER COLUMN "updated_at" DROP DEFAULT;--> statement-breakpoint
 ALTER TABLE "users" ALTER COLUMN "updated_at" DROP DEFAULT;--> statement-breakpoint
 ALTER TABLE "priorities" ADD COLUMN "created_at" timestamp DEFAULT now();--> statement-breakpoint

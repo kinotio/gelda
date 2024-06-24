@@ -51,6 +51,13 @@ export type TicketInformationWithRelationType = {
 } & TicketInformationType &
   TicketInformationExtraType
 
+export type TicketInformationFormType = {
+  title: string
+  description: string
+  statusId: number
+  priorityId: number
+}
+
 // Common-related types
 export type CommonIdAndNameType = {
   id: number
@@ -58,16 +65,16 @@ export type CommonIdAndNameType = {
 }
 
 // Status-related types
-export type TStatus = CommonIdAndNameType
+export type StatusType = CommonIdAndNameType
 
 // Priority-related types
-export type TPriority = CommonIdAndNameType
+export type PriorityType = CommonIdAndNameType
 
 // Role-related types
-export type TRole = CommonIdAndNameType
+export type RoleType = CommonIdAndNameType
 
 // Cookie-related types
-export type TCookieOptions = {
+export type CookieOptionsType = {
   days?: number
   path?: string
   domain?: string

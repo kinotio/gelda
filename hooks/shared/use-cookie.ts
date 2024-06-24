@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import { TCookieOptions } from '@/lib/definitions'
+import { CookieOptionsType } from '@/lib/definitions'
 
 export const useCookie = (key: string, initialValue: string) => {
   const [item, setItem] = useState(() => {
@@ -8,7 +8,7 @@ export const useCookie = (key: string, initialValue: string) => {
   })
 
   const updateItem = useCallback(
-    (value: string, options: TCookieOptions) => {
+    (value: string, options: CookieOptionsType) => {
       setItem(value)
       setCookie(key, value, options)
     },
@@ -36,7 +36,7 @@ export const stringifyOptions = (options: {
   }, '')
 }
 
-export const setCookie = (key: string, value: string, options: TCookieOptions) => {
+export const setCookie = (key: string, value: string, options: CookieOptionsType) => {
   const optionsWithDefaults = {
     days: 7,
     path: '/',

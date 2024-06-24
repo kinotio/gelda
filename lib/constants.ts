@@ -22,8 +22,7 @@ export const PG_UNIQUE_VIOLATION_ERROR_CODE = 23505
 
 export const ROLE_BY_NAME = {
   CLIENT: 1,
-  SUPPORT: 2,
-  ADMIN: 3
+  ADMIN: 2
 }
 
 export const STATUS_BY_NAME = {
@@ -35,7 +34,13 @@ export const STATUS_BY_NAME = {
 export const PRIORITY_BY_NAME = {
   LOW: 1,
   MEDIUM: 2,
-  HIGH: 3
+  HIGH: 3,
+  URGENT: 4
+}
+
+export const RESOLUTION_BY_NAME = {
+  RESOLVED: 1,
+  UNRESOLVED: 2
 }
 
 export const PATH = {

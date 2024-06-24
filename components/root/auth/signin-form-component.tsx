@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { useAuth } from '@/hooks/use-auth'
+import { useSignin } from '@/hooks/auth/use-signin'
 import { AuthSignInFormType } from '@/lib/definitions'
 
 export default function SigninFormComponent() {
@@ -21,7 +21,7 @@ export default function SigninFormComponent() {
     handleSubmit,
     formState: { errors }
   } = useForm<AuthSignInFormType>()
-  const { loading, signIn, message, success } = useAuth()
+  const { loading, signIn, message, success } = useSignin()
 
   const onSubmit: SubmitHandler<AuthSignInFormType> = async (form: AuthSignInFormType) =>
     await signIn(form)
