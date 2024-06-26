@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -10,7 +12,12 @@ import {
   TableRow
 } from '@/components/ui/table'
 
+import { useUserTickets } from '@/hooks/tickets/use-user-tickets'
+import { COLOR_BY_PRIORITY_ID, COLOR_BY_STATUS_ID } from '@/lib/constants'
+
 export default function CardRecentTicketsComponent() {
+  const { tickets } = useUserTickets()
+
   return (
     <Card>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
@@ -23,37 +30,45 @@ export default function CardRecentTicketsComponent() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>ID</TableHead>
+              <TableHead>Ref</TableHead>
               <TableHead>Title</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Priority</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Array.from({ length: 10 }).map((data, idx) => (
-              <TableRow key={idx}>
-                <TableCell>
-                  <Link className='font-medium' href='#'>
-                    #123
-                  </Link>
-                </TableCell>
-                <TableCell>
-                  <Link className='font-medium' href='#'>
-                    Printer not working
-                  </Link>
-                </TableCell>
-                <TableCell>
-                  <div className='inline-flex items-center gap-2 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-600 dark:bg-green-900 dark:text-green-400'>
-                    Open
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className='inline-flex items-center gap-2 rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-600 dark:bg-yellow-900 dark:text-yellow-400'>
-                    Medium
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+            {Array.isArray(tickets) && tickets.length > 0 ? (
+              <>
+                {tickets.map((ticket) => (
+                  <TableRow key={ticket.id}>
+                    <TableCell>
+                      <Link className='font-medium' href='#'>
+                        #{ticket.reference}
+                      </Link>
+                    </TableCell>
+                    <TableCell>
+                      <Link className='font-medium' href='#'>
+                        {ticket.title}
+                      </Link>
+                    </TableCell>
+                    <TableCell>
+                      <div
+                        className={`capitalize inline-flex items-center gap-2 rounded-full px-2 py-1 text-xs font-medium ${COLOR_BY_STATUS_ID[ticket.statusId]}`}
+                      >
+                        {ticket.status?.name}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div
+                        className={`capitalize inline-flex items-center gap-2 rounded-full px-2 py-1 text-xs font-medium ${COLOR_BY_PRIORITY_ID[ticket.priorityId]}`}
+                      >
+                        {ticket.priority?.name}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </>
+            ) : null}
           </TableBody>
         </Table>
       </CardContent>
