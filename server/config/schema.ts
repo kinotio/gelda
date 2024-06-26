@@ -1,11 +1,9 @@
-import { integer, timestamp, pgTable, text, serial } from 'drizzle-orm/pg-core'
+import { integer, timestamp, pgTable, text, serial, uuid } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 
 // Schema
 const user = {
-  id: text('id')
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
+  id: uuid('id').primaryKey().defaultRandom(),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
   hashedPassword: text('hashed_password').notNull(),
@@ -18,21 +16,12 @@ const user = {
   updatedAt: timestamp('updated_at', { mode: 'date' })
 }
 
-const role = {
-  id: serial('id').primaryKey(),
-  name: text('name').notNull(),
-  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow(),
-  updatedAt: timestamp('updated_at', { mode: 'date' })
-}
-
 const ticket = {
-  id: text('id')
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  reference: serial('reference').unique(),
+  id: uuid('id').primaryKey().defaultRandom(),
+  reference: serial('reference').notNull().unique(),
   title: text('title').notNull(),
   description: text('description'),
-  creatorId: text('creator_id')
+  creatorId: uuid('creator_id')
     .references(() => users.id)
     .notNull(),
   statusId: integer('status_id')
@@ -41,8 +30,15 @@ const ticket = {
   priorityId: integer('priority_id')
     .references(() => priorities.id)
     .notNull(),
-  responsibleId: text('responsible_id').references(() => users.id),
+  responsibleId: uuid('responsible_id').references(() => users.id),
   resolutionId: integer('resolution_id').references(() => resolutions.id),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow(),
+  updatedAt: timestamp('updated_at', { mode: 'date' })
+}
+
+const role = {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow(),
   updatedAt: timestamp('updated_at', { mode: 'date' })
 }
@@ -71,7 +67,7 @@ const priority = {
 const sessionToken = {
   id: serial('id').primaryKey(),
   token: text('token').notNull(),
-  userId: text('user_id')
+  userId: uuid('user_id')
     .references(() => users.id)
     .notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow()

@@ -1,5 +1,5 @@
 {
-  "id": "6a06019a-35da-4c58-bd71-4943cbb40642",
+  "id": "4a9e7192-5f1d-4059-8a55-1de30680ff51",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -17,6 +17,19 @@
         "name": {
           "name": "name",
           "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": false
         }
@@ -40,6 +53,19 @@
           "name": "name",
           "type": "text",
           "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
           "notNull": false
         }
       },
@@ -62,6 +88,19 @@
           "name": "name",
           "type": "text",
           "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
           "notNull": false
         }
       },
@@ -70,8 +109,57 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.status": {
-      "name": "status",
+    "public.session_tokens": {
+      "name": "session_tokens",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "token": {
+          "name": "token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "session_tokens_user_id_users_id_fk": {
+          "name": "session_tokens_user_id_users_id_fk",
+          "tableFrom": "session_tokens",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.statuses": {
+      "name": "statuses",
       "schema": "",
       "columns": {
         "id": {
@@ -83,6 +171,19 @@
         "name": {
           "name": "name",
           "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": false
         }
@@ -98,9 +199,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "reference": {
           "name": "reference",
@@ -122,7 +224,7 @@
         },
         "creator_id": {
           "name": "creator_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -140,7 +242,7 @@
         },
         "responsible_id": {
           "name": "responsible_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
@@ -161,8 +263,7 @@
           "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
+          "notNull": false
         }
       },
       "indexes": {},
@@ -180,10 +281,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "tickets_status_id_status_id_fk": {
-          "name": "tickets_status_id_status_id_fk",
+        "tickets_status_id_statuses_id_fk": {
+          "name": "tickets_status_id_statuses_id_fk",
           "tableFrom": "tickets",
-          "tableTo": "status",
+          "tableTo": "statuses",
           "columnsFrom": [
             "status_id"
           ],
@@ -250,9 +351,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "name": {
           "name": "name",
@@ -266,8 +368,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "password_hash": {
-          "name": "password_hash",
+        "hashed_password": {
+          "name": "hashed_password",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -275,6 +377,18 @@
         "role_id": {
           "name": "role_id",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "last_login": {
+          "name": "last_login",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email_verified_at": {
+          "name": "email_verified_at",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": false
         },
@@ -289,8 +403,7 @@
           "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
+          "notNull": false
         }
       },
       "indexes": {},

@@ -1,7 +1,7 @@
 'use client'
 
 import { PlusIcon } from 'lucide-react'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { AlertCircle } from 'lucide-react'
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -17,6 +17,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { ErrorMessage } from '@/components/ui/shared/error-message'
 
 import { TicketInformationFormType } from '@/lib/definitions'
 
@@ -30,12 +31,13 @@ export default function CardCreateTicketComponent() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    control,
+    reset
   } = useForm<TicketInformationFormType>()
 
   const onSubmit: SubmitHandler<TicketInformationFormType> = (form: TicketInformationFormType) => {
-    // createTicket(form)
-    console.log(form)
+    createTicket(form).finally(() => reset())
   }
 
   return (
@@ -63,7 +65,7 @@ export default function CardCreateTicketComponent() {
                   required: 'Title is required'
                 })}
               />
-              {errors.title && <span className='text-red-500 text-sm'>{errors.title.message}</span>}
+              {errors.title && <ErrorMessage message={errors.title.message as string} />}
             </div>
             <div>
               <Label htmlFor='description'>Description</Label>
@@ -75,24 +77,37 @@ export default function CardCreateTicketComponent() {
               />
             </div>
             <div>
-              <Label htmlFor='priority'>Priority</Label>
-              <Select>
-                <SelectTrigger {...register('priorityId')}>
-                  <SelectValue placeholder='Select priority' />
-                </SelectTrigger>
-                <SelectContent>
-                  {priorities.map(({ id, name }) => (
-                    <SelectItem className='capitalize' key={id} value={id.toString()}>
-                      {name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Controller
+                control={control}
+                name='priorityId'
+                rules={{ required: 'Priority is required' }}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    onValueChange={(val) => field.onChange(val)}
+                    value={field.value ? field.value.toString() : ''}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder='Select priority' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {priorities.map((priority) => (
+                        <SelectItem
+                          className='capitalize'
+                          key={priority.id}
+                          value={priority.id.toString()}
+                        >
+                          {priority.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
 
-              {errors.priorityId && (
-                <span className='text-red-500 text-sm'>{errors.priorityId.message}</span>
-              )}
+              {errors.priorityId && <ErrorMessage message={errors.priorityId.message as string} />}
             </div>
+
             <Button className='w-full' type='submit' disabled={loading}>
               {loading ? 'Creating...' : 'Create Ticket'}
             </Button>

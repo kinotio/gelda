@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-import { verifyJwt } from '@/lib/jsonwebtoken'
+import { verify } from '@/lib/jsonwebtoken'
 
 import { PATH, TOKEN_NAME, ROLE_BY_NAME } from '@/lib/constants'
 
@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    const { role_id } = await verifyJwt(token)
+    const { role_id } = await verify(token)
 
     if (path === PATH.SIGNIN || path === PATH.SIGNUP) {
       return NextResponse.redirect(new URL(PATH.HOME, request.url))

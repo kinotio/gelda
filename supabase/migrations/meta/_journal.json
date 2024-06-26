@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1719079152236,
-      "tag": "0000_slow_dorian_gray",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1719079627554,
-      "tag": "0001_perfect_blonde_phantom",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1719151229031,
-      "tag": "0002_brainy_hex",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1719153079277,
-      "tag": "0003_rich_zemo",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1719155141726,
-      "tag": "0004_dear_onslaught",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1719155857858,
-      "tag": "0005_cold_mastermind",
+      "when": 1719400222270,
+      "tag": "0000_panoramic_lilith",
       "breakpoints": true
     }
   ]

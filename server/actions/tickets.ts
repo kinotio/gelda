@@ -2,10 +2,10 @@
 
 import { eq } from 'drizzle-orm'
 
-import { TicketInformationType } from '@/lib/definitions'
 import { response } from '@/server/lib/response'
 import { database } from '@/server/config/database'
 import { tickets } from '@/server/config/schema'
+import { TicketInformationType } from '@/lib/definitions'
 
 export async function getAll() {
   try {
