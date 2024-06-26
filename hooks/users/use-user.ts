@@ -20,6 +20,7 @@ export function useUser() {
 
   useEffect(() => {
     ;(async () => {
+      setLoading(true)
       try {
         const { user_id } = decode(getCookie(TOKEN_NAME))
         const { success, message, data } = await getById(user_id as string)

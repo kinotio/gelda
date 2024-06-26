@@ -30,12 +30,14 @@ export type UserInformationPublicType = {
 
 // Ticket-related types
 export type TicketInformationType = {
+  id?: string
   title: string
   description: string
   statusId: number
   priorityId: number
   creatorId: string
   resolutionId?: number
+  reference?: number
 }
 
 export type TicketInformationExtraType = {

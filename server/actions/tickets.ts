@@ -23,6 +23,22 @@ export async function getAll() {
   }
 }
 
+export async function getUserTickets(userId: string) {
+  try {
+    const data = await database.query.tickets.findMany({
+      where: eq(tickets.creatorId, userId),
+      with: {
+        status: true,
+        priority: true,
+        resolution: true
+      }
+    })
+    return response(true, 'Tickets fetched successfully', data)
+  } catch (error) {
+    return response(false, 'An error occurred while fetching tickets')
+  }
+}
+
 export async function getById(id: string) {
   try {
     const data = await database.query.tickets.findFirst({
