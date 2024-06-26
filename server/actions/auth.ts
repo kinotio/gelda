@@ -3,7 +3,7 @@
 import { eq } from 'drizzle-orm'
 
 import { hash, compare } from '@/server/lib/bcrypt'
-import { signJwt } from '@/lib/jsonwebtoken'
+import { sign } from '@/lib/jsonwebtoken'
 import { signinFormSchemaValidator, signupFormSchemaValidator } from '@/server/lib/validators'
 import { PG_UNIQUE_VIOLATION_ERROR_CODE, ROLE_BY_NAME } from '@/lib/constants'
 import { response } from '@/server/lib/response'
@@ -37,7 +37,7 @@ export async function signin(form: AuthSignInFormType) {
 
     await database.update(users).set({ lastLogin: new Date() }).where(eq(users.id, user.id))
 
-    const token = await signJwt({ user_id: user.id, role_id: user.roleId })
+    const token = await sign({ user_id: user.id, role_id: user.roleId })
 
     await database.insert(sessionTokens).values({ token, userId: user.id })
 

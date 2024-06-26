@@ -1,18 +1,32 @@
 import { useState } from 'react'
 
-import { TicketInformationType } from '@/lib/definitions'
+import { TicketInformationFormType } from '@/lib/definitions'
+import { STATUS_BY_NAME, TOKEN_NAME } from '@/lib/constants'
+
 import { create } from '@/server/actions/tickets'
+
+import { useUser } from '@/hooks/users/use-user'
 
 export function useCreateTicket() {
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [success, setSuccess] = useState<boolean>(false)
 
-  const createTicket = async (form: TicketInformationType) => {
+  const { user } = useUser()
+
+  const createTicket = async (form: TicketInformationFormType) => {
     setLoading(true)
 
     try {
-      const { success, message } = await create(form)
+      const { title, description, priorityId } = form
+      const ticket = {
+        title,
+        description,
+        priorityId,
+        statusId: STATUS_BY_NAME.OPEN,
+        creatorId: user?.id as string
+      }
+      const { success, message } = await create(ticket)
       if (success) {
         setMessage(message)
         setSuccess(success)

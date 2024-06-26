@@ -13,6 +13,7 @@ export type AuthSignUpFormType = {
 
 // User-related types
 export type UserInformationBaseType = {
+  id?: string
   name: string
   email: string
 }
@@ -29,7 +30,6 @@ export type UserInformationPublicType = {
 
 // Ticket-related types
 export type TicketInformationType = {
-  id: string
   title: string
   description: string
   statusId: number
@@ -54,7 +54,6 @@ export type TicketInformationWithRelationType = {
 export type TicketInformationFormType = {
   title: string
   description: string
-  statusId: number
   priorityId: number
 }
 
