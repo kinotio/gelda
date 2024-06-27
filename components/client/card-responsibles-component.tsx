@@ -28,9 +28,9 @@ export default function CardResponsiblesComponent() {
                   John Doe
                 </Link>
               </div>
-              <div className='flex gap-4'>
+              <div className='flex gap-4 items-center'>
                 <EyeIcon />
-                <Badge variant='secondary'>14-04-2024</Badge>
+                <Badge variant='secondary'>14/04/2024</Badge>
                 <Badge>12h00</Badge>
               </div>
             </div>
