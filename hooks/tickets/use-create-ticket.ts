@@ -20,8 +20,8 @@ export function useCreateTicket() {
     try {
       const { title, description, priorityId } = form
       const ticket = {
-        title,
-        description,
+        title: title.trim(),
+        description: description.trim(),
         priorityId,
         statusId: STATUS_BY_NAME.OPEN,
         creatorId: user?.id as string

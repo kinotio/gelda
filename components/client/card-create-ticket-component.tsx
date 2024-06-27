@@ -85,9 +85,9 @@ export default function CardCreateTicketComponent() {
                   <Select
                     {...field}
                     onValueChange={(val) => field.onChange(val)}
-                    value={field.value ? field.value.toString() : ''}
+                    value={field.value?.toString()}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className='capitalize'>
                       <SelectValue placeholder='Select priority' />
                     </SelectTrigger>
                     <SelectContent>
@@ -104,7 +104,6 @@ export default function CardCreateTicketComponent() {
                   </Select>
                 )}
               />
-
               {errors.priorityId && <ErrorMessage message={errors.priorityId.message as string} />}
             </div>
 

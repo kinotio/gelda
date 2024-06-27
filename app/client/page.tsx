@@ -8,12 +8,12 @@ import CardResponsiblesComponent from '@/components/client/card-responsibles-com
 export default function Page() {
   return (
     <div className='flex min-h-[calc(90vh_-_theme(spacing.16))] flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10'>
-      <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
+      <div className='grid gap-4 lg:grid-cols-3'>
         <CardCreateTicketComponent />
         <CardRecentTicketsComponent />
         <CardChatComponent />
       </div>
-      <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
+      <div className='grid gap-4 lg:grid-cols-3'>
         <CardOpenedTicketsComponent />
         <CardClosedTicketsComponent />
         <CardResponsiblesComponent />
