@@ -11,9 +11,8 @@ export function useTicket(id: string) {
   const [success, setSuccess] = useState<boolean>(false)
 
   useEffect(() => {
-    ;(async () => {
+    const fetch = async () => {
       setLoading(true)
-
       try {
         const { success, message, data } = await getById(id)
         if (success && data) setTicket(data)
@@ -27,7 +26,9 @@ export function useTicket(id: string) {
       } finally {
         setLoading(false)
       }
-    })()
+    }
+
+    fetch()
   }, [id])
 
   return { ticket, message, success, loading }

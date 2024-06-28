@@ -11,9 +11,8 @@ export function useUsers() {
   const [success, setSuccess] = useState<boolean>(false)
 
   useEffect(() => {
-    ;(async () => {
+    const fetch = async () => {
       setLoading(true)
-
       try {
         const { success, message, data } = await getAll()
         if (success && data) setUsers(data)
@@ -27,7 +26,9 @@ export function useUsers() {
       } finally {
         setLoading(false)
       }
-    })()
+    }
+
+    fetch()
   }, [])
 
   return { users, loading, message, success }

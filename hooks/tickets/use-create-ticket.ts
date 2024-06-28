@@ -16,7 +16,6 @@ export function useCreateTicket() {
 
   const createTicket = async (form: TicketInformationFormType) => {
     setLoading(true)
-
     try {
       const { title, description, priorityId } = form
       const ticket = {

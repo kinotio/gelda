@@ -14,7 +14,6 @@ export function useSignup() {
 
   const signUp = async (form: AuthSignUpFormType) => {
     setLoading(true)
-
     try {
       const { success, message } = await signup(form)
       setMessage(message)

@@ -11,9 +11,8 @@ export function useTickets() {
   const [tickets, setTickets] = useState<TicketInformationWithRelationType[]>()
 
   useEffect(() => {
-    ;(async () => {
+    const fetch = async () => {
       setLoading(true)
-
       try {
         const { success, message, data } = await getAll()
         if (success && data) setTickets(data)
@@ -27,7 +26,9 @@ export function useTickets() {
       } finally {
         setLoading(false)
       }
-    })()
+    }
+
+    fetch()
   }, [])
 
   return { tickets, message, success, loading }

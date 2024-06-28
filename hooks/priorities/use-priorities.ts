@@ -11,9 +11,8 @@ export function usePriorities() {
   const [priorities, setPriorities] = useState<PriorityType[]>([])
 
   useEffect(() => {
-    ;(async () => {
+    const fetch = async () => {
       setLoading(true)
-
       try {
         const { success, message, data } = await getAll()
         if (success && data) setPriorities(data)
@@ -29,7 +28,9 @@ export function usePriorities() {
       } finally {
         setLoading(false)
       }
-    })()
+    }
+
+    fetch()
   }, [])
 
   return { priorities, message, success, loading }

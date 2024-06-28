@@ -20,7 +20,6 @@ export function useSignin() {
 
   const signIn = async (form: AuthSignInFormType) => {
     setLoading(true)
-
     try {
       const { success, message, data } = await signin(form)
       setMessage(message)

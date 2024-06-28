@@ -15,7 +15,7 @@ export function useUserTickets() {
   const { user } = useUser()
 
   useEffect(() => {
-    ;(async () => {
+    const fetch = async () => {
       setLoading(true)
       try {
         const { success, message, data } = await getUserTickets(user?.id as string)
@@ -30,7 +30,9 @@ export function useUserTickets() {
       } finally {
         setLoading(false)
       }
-    })()
+    }
+
+    fetch()
   }, [user])
 
   return { tickets, message, success, loading }

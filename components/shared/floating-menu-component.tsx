@@ -43,7 +43,7 @@ export default function FloatingMenuComponent() {
 
       <Link
         href={PATH.ADMIN_SETTINGS}
-        className={`flex items-center gap-2 hover:underline p-2 rounded-full ${
+        className={`disabled pointer-events-none flex items-center gap-2 hover:underline p-2 rounded-full ${
           pathname === PATH.ADMIN_SETTINGS ? 'text-white bg-gray-950' : 'text-gray-500'
         }`}
         prefetch={false}

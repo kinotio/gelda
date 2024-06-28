@@ -19,7 +19,7 @@ export function useUser() {
   const { signOut } = useSignout()
 
   useEffect(() => {
-    ;(async () => {
+    const fetch = async () => {
       setLoading(true)
       try {
         const { user_id } = decode(getCookie(TOKEN_NAME))
@@ -36,7 +36,9 @@ export function useUser() {
       } finally {
         setLoading(false)
       }
-    })()
+    }
+
+    fetch()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
