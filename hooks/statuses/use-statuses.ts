@@ -11,9 +11,8 @@ export function useStatuses() {
   const [statuses, setStatuses] = useState<StatusType[]>([])
 
   useEffect(() => {
-    ;(async () => {
+    const fetch = async () => {
       setLoading(true)
-
       try {
         const { success, message, data } = await getAll()
         if (success && data) setStatuses(data)
@@ -27,7 +26,9 @@ export function useStatuses() {
       } finally {
         setLoading(false)
       }
-    })()
+    }
+
+    fetch()
   }, [])
 
   return { statuses, message, success, loading }

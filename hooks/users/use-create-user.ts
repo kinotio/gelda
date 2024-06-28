@@ -10,7 +10,6 @@ export function useCreateUser() {
 
   const createUser = async (user: UserInformationType) => {
     setLoading(true)
-
     try {
       const { success, message } = await create(user)
       setMessage(message)

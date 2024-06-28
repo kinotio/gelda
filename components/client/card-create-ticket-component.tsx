@@ -44,7 +44,7 @@ export default function CardCreateTicketComponent() {
     <Card>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
         <CardTitle className='text-sm font-medium'>Create Ticket</CardTitle>
-        <PlusIcon className='w-4 h-4 text-gray-500 dark:text-gray-400' />
+        <PlusIcon className='w-4 h-4 text-gray-500 dark:text-gray-400' onClick={() => reset()} />
       </CardHeader>
       <CardContent className='h-[500px] overflow-auto'>
         {!success && message !== '' ? (
