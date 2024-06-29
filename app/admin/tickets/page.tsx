@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import DataTable from '@/components/ui/datatable'
+import { DataTable } from '@/components/ui/datatable'
 import { useTickets } from '@/hooks/tickets/use-tickets'
 import { TicketInformationWithRelationType } from '@/lib/definitions'
 import { COLOR_BY_STATUS_ID, COLOR_BY_PRIORITY_ID, COLOR_BY_RESOLUTION_ID } from '@/lib/constants'
@@ -161,7 +161,7 @@ export const columns: ColumnDef<TicketInformationWithRelationType>[] = [
   }
 ]
 
-export default function Page() {
+const Page = () => {
   const { tickets } = useTickets()
 
   return (
@@ -172,3 +172,5 @@ export default function Page() {
     </div>
   )
 }
+
+export default Page

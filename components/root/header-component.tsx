@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { GithubIcon } from 'lucide-react'
 
-export default function Headercomponent() {
+const HeaderComponent = () => {
   return (
     <header className='px-4 lg:px-6 h-14 flex items-center'>
       <Link className='flex items-center justify-center' href='/'>
@@ -16,3 +16,5 @@ export default function Headercomponent() {
     </header>
   )
 }
+
+export { HeaderComponent }

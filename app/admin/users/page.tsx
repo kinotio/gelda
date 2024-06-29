@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import DataTable from '@/components/ui/datatable'
+import { DataTable } from '@/components/ui/datatable'
 import { useUsers } from '@/hooks/users/use-users'
 import { UserInformationPublicType } from '@/lib/definitions'
 
@@ -86,7 +86,7 @@ export const columns: ColumnDef<UserInformationPublicType>[] = [
   }
 ]
 
-export default function Page() {
+const Page = () => {
   const { users } = useUsers()
 
   return (
@@ -97,3 +97,5 @@ export default function Page() {
     </div>
   )
 }
+
+export default Page

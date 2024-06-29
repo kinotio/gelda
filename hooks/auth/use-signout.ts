@@ -4,7 +4,7 @@ import { PATH, TOKEN_NAME } from '@/lib/constants'
 import { useCookie } from '@/hooks/shared/use-cookie'
 import { CookieOptionsType } from '@/lib/definitions'
 
-export function useSignout() {
+export const useSignout = () => {
   const [_, setUserToken] = useCookie(TOKEN_NAME, '') as [
     string,
     (value: string, options: CookieOptionsType) => void

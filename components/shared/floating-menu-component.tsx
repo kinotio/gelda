@@ -6,7 +6,7 @@ import { TicketIcon, SettingsIcon, LayoutDashboardIcon, UsersIcon } from 'lucide
 
 import { PATH } from '@/lib/constants'
 
-export default function FloatingMenuComponent() {
+const FloatingMenuComponent = () => {
   const pathname = usePathname()
 
   return (
@@ -53,3 +53,5 @@ export default function FloatingMenuComponent() {
     </div>
   )
 }
+
+export { FloatingMenuComponent }

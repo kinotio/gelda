@@ -13,7 +13,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { useSignin } from '@/hooks/auth/use-signin'
 import { AuthSignInFormType } from '@/lib/definitions'
 
-export default function SigninFormComponent() {
+const SigninFormComponent = () => {
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false)
 
   const {
@@ -129,3 +129,5 @@ export default function SigninFormComponent() {
     </form>
   )
 }
+
+export { SigninFormComponent }

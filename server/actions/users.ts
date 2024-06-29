@@ -8,7 +8,7 @@ import { users } from '@/server/config/schema'
 import { ROLE_BY_NAME } from '@/lib/constants'
 import { UserInformationType } from '@/lib/definitions'
 
-export async function getAll() {
+export const getAll = async () => {
   try {
     const data = await database.query.users.findMany({
       where: eq(users.roleId, ROLE_BY_NAME.CLIENT)
@@ -19,7 +19,7 @@ export async function getAll() {
   }
 }
 
-export async function getById(id: string) {
+export const getById = async (id: string) => {
   try {
     const data = await database.query.users.findFirst({
       where: eq(users.id, id)
@@ -30,7 +30,7 @@ export async function getById(id: string) {
   }
 }
 
-export async function create(user: UserInformationType) {
+export const create = async (user: UserInformationType) => {
   try {
     const data = await database.insert(users).values(user)
     return response(true, 'User created successfully', data)

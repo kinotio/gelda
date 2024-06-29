@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 
-export default function CardResponsiblesComponent() {
+const CardResponsiblesComponent = () => {
   return (
     <Card>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
@@ -40,3 +40,5 @@ export default function CardResponsiblesComponent() {
     </Card>
   )
 }
+
+export { CardResponsiblesComponent }

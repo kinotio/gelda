@@ -1,12 +1,12 @@
-import HeaderComponent from '@/components/shared/header-component'
-import Footercomponent from '@/components/shared/footer-component'
-import FloatingMenuComponent from '@/components/shared/floating-menu-component'
+import { HeaderComponent } from '@/components/shared/header-component'
+import { Footercomponent } from '@/components/shared/footer-component'
+import { FloatingMenuComponent } from '@/components/shared/floating-menu-component'
 
-export default function Layout({
+const Layout = ({
   children
 }: Readonly<{
   children: React.ReactNode
-}>) {
+}>) => {
   return (
     <div className='flex flex-col w-full min-h-screen'>
       <HeaderComponent />
@@ -16,3 +16,5 @@ export default function Layout({
     </div>
   )
 }
+
+export default Layout

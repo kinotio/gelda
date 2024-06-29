@@ -7,7 +7,7 @@ import { create } from '@/server/actions/tickets'
 
 import { useUser } from '@/hooks/users/use-user'
 
-export function useCreateTicket() {
+export const useCreateTicket = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [success, setSuccess] = useState<boolean>(false)

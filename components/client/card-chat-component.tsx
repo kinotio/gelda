@@ -4,7 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-export default function CardChatComponent() {
+const CardChatComponent = () => {
   return (
     <Card>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
@@ -44,3 +44,5 @@ export default function CardChatComponent() {
     </Card>
   )
 }
+
+export { CardChatComponent }

@@ -8,7 +8,7 @@ import { tickets } from '@/server/config/schema'
 import { TicketInformationType } from '@/lib/definitions'
 import { ticketFormSchemaValidator } from '@/server/lib/validators'
 
-export async function getAll() {
+export const getAll = async () => {
   try {
     const data = await database.query.tickets.findMany({
       with: {
@@ -24,7 +24,7 @@ export async function getAll() {
   }
 }
 
-export async function getUserTickets(userId: string) {
+export const getUserTickets = async (userId: string) => {
   try {
     const data = await database.query.tickets.findMany({
       where: eq(tickets.creatorId, userId),
@@ -40,7 +40,7 @@ export async function getUserTickets(userId: string) {
   }
 }
 
-export async function getById(id: string) {
+export const getById = async (id: string) => {
   try {
     const data = await database.query.tickets.findFirst({
       where: eq(tickets.id, id)
@@ -51,7 +51,7 @@ export async function getById(id: string) {
   }
 }
 
-export async function create(form: TicketInformationType) {
+export const create = async (form: TicketInformationType) => {
   const { success } = ticketFormSchemaValidator.safeParse(form)
   if (!success) {
     return response(
