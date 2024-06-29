@@ -1,7 +1,7 @@
 'use server'
 
 import { database } from '@/server/config/database'
-import { response } from '@/server/lib/response'
+import { response } from '@/server/lib/helpers'
 
 export async function getAll() {
   try {

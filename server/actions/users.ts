@@ -3,7 +3,7 @@
 import { eq } from 'drizzle-orm'
 
 import { database } from '@/server/config/database'
-import { response } from '@/server/lib/response'
+import { response } from '@/server/lib/helpers'
 import { users } from '@/server/config/schema'
 import { ROLE_BY_NAME } from '@/lib/constants'
 import { UserInformationType } from '@/lib/definitions'
