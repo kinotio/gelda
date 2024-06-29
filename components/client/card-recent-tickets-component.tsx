@@ -15,7 +15,7 @@ import {
 import { useUserTickets } from '@/hooks/tickets/use-user-tickets'
 import { COLOR_BY_PRIORITY_ID, COLOR_BY_STATUS_ID } from '@/lib/constants'
 
-export default function CardRecentTicketsComponent() {
+const CardRecentTicketsComponent = () => {
   const { tickets } = useUserTickets()
 
   return (
@@ -75,3 +75,5 @@ export default function CardRecentTicketsComponent() {
     </Card>
   )
 }
+
+export { CardRecentTicketsComponent }

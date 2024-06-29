@@ -3,7 +3,7 @@
 import { database } from '@/server/config/database'
 import { response } from '@/server/lib/helpers'
 
-export async function getAll() {
+export const getAll = async () => {
   try {
     const data = await database.query.roles.findMany()
     return response(true, 'Roles fetched successfully', data)

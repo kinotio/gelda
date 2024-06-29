@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { TicketInformationWithRelationType } from '@/lib/definitions'
 import { getAll } from '@/server/actions/tickets'
 
-export function useTickets() {
+export const useTickets = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [success, setSuccess] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')

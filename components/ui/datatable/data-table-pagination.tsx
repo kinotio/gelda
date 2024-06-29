@@ -2,7 +2,7 @@ import type { Table } from '@tanstack/react-table'
 
 import { Button } from '@/components/ui/button'
 
-export default function DataTablePagination<T>({ table }: { table: Table<T> }) {
+const DataTablePagination = <T,>({ table }: { table: Table<T> }) => {
   return (
     <div className='flex items-center justify-end space-x-2 py-4'>
       <div className='flex-1 text-sm text-muted-foreground'>
@@ -30,3 +30,5 @@ export default function DataTablePagination<T>({ table }: { table: Table<T> }) {
     </div>
   )
 }
+
+export { DataTablePagination }

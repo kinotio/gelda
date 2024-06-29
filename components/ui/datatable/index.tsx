@@ -15,11 +15,11 @@ import {
   useReactTable
 } from '@tanstack/react-table'
 
-import DataTableBody from '@/components/ui/datatable/data-table-body'
-import DataTableHeaders from '@/components/ui/datatable/data-table-headers'
-import DataTablePagination from '@/components/ui/datatable/data-table-pagination'
+import { DataTableBody } from '@/components/ui/datatable/data-table-body'
+import { DataTableHeaders } from '@/components/ui/datatable/data-table-headers'
+import { DataTablePagination } from '@/components/ui/datatable/data-table-pagination'
 
-export default function DataTable<T>({ data, columns }: { data: T[]; columns: ColumnDef<T>[] }) {
+const DataTable = <T,>({ data, columns }: { data: T[]; columns: ColumnDef<T>[] }) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -58,3 +58,5 @@ export default function DataTable<T>({ data, columns }: { data: T[]; columns: Co
     </div>
   )
 }
+
+export { DataTable }

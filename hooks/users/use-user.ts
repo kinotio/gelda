@@ -9,7 +9,7 @@ import { getById } from '@/server/actions/users'
 import { getCookie } from '@/hooks/shared/use-cookie'
 import { useSignout } from '@/hooks/auth/use-signout'
 
-export function useUser() {
+export const useUser = () => {
   const [user, setUser] = useState<UserInformationType>()
 
   const [loading, setLoading] = useState<boolean>(false)

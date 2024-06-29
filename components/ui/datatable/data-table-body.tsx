@@ -12,13 +12,13 @@ import {
   TableRow
 } from '@/components/ui/table'
 
-export default function DataTableBody<T>({
+const DataTableBody = <T,>({
   table,
   columns
 }: {
   table: TableType<T>
   columns: ColumnDef<T>[]
-}) {
+}) => {
   return (
     <div className='rounded-md border'>
       <Table>
@@ -60,3 +60,5 @@ export default function DataTableBody<T>({
     </div>
   )
 }
+
+export { DataTableBody }

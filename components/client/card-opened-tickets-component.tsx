@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 
-export default function CardOpenedTicketsComponent() {
+const CardOpenedTicketsComponent = () => {
   return (
     <Card>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
@@ -33,3 +33,5 @@ export default function CardOpenedTicketsComponent() {
     </Card>
   )
 }
+
+export { CardOpenedTicketsComponent }

@@ -7,7 +7,7 @@ import { UsersIcon, TicketIcon, SettingsIcon, BotIcon, BarChartBigIcon } from 'l
 
 import { PATH } from '@/lib/constants'
 
-export default function SidebarComponent() {
+const SidebarComponent = () => {
   const pathname = usePathname()
 
   return (
@@ -67,3 +67,5 @@ export default function SidebarComponent() {
     </nav>
   )
 }
+
+export { SidebarComponent }

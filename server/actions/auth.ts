@@ -11,7 +11,7 @@ import { AuthSignInFormType, AuthSignUpFormType, UserInformationType } from '@/l
 import { database } from '@/server/config/database'
 import { users, sessionTokens } from '@/server/config/schema'
 
-export async function signin(form: AuthSignInFormType) {
+export const signin = async (form: AuthSignInFormType) => {
   const { success, data } = signinFormSchemaValidator.safeParse(form)
   if (!success) {
     return response(
@@ -50,7 +50,7 @@ export async function signin(form: AuthSignInFormType) {
   }
 }
 
-export async function signup(form: AuthSignUpFormType) {
+export const signup = async (form: AuthSignUpFormType) => {
   const { success, data } = signupFormSchemaValidator.safeParse(form)
   if (!success) {
     return response(
@@ -88,6 +88,6 @@ export async function signup(form: AuthSignUpFormType) {
   }
 }
 
-export async function signout() {
+export const signout = async () => {
   return response(true, 'Sign out successful: You are now signed out.')
 }

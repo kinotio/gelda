@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 
-export default function DataTableHeaders<T>({ table }: { table: Table<T> }) {
+const DataTableHeaders = <T,>({ table }: { table: Table<T> }) => {
   return (
     <div className='flex items-center py-4'>
       {/* <Input
@@ -46,3 +46,5 @@ export default function DataTableHeaders<T>({ table }: { table: Table<T> }) {
     </div>
   )
 }
+
+export { DataTableHeaders }

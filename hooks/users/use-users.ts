@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { UserInformationPublicType } from '@/lib/definitions'
 import { getAll } from '@/server/actions/users'
 
-export function useUsers() {
+export const useUsers = () => {
   const [users, setUsers] = useState<UserInformationPublicType[]>()
 
   const [loading, setLoading] = useState<boolean>(false)

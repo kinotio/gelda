@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { UserInformationType } from '@/lib/definitions'
 import { create } from '@/server/actions/users'
 
-export function useCreateUser() {
+export const useCreateUser = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [success, setSuccess] = useState<boolean>(false)

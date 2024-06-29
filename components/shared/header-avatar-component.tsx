@@ -19,7 +19,7 @@ import { useSignout } from '@/hooks/auth/use-signout'
 
 import { getInitials } from '@/lib/utils'
 
-export default function HeaderAvatarComponent() {
+const HeaderAvatarComponent = () => {
   const { loading, user } = useUser()
   const { signOut } = useSignout()
 
@@ -63,3 +63,5 @@ export default function HeaderAvatarComponent() {
     </>
   )
 }
+
+export { HeaderAvatarComponent }

@@ -1,4 +1,4 @@
-export function formatDate(date: string): string {
+export const formatDate = (date: string) => {
   let d = new Date(date)
   let day = d.getDate().toString().padStart(2, '0')
   let month = (d.getMonth() + 1).toString().padStart(2, '0')

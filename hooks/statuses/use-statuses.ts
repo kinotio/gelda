@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { getAll } from '@/server/actions/status'
 import { StatusType } from '@/lib/definitions'
 
-export function useStatuses() {
+export const useStatuses = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [success, setSuccess] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')

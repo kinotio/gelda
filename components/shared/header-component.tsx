@@ -5,10 +5,10 @@ import Image from 'next/image'
 import { BellIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import HeaderAvatarComponent from '@/components/shared/header-avatar-component'
+import { HeaderAvatarComponent } from '@/components/shared/header-avatar-component'
 import { PATH } from '@/lib/constants'
 
-export default function HeaderComponent() {
+const HeaderComponent = () => {
   return (
     <header className='bg-white text-gray-900 py-4 px-6 flex items-center justify-between'>
       <Link href={PATH.HOME}>
@@ -25,3 +25,5 @@ export default function HeaderComponent() {
     </header>
   )
 }
+
+export { HeaderComponent }

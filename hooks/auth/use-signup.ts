@@ -5,7 +5,7 @@ import { PATH } from '@/lib/constants'
 import { AuthSignUpFormType } from '@/lib/definitions'
 import { signup } from '@/server/actions/auth'
 
-export function useSignup() {
+export const useSignup = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [success, setSuccess] = useState<boolean>(false)

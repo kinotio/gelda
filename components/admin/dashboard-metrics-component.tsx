@@ -7,7 +7,7 @@ import { useTickets } from '@/hooks/tickets/use-tickets'
 
 import { STATUS_BY_NAME, RESOLUTION_BY_NAME } from '@/lib/constants'
 
-export default function DashboardMetricsComponent() {
+const DashboardMetricsComponent = () => {
   const { loading: usersLoading, users } = useUsers()
   const { loading: ticketsLoading, tickets } = useTickets()
 
@@ -73,3 +73,5 @@ export default function DashboardMetricsComponent() {
     </>
   )
 }
+
+export { DashboardMetricsComponent }

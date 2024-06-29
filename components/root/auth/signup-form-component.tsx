@@ -13,7 +13,7 @@ import { AuthSignUpFormType } from '@/lib/definitions'
 import { NAME_PATTERN, EMAIL_PATTERN, PASSWORD_PATTERN } from '@/lib/constants'
 import { useSignup } from '@/hooks/auth/use-signup'
 
-export default function SignupFormComponent() {
+const SignupFormComponent = () => {
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false)
   const [confirmPasswordVisibility, setconfirmPasswordVisibility] = useState<boolean>(false)
 
@@ -169,3 +169,5 @@ export default function SignupFormComponent() {
     </form>
   )
 }
+
+export { SignupFormComponent }

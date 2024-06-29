@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { getAll } from '@/server/actions/priorities'
 import { PriorityType } from '@/lib/definitions'
 
-export function usePriorities() {
+export const usePriorities = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [success, setSuccess] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')

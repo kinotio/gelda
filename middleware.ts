@@ -5,7 +5,7 @@ import { verify } from '@/lib/jsonwebtoken'
 
 import { PATH, TOKEN_NAME, ROLE_BY_NAME } from '@/lib/constants'
 
-export async function middleware(request: NextRequest) {
+const middleware = async (request: NextRequest) => {
   const token = request.cookies.get(TOKEN_NAME)?.value as string
   const path = request.nextUrl.pathname
 
@@ -46,3 +46,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = { matcher: ['/', '/auth/:path*', '/client/:path*', '/admin/:path*'] }
+
+export { middleware }

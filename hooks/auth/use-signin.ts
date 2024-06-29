@@ -6,7 +6,7 @@ import { useCookie } from '@/hooks/shared/use-cookie'
 import { CookieOptionsType, AuthSignInFormType } from '@/lib/definitions'
 import { signin } from '@/server/actions/auth'
 
-export function useSignin() {
+export const useSignin = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [success, setSuccess] = useState<boolean>(false)
