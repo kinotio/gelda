@@ -11,3 +11,9 @@ export const signupFormSchemaValidator = z.object({
   password: z.string().min(8, { message: 'Password is required' }),
   confirmPassword: z.string().min(8, { message: 'Confirm Password is required' })
 })
+
+export const ticketFormSchemaValidator = z.object({
+  title: z.string().min(16, { message: 'Title is required' }),
+  description: z.string(),
+  priorityId: z.number()
+})

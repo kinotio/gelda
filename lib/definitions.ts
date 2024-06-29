@@ -83,3 +83,13 @@ export type CookieOptionsType = {
   Secure?: boolean
   HttpOnly?: boolean
 }
+
+// Session Token-related types
+export type SessionTokenType = {
+  id: number
+  token: string
+  tokenVersion: number
+  userId: string
+  createdAt: string
+  updateAt: string
+}

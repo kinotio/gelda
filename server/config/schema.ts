@@ -67,6 +67,7 @@ const priority = {
 const sessionToken = {
   id: serial('id').primaryKey(),
   token: text('token').notNull(),
+  tokenVersion: integer('token_version').default(0),
   userId: uuid('user_id')
     .references(() => users.id)
     .notNull(),
