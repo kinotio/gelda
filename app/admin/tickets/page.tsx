@@ -17,7 +17,7 @@ import { DataTable } from '@/components/ui/datatable'
 import { useTickets } from '@/hooks/tickets/use-tickets'
 import { TicketInformationWithRelationType } from '@/lib/definitions'
 import { COLOR_BY_STATUS_ID, COLOR_BY_PRIORITY_ID, COLOR_BY_RESOLUTION_ID } from '@/lib/constants'
-import { formatDate } from '@/lib/dates'
+import { formatDate } from '@/lib/utils'
 
 export const columns: ColumnDef<TicketInformationWithRelationType>[] = [
   {
