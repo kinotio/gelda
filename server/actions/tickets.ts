@@ -1,6 +1,6 @@
 'use server'
 
-import { eq } from 'drizzle-orm'
+import { eq, desc } from 'drizzle-orm'
 
 import { response } from '@/server/lib/helpers'
 import { database } from '@/server/config/database'
@@ -32,7 +32,9 @@ export const getUserTickets = async (userId: string) => {
         status: true,
         priority: true,
         resolution: true
-      }
+      },
+      orderBy: [desc(tickets.createdAt)],
+      limit: 7
     })
     return response(true, 'Tickets fetched successfully', data)
   } catch (error) {
@@ -43,7 +45,12 @@ export const getUserTickets = async (userId: string) => {
 export const getById = async (id: string) => {
   try {
     const data = await database.query.tickets.findFirst({
-      where: eq(tickets.id, id)
+      where: eq(tickets.id, id),
+      with: {
+        status: true,
+        priority: true,
+        resolution: true
+      }
     })
     return response(true, 'Ticket fetched successfully', data)
   } catch (error) {

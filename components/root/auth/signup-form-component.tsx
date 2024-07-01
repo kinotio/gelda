@@ -48,6 +48,7 @@ const SignupFormComponent = () => {
         </Label>
         <div className='mt-1'>
           <Input
+            autoComplete='name'
             id='name'
             type='text'
             placeholder='John Doe'
@@ -66,6 +67,7 @@ const SignupFormComponent = () => {
         </Label>
         <div className='mt-1'>
           <Input
+            autoComplete='email'
             id='email'
             type='email'
             placeholder='john.doe@example.com'
@@ -85,6 +87,7 @@ const SignupFormComponent = () => {
         <div className='mt-1'>
           <div className='relative'>
             <Input
+              autoComplete='password'
               id='password'
               type={passwordVisibility ? 'text' : 'password'}
               placeholder='****************'
@@ -125,6 +128,7 @@ const SignupFormComponent = () => {
         <div className='mt-1'>
           <div className='relative'>
             <Input
+              autoComplete='confirmPassword'
               id='confirmPassword'
               type={confirmPasswordVisibility ? 'text' : 'password'}
               placeholder='****************'

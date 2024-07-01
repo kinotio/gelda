@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react'
 
 import { TicketInformationWithRelationType } from '@/lib/definitions'
 import { getUserTickets } from '@/server/actions/tickets'
+import { getById } from '@/server/actions/tickets'
 
 import { useUser } from '@/hooks/users/use-user'
+import { useRealtimeTicket } from '@/hooks/tickets/use-realtime-ticket'
 
 export const useUserTickets = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -13,6 +15,7 @@ export const useUserTickets = () => {
   const [tickets, setTickets] = useState<TicketInformationWithRelationType[]>()
 
   const { user } = useUser()
+  const { newTicket } = useRealtimeTicket()
 
   useEffect(() => {
     const fetch = async () => {
@@ -34,6 +37,18 @@ export const useUserTickets = () => {
 
     fetch()
   }, [user])
+
+  useEffect(() => {
+    const fetch = async () => {
+      if (newTicket && newTicket.creator_id === user?.id) {
+        const { data } = await getById(newTicket.id)
+        setTickets((prevTickets) => [data, ...(prevTickets || [])])
+      }
+    }
+
+    fetch()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newTicket])
 
   return { tickets, message, success, loading }
 }

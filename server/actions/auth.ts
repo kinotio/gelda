@@ -2,7 +2,7 @@
 
 import { eq } from 'drizzle-orm'
 
-import { hash, compare } from '@/server/lib/bcrypt'
+import { hash, compare, generateSalt } from '@/server/lib/bcrypt'
 import { sign } from '@/lib/jsonwebtoken'
 import { signinFormSchemaValidator, signupFormSchemaValidator } from '@/server/lib/validators'
 import { PG_UNIQUE_VIOLATION_ERROR_CODE, ROLE_BY_NAME } from '@/lib/constants'
@@ -60,13 +60,14 @@ export const signup = async (form: AuthSignUpFormType) => {
   }
 
   try {
-    const hashedPassword = await hash(data.password)
+    const salt = await generateSalt()
+    const hashedPassword = await hash(data.password, salt)
     const user: UserInformationType = {
       name: data.name,
       email: data.email,
       hashedPassword,
       roleId: ROLE_BY_NAME.CLIENT
-    } as UserInformationType
+    }
 
     await database.insert(users).values(user)
 

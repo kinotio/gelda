@@ -59,6 +59,20 @@ export type TicketInformationFormType = {
   priorityId: number
 }
 
+export type TicketInformationFromRealtimeType = {
+  created_at: string
+  creator_id: string
+  description: string
+  id: string
+  priority_id: number
+  reference: number
+  resolution_id: number | undefined
+  responsible_id: string | undefined
+  status_id: number
+  title: string
+  updated_at: string | undefined
+}
+
 // Common-related types
 export type CommonIdAndNameType = {
   id: number
