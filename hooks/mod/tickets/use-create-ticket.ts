@@ -5,7 +5,7 @@ import { STATUS_BY_NAME, TOKEN_NAME } from '@/lib/constants'
 
 import { create } from '@/server/actions/tickets'
 
-import { useUser } from '@/hooks/users/use-user'
+import { useUser } from '@/hooks/mod/users/use-user'
 
 export const useCreateTicket = () => {
   const [loading, setLoading] = useState<boolean>(false)

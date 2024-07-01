@@ -6,6 +6,7 @@ export const sign = async (payload: JWTPayload) => {
 }
 
 export const verify = async (token: string) => {
+  if (!token) return null
   const { payload } = await jwtVerify(
     token,
     new TextEncoder().encode(process.env.ACCESS_TOKEN_SECRET),
@@ -17,6 +18,7 @@ export const verify = async (token: string) => {
 }
 
 export const decode = (token: string) => {
+  if (!token) return null
   const claims = decodeJwt(token)
   return claims
 }

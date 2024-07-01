@@ -21,8 +21,8 @@ import { ErrorMessage } from '@/components/ui/shared/error-message'
 
 import { TicketInformationFormType } from '@/lib/definitions'
 
-import { useCreateTicket } from '@/hooks/tickets/use-create-ticket'
-import { usePriorities } from '@/hooks/priorities/use-priorities'
+import { useCreateTicket } from '@/hooks/mod/tickets/use-create-ticket'
+import { usePriorities } from '@/hooks/mod/priorities/use-priorities'
 
 const CardCreateTicketComponent = () => {
   const { createTicket, loading, message, success } = useCreateTicket()

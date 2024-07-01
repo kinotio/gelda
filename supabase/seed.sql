@@ -27,7 +27,7 @@ INSERT INTO statuses (name) VALUES
 INSERT INTO priorities (name) VALUES
 ('low'),
 ('medium'),
-('high'),
+('high');
 
 /**
  * Seed data for 'resolutions'  table.
