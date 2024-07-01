@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { getAll } from '@/server/actions/status'
+import { getAllStatusesQuery } from '@/server/actions/mod/statuses/queries'
 import { StatusType } from '@/lib/definitions'
 
 export const useStatuses = () => {
@@ -14,7 +14,7 @@ export const useStatuses = () => {
     const fetch = async () => {
       setLoading(true)
       try {
-        const { success, message, data } = await getAll()
+        const { success, message, data } = await getAllStatusesQuery()
         if (success && data) setStatuses(data)
         setMessage(message)
         setSuccess(success)
