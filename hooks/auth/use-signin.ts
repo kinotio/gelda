@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { PATH, TOKEN_NAME } from '@/lib/constants'
 import { useCookie } from '@/hooks/shared/use-cookie'
 import { CookieOptionsType, AuthSignInFormType } from '@/lib/definitions'
-import { signin } from '@/server/actions/auth'
+import { signInMutation } from '@/server/actions/mod/auth/mutations'
 
 export const useSignin = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -21,7 +21,7 @@ export const useSignin = () => {
   const signIn = async (form: AuthSignInFormType) => {
     setLoading(true)
     try {
-      const { success, message, data } = await signin(form)
+      const { success, message, data } = await signInMutation(form)
       setMessage(message)
       setSuccess(success)
       if (success && data) {
