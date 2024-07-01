@@ -2,8 +2,8 @@
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 
-import { useUsers } from '@/hooks/users/use-users'
-import { useTickets } from '@/hooks/tickets/use-tickets'
+import { useUsers } from '@/hooks/mod/users/use-users'
+import { useTickets } from '@/hooks/mod/tickets/use-tickets'
 
 import { STATUS_BY_NAME, RESOLUTION_BY_NAME } from '@/lib/constants'
 

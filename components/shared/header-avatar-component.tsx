@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 
-import { useUser } from '@/hooks/users/use-user'
+import { useUser } from '@/hooks/mod/users/use-user'
 import { useSignout } from '@/hooks/auth/use-signout'
 
 import { getInitials } from '@/lib/utils'

@@ -4,8 +4,8 @@ import { TicketInformationWithRelationType } from '@/lib/definitions'
 import { getUserTickets } from '@/server/actions/tickets'
 import { getById } from '@/server/actions/tickets'
 
-import { useUser } from '@/hooks/users/use-user'
-import { useRealtimeTicket } from '@/hooks/tickets/use-realtime-ticket'
+import { useUser } from '@/hooks/mod/users/use-user'
+import { useRealtimeTicket } from '@/hooks/mod/tickets/use-realtime-ticket'
 
 export const useUserTickets = () => {
   const [loading, setLoading] = useState<boolean>(false)
