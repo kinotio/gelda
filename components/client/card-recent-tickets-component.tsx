@@ -18,26 +18,30 @@ import { COLOR_BY_PRIORITY_ID, COLOR_BY_STATUS_ID } from '@/lib/constants'
 const CardRecentTicketsComponent = () => {
   const { tickets } = useUserTickets()
 
+  const hasTickets = Array.isArray(tickets) && tickets.length > 0
+
   return (
     <Card>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
         <CardTitle className='text-sm font-medium'>Recent Tickets</CardTitle>
-        <Link className='text-sm text-gray-500 dark:text-gray-400' href='#'>
-          View all
-        </Link>
+        {hasTickets ? (
+          <Link className='text-sm text-gray-500 dark:text-gray-400' href='#'>
+            View all
+          </Link>
+        ) : null}
       </CardHeader>
       <CardContent className='h-[500px] overflow-auto'>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Ref</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Priority</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {Array.isArray(tickets) && tickets.length > 0 ? (
+        {hasTickets ? (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Ref</TableHead>
+                <TableHead>Title</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Priority</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               <>
                 {tickets.map((ticket) => (
                   <TableRow key={ticket.id}>
@@ -68,9 +72,15 @@ const CardRecentTicketsComponent = () => {
                   </TableRow>
                 ))}
               </>
-            ) : null}
-          </TableBody>
-        </Table>
+            </TableBody>
+          </Table>
+        ) : (
+          <div className='flex justify-center mt-12 items-center'>
+            <span className='text-sm w-80 text-center'>
+              Oops! No tickets found. Looks like it&apos;s time to create a new ticket!
+            </span>
+          </div>
+        )}
       </CardContent>
     </Card>
   )

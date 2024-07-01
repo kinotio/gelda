@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import { TicketInformationWithRelationType } from '@/lib/definitions'
-import { getUserTickets } from '@/server/actions/tickets'
-import { getById } from '@/server/actions/tickets'
+import { getAllClientTicketsQuery, getTicketByIdQuery } from '@/server/actions/mod/tickets/queries'
 
 import { useUser } from '@/hooks/mod/users/use-user'
 import { useRealtimeTicket } from '@/hooks/mod/tickets/use-realtime-ticket'
@@ -21,7 +20,7 @@ export const useUserTickets = () => {
     const fetch = async () => {
       setLoading(true)
       try {
-        const { success, message, data } = await getUserTickets(user?.id as string)
+        const { success, message, data } = await getAllClientTicketsQuery(user?.id as string)
         if (success && data) setTickets(data)
         setMessage(message)
         setSuccess(success)
@@ -41,7 +40,7 @@ export const useUserTickets = () => {
   useEffect(() => {
     const fetch = async () => {
       if (newTicket && newTicket.creator_id === user?.id) {
-        const { data } = await getById(newTicket.id)
+        const { data } = await getTicketByIdQuery(newTicket.id)
         setTickets((prevTickets) => [data, ...(prevTickets || [])])
       }
     }
