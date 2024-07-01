@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import { TicketInformationType } from '@/lib/definitions'
-import { getById } from '@/server/actions/tickets'
+import { getTicketByIdQuery } from '@/server/actions/mod/tickets/queries'
 
 export const useTicket = (id: string) => {
   const [ticket, setTicket] = useState<TicketInformationType>()
@@ -14,7 +14,7 @@ export const useTicket = (id: string) => {
     const fetch = async () => {
       setLoading(true)
       try {
-        const { success, message, data } = await getById(id)
+        const { success, message, data } = await getTicketByIdQuery(id)
         if (success && data) setTicket(data)
         setMessage(message)
         setSuccess(success)

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import { TicketInformationWithRelationType } from '@/lib/definitions'
-import { getAll } from '@/server/actions/tickets'
+import { getAllTicketsQuery } from '@/server/actions/mod/tickets/queries'
 
 export const useTickets = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -14,7 +14,7 @@ export const useTickets = () => {
     const fetch = async () => {
       setLoading(true)
       try {
-        const { success, message, data } = await getAll()
+        const { success, message, data } = await getAllTicketsQuery()
         if (success && data) setTickets(data)
         setMessage(message)
         setSuccess(success)

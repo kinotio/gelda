@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { TicketInformationFormType } from '@/lib/definitions'
 import { STATUS_BY_NAME, TOKEN_NAME } from '@/lib/constants'
 
-import { create } from '@/server/actions/tickets'
+import { createTicketMutation } from '@/server/actions/mod/tickets/mutations'
 
 import { useUser } from '@/hooks/mod/users/use-user'
 
@@ -25,7 +25,7 @@ export const useCreateTicket = () => {
         statusId: STATUS_BY_NAME.OPEN,
         creatorId: user?.id as string
       }
-      const { success, message } = await create(ticket)
+      const { success, message } = await createTicketMutation(ticket)
       if (success) {
         setMessage(message)
         setSuccess(success)
