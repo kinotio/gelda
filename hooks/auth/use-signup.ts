@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 
 import { PATH } from '@/lib/constants'
 import { AuthSignUpFormType } from '@/lib/definitions'
-import { signup } from '@/server/actions/auth'
+import { signUpMutation } from '@/server/actions/mod/auth/mutations'
 
 export const useSignup = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -15,7 +15,7 @@ export const useSignup = () => {
   const signUp = async (form: AuthSignUpFormType) => {
     setLoading(true)
     try {
-      const { success, message } = await signup(form)
+      const { success, message } = await signUpMutation(form)
       setMessage(message)
       setSuccess(success)
       if (success) {
