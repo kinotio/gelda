@@ -2,6 +2,11 @@ import { sign } from 'jsonwebtoken'
 
 import { UserInformationType, SessionTokenType } from '@/lib/definitions'
 
+if (!process.env.ACCESS_TOKEN_SECRET || !process.env.REFRESH_TOKEN_SECRET)
+  throw new Error(
+    'An error occurred ACCESS_TOKEN_SECRET or REFRESH_TOKEN_SECRET is not defined in .env file'
+  )
+
 export const response = (success: boolean, message: string, data?: any) => {
   return { success, message, data }
 }

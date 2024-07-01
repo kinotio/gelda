@@ -45,6 +45,7 @@ const SigninFormComponent = () => {
         </Label>
         <div className='mt-1'>
           <Input
+            autoComplete='email'
             id='email'
             type='email'
             placeholder='john.doe@example.com'
@@ -64,6 +65,7 @@ const SigninFormComponent = () => {
         <div className='mt-1'>
           <div className='relative'>
             <Input
+              autoComplete='password'
               id='password'
               type={passwordVisibility ? 'text' : 'password'}
               placeholder='****************'

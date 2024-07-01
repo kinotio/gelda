@@ -1,4 +1,4 @@
-import Headercomponent from '@/components/root/header-component'
+import { HeaderComponent } from '@/components/root/header-component'
 import { Footercomponent } from '@/components/root/footer-component'
 
 const Layout = ({
@@ -8,7 +8,7 @@ const Layout = ({
 }>) => {
   return (
     <>
-      <Headercomponent />
+      <HeaderComponent />
       {children}
       <Footercomponent />
     </>

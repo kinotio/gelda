@@ -21,7 +21,7 @@ export const useCreateTicket = () => {
       const ticket = {
         title: title.trim(),
         description: description.trim(),
-        priorityId,
+        priorityId: parseInt(priorityId.toString()),
         statusId: STATUS_BY_NAME.OPEN,
         creatorId: user?.id as string
       }

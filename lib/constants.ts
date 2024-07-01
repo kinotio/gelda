@@ -34,8 +34,7 @@ export const STATUS_BY_NAME = {
 export const PRIORITY_BY_NAME = {
   LOW: 1,
   MEDIUM: 2,
-  HIGH: 3,
-  URGENT: 4
+  HIGH: 3
 }
 
 export const RESOLUTION_BY_NAME = {

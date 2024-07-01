@@ -18,11 +18,12 @@ export const useUser = () => {
 
   const { signOut } = useSignout()
 
+  const { user_id } = decode(getCookie(TOKEN_NAME))
+
   useEffect(() => {
     const fetch = async () => {
       setLoading(true)
       try {
-        const { user_id } = decode(getCookie(TOKEN_NAME))
         const { success, message, data } = await getById(user_id as string)
         if (!data) signOut()
         if (success && data) setUser(data)
@@ -40,7 +41,7 @@ export const useUser = () => {
 
     fetch()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [user_id])
 
   return { user, loading, message, success }
 }

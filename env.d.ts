@@ -2,11 +2,13 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       NODE_ENV: 'development' | 'production'
-      SUPABASE_DATABASE_URL: string
-      ACCESS_TOKEN_SECRET: string
-      REFRESH_TOKEN_SECRET: string
+
       SUPABASE_URL: string
       SUPABASE_ANON_KEY: string
+      SUPABASE_DATABASE_URL: string
+
+      ACCESS_TOKEN_SECRET: string
+      REFRESH_TOKEN_SECRET: string
     }
   }
 }
