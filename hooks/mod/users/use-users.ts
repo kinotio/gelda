@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import { UserInformationPublicType } from '@/lib/definitions'
-import { getAll } from '@/server/actions/users'
+import { getAllUsersQuery } from '@/server/actions/mod/users/queries'
 
 export const useUsers = () => {
   const [users, setUsers] = useState<UserInformationPublicType[]>()
@@ -14,7 +14,7 @@ export const useUsers = () => {
     const fetch = async () => {
       setLoading(true)
       try {
-        const { success, message, data } = await getAll()
+        const { success, message, data } = await getAllUsersQuery()
         if (success && data) setUsers(data)
         setMessage(message)
         setSuccess(success)

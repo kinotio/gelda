@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { UserInformationType } from '@/lib/definitions'
-import { create } from '@/server/actions/users'
+import { createUserMutation } from '@/server/actions/mod/users/mutations'
 
 export const useCreateUser = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -11,7 +11,7 @@ export const useCreateUser = () => {
   const createUser = async (user: UserInformationType) => {
     setLoading(true)
     try {
-      const { success, message } = await create(user)
+      const { success, message } = await createUserMutation(user)
       setMessage(message)
       setSuccess(success)
       setLoading(false)
