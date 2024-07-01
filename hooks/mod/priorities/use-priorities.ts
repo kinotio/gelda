@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { getAll } from '@/server/actions/priorities'
+import { getAllPrioritiesQuery } from '@/server/actions/mod/priorities/queries'
 import { PriorityType } from '@/lib/definitions'
 
 export const usePriorities = () => {
@@ -14,7 +14,7 @@ export const usePriorities = () => {
     const fetch = async () => {
       setLoading(true)
       try {
-        const { success, message, data } = await getAll()
+        const { success, message, data } = await getAllPrioritiesQuery()
         if (success && data) setPriorities(data)
         setMessage(message)
         setSuccess(success)
