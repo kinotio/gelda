@@ -1,6 +1,10 @@
+import type { Metadata } from 'next'
+
 import { HeaderComponent } from '@/components/shared/header-component'
 import { Footercomponent } from '@/components/shared/footer-component'
 import { FloatingMenuComponent } from '@/components/shared/floating-menu-component'
+
+export const metadata: Metadata = { title: 'Gelda | Admin Dashboard' }
 
 const Layout = ({
   children

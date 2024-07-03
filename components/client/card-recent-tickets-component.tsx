@@ -11,12 +11,13 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
+import { LoaderComponent } from '@/components/shared/loader'
 
 import { useUserTickets } from '@/hooks/mod/tickets/use-user-tickets'
 import { COLOR_BY_PRIORITY_ID, COLOR_BY_STATUS_ID } from '@/lib/constants'
 
 const CardRecentTicketsComponent = () => {
-  const { tickets } = useUserTickets()
+  const { tickets, loading } = useUserTickets()
 
   const hasTickets = Array.isArray(tickets) && tickets.length > 0
 
@@ -30,58 +31,64 @@ const CardRecentTicketsComponent = () => {
           </Link>
         ) : null}
       </CardHeader>
-      <CardContent className='h-[500px] overflow-auto'>
-        {hasTickets ? (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Ref</TableHead>
-                <TableHead>Title</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Priority</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <>
-                {tickets.map((ticket) => (
-                  <TableRow key={ticket.id}>
-                    <TableCell>
-                      <Link className='font-medium' href='#'>
-                        #{ticket.reference}
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      <Link className='font-medium' href='#'>
-                        {ticket.title}
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      <div
-                        className={`capitalize inline-flex items-center gap-2 rounded-full px-2 py-1 text-xs font-medium ${COLOR_BY_STATUS_ID[ticket.statusId]}`}
-                      >
-                        {ticket.status?.name}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div
-                        className={`capitalize inline-flex items-center gap-2 rounded-full px-2 py-1 text-xs font-medium ${COLOR_BY_PRIORITY_ID[ticket.priorityId]}`}
-                      >
-                        {ticket.priority?.name}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </>
-            </TableBody>
-          </Table>
-        ) : (
-          <div className='flex justify-center mt-12 items-center'>
-            <span className='text-sm w-80 text-center'>
-              Oops! No tickets found. Looks like it&apos;s time to create a new ticket!
-            </span>
-          </div>
-        )}
-      </CardContent>
+      {loading ? (
+        <div className='flex w-full justify-center items-center mt-32'>
+          <LoaderComponent />
+        </div>
+      ) : (
+        <CardContent className='h-[500px] overflow-auto'>
+          {hasTickets ? (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Ref</TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Priority</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <>
+                  {tickets.map((ticket) => (
+                    <TableRow key={ticket.id}>
+                      <TableCell>
+                        <Link className='font-medium' href='#'>
+                          #{ticket.reference}
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        <Link className='font-medium' href='#'>
+                          {ticket.title}
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          className={`capitalize inline-flex items-center gap-2 rounded-full px-2 py-1 text-xs font-medium ${COLOR_BY_STATUS_ID[ticket.statusId]}`}
+                        >
+                          {ticket.status?.name}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          className={`capitalize inline-flex items-center gap-2 rounded-full px-2 py-1 text-xs font-medium ${COLOR_BY_PRIORITY_ID[ticket.priorityId]}`}
+                        >
+                          {ticket.priority?.name}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </>
+              </TableBody>
+            </Table>
+          ) : (
+            <div className='flex justify-center mt-12 items-center'>
+              <span className='text-sm w-80 text-center'>
+                Oops! No tickets found. Looks like it&apos;s time to create a new one !
+              </span>
+            </div>
+          )}
+        </CardContent>
+      )}
     </Card>
   )
 }

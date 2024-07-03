@@ -1,4 +1,7 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+
+export const metadata: Metadata = { title: 'Gelda | Sign Up' }
 
 import { SignupFormComponent } from '@/components/root/auth/signup-form-component'
 // import {SocialAuthComponent} from '@/components/root/auth/social-auth-component'

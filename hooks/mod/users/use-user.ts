@@ -17,8 +17,11 @@ export const useUser = () => {
   const [success, setSuccess] = useState<boolean>(false)
 
   const { signOut } = useSignout()
+  const cookie = getCookie(TOKEN_NAME)
 
-  const { user_id } = decode(getCookie(TOKEN_NAME)) as { user_id: string }
+  if (!cookie) signOut()
+
+  const { user_id } = decode(cookie) as { user_id: string }
 
   useEffect(() => {
     const fetch = async () => {
