@@ -39,7 +39,7 @@ const CardOpenedTicketsComponent = () => {
                         {ticket.status?.name}
                       </div>
                       <Link className='font-medium' href='#'>
-                        {ticket.title}
+                        #{ticket.reference} {ticket.title}
                       </Link>
                     </div>
                     <div
