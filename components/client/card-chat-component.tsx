@@ -1,10 +1,18 @@
+'use client'
+
 import { PlusIcon, SendIcon } from 'lucide-react'
 
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
+import { useAi } from '@/hooks/shared/use-ai'
+
 const CardChatComponent = () => {
+  const { content } = useAi()
+
+  console.log(content)
+
   return (
     <Card>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
