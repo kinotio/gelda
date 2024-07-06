@@ -17,11 +17,12 @@ const middleware = async (request: NextRequest) => {
   }
 
   try {
-    const { role_id } = await verify(token)
+    const verifiedToken = await verify(token)
+    const roleId = verifiedToken ? verifiedToken.role_id : null
 
     if (path === PATH.SIGNIN || path === PATH.SIGNUP) {
       return NextResponse.redirect(new URL(PATH.HOME, request.url))
-    } else if (role_id === ROLE_BY_NAME.CLIENT) {
+    } else if (roleId === ROLE_BY_NAME.CLIENT) {
       if (path.startsWith(PATH.ADMIN)) {
         return NextResponse.redirect(new URL(PATH.CLIENT, request.url))
       }
@@ -29,7 +30,7 @@ const middleware = async (request: NextRequest) => {
       return path.startsWith(PATH.CLIENT)
         ? NextResponse.next()
         : NextResponse.redirect(new URL(PATH.CLIENT, request.url))
-    } else if (role_id === ROLE_BY_NAME.ADMIN) {
+    } else if (roleId === ROLE_BY_NAME.ADMIN) {
       if (path.startsWith(PATH.CLIENT)) {
         return NextResponse.redirect(new URL(PATH.ADMIN_DASHBOARD, request.url))
       }

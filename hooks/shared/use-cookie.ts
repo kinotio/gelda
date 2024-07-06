@@ -55,8 +55,6 @@ export const setCookie = (key: string, value: string, options: CookieOptionsType
 }
 
 export const getCookie = (name: string, initialValue = '') => {
-  if (typeof window === 'undefined') return initialValue
-
   return (
     document.cookie.split('; ').reduce((r, v) => {
       const parts = v.split('=')
