@@ -6,7 +6,7 @@ import { decode } from '@/lib/jsonwebtoken'
 
 import { getUserByIdQuery } from '@/server/actions/mod/users/queries'
 
-import { getCookie } from '@/hooks/shared/use-cookie'
+import { useCookie } from '@/hooks/shared/use-cookie'
 import { useSignout } from '@/hooks/auth/use-signout'
 
 export const useUser = () => {
@@ -16,18 +16,19 @@ export const useUser = () => {
   const [message, setMessage] = useState<string>('')
   const [success, setSuccess] = useState<boolean>(false)
 
+  const [cookie, _] = useCookie(TOKEN_NAME, '')
   const { signOut } = useSignout()
-  const cookie = getCookie(TOKEN_NAME)
 
-  if (!cookie) signOut()
+  if (cookie === '' || cookie === undefined) signOut()
 
-  const { user_id } = decode(cookie) as { user_id: string }
+  const decodedCookie = decode(cookie as string)
+  const userId = decodedCookie ? decodedCookie.user_id : null
 
   useEffect(() => {
     const fetch = async () => {
       setLoading(true)
       try {
-        const { success, message, data } = await getUserByIdQuery(user_id as string)
+        const { success, message, data } = await getUserByIdQuery(userId as string)
         if (!data) signOut()
         if (success && data) setUser(data)
         setMessage(message)
@@ -44,7 +45,7 @@ export const useUser = () => {
 
     fetch()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user_id])
+  }, [])
 
   return { user, loading, message, success }
 }
