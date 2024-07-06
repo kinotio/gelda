@@ -6,6 +6,14 @@
   />
 </p>
 
+<p align="center">
+  <img
+    src="demo.png"
+    alt="Demo"
+    style="width:100%;"
+  />
+</p>
+
 ![build](https://github.com/kinotio/gelda/workflows/build/badge.svg)
 ![license](https://img.shields.io/github/license/kinotio/gelda?color=success)
 
