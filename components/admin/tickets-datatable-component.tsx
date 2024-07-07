@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { DataTable } from '@/components/ui/datatable'
-import { LoaderComponent } from '../shared/loader'
+import { LoaderComponent } from '../ui/shared/loader'
 
 import { useTickets } from '@/hooks/mod/tickets/use-tickets'
 

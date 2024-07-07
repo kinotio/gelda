@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { LoaderComponent } from '@/components/shared/loader'
+import { LoaderComponent } from '@/components/ui/shared/loader'
 
 import { useUserTickets } from '@/hooks/mod/tickets/use-user-tickets'
 import { COLOR_BY_PRIORITY_ID, COLOR_BY_STATUS_ID } from '@/lib/constants'

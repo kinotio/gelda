@@ -3,6 +3,8 @@ import type { Metadata } from 'next'
 import { HeaderComponent } from '@/components/shared/header-component'
 import { Footercomponent } from '@/components/shared/footer-component'
 
+import { Toaster } from '@/components/ui/toaster'
+
 export const metadata: Metadata = { title: 'Gelda | Client Dashboard' }
 
 const Layout = ({
@@ -15,6 +17,7 @@ const Layout = ({
       <HeaderComponent />
       {children}
       <Footercomponent />
+      <Toaster />
     </div>
   )
 }
