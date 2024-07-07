@@ -164,7 +164,7 @@ const columns: ColumnDef<TicketInformationWithRelationType>[] = [
   }
 ]
 
-const TicketsDatatableComponent = () => {
+const TicketsDatatable = () => {
   const { loading, tickets } = useTickets()
 
   return (
@@ -184,4 +184,4 @@ const TicketsDatatableComponent = () => {
   )
 }
 
-export { TicketsDatatableComponent }
+export { TicketsDatatable }

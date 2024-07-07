@@ -7,7 +7,7 @@ import { UsersIcon, TicketIcon, SettingsIcon, BotIcon, BarChartBigIcon } from 'l
 
 import { PATH } from '@/lib/constants'
 
-const SidebarComponent = () => {
+const Sidebar = () => {
   const pathname = usePathname()
 
   return (
@@ -68,4 +68,4 @@ const SidebarComponent = () => {
   )
 }
 
-export { SidebarComponent }
+export { Sidebar }

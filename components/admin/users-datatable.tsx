@@ -89,7 +89,7 @@ export const columns: ColumnDef<UserInformationPublicType>[] = [
   }
 ]
 
-const UsersDatatableComponent = () => {
+const UsersDatatable = () => {
   const { loading, users } = useUsers()
 
   return (
@@ -109,4 +109,4 @@ const UsersDatatableComponent = () => {
   )
 }
 
-export { UsersDatatableComponent }
+export { UsersDatatable }
