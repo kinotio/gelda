@@ -1,5 +1,4 @@
 import { Settings } from '@/components/shared/settings'
-import { AiSettings } from '@/components/admin/ai-setting'
 
 const Page = () => {
   return (
@@ -11,7 +10,6 @@ const Page = () => {
           </div>
 
           <Settings />
-          <AiSettings />
         </div>
       </section>
     </div>

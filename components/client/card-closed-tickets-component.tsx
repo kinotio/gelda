@@ -3,7 +3,7 @@
 import Link from 'next/link'
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { LoaderComponent } from '@/components/shared/loader'
+import { LoaderComponent } from '@/components/ui/shared/loader'
 
 import { useUserClosedTickets } from '@/hooks/mod/tickets/use-user-tickets'
 import { COLOR_BY_PRIORITY_ID } from '@/lib/constants'

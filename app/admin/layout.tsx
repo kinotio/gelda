@@ -4,6 +4,8 @@ import { HeaderComponent } from '@/components/shared/header-component'
 import { Footercomponent } from '@/components/shared/footer-component'
 import { FloatingMenuComponent } from '@/components/shared/floating-menu-component'
 
+import { Toaster } from '@/components/ui/toaster'
+
 export const metadata: Metadata = { title: 'Gelda | Admin Dashboard' }
 
 const Layout = ({
@@ -17,6 +19,7 @@ const Layout = ({
       {children}
       <Footercomponent />
       <FloatingMenuComponent />
+      <Toaster />
     </div>
   )
 }

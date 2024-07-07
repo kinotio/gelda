@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { LoaderComponent } from '../shared/loader'
+import { LoaderComponent } from '../ui/shared/loader'
 
 import { useUsers } from '@/hooks/mod/users/use-users'
 import { useTickets } from '@/hooks/mod/tickets/use-tickets'
