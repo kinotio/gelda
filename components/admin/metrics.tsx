@@ -8,7 +8,7 @@ import { useTickets } from '@/hooks/mod/tickets/use-tickets'
 
 import { STATUS_BY_NAME, RESOLUTION_BY_NAME } from '@/lib/constants'
 
-const DashboardMetricsComponent = () => {
+const Metrics = () => {
   const { loading: usersLoading, users } = useUsers()
   const { loading: ticketsLoading, tickets } = useTickets()
 
@@ -79,4 +79,4 @@ const DashboardMetricsComponent = () => {
   )
 }
 
-export { DashboardMetricsComponent }
+export { Metrics }
