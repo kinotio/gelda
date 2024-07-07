@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-const HeroComponent = () => {
+const Hero = () => {
   return (
     <section className='w-full pt-12'>
       <div className='px-4 md:px-6 space-y-10 xl:space-y-16'>
@@ -28,4 +28,4 @@ const HeroComponent = () => {
   )
 }
 
-export { HeroComponent }
+export { Hero }
