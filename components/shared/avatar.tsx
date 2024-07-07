@@ -2,7 +2,7 @@
 
 import { LifeBuoy, LogOut, Settings, User } from 'lucide-react'
 
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Avatar as AvatarRoot, AvatarFallback } from '@/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +19,7 @@ import { useSignout } from '@/hooks/auth/use-signout'
 
 import { getInitials } from '@/lib/utils'
 
-const HeaderAvatarComponent = () => {
+const Avatar = () => {
   const { loading, user } = useUser()
   const { signOut } = useSignout()
 
@@ -29,9 +29,9 @@ const HeaderAvatarComponent = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className='rounded-full' size='icon' variant='ghost'>
-              <Avatar>
+              <AvatarRoot>
                 <AvatarFallback>{getInitials(user)}</AvatarFallback>
-              </Avatar>
+              </AvatarRoot>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className='min-w-56 mr-2 mt-2'>
@@ -64,4 +64,4 @@ const HeaderAvatarComponent = () => {
   )
 }
 
-export { HeaderAvatarComponent }
+export { Avatar }

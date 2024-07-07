@@ -16,7 +16,7 @@ import { LoaderComponent } from '@/components/ui/shared/loader'
 import { useUserTickets } from '@/hooks/mod/tickets/use-user-tickets'
 import { COLOR_BY_PRIORITY_ID, COLOR_BY_STATUS_ID } from '@/lib/constants'
 
-const CardRecentTicketsComponent = () => {
+const RecentTickets = () => {
   const { tickets, loading } = useUserTickets()
 
   const hasTickets = Array.isArray(tickets) && tickets.length > 0
@@ -93,4 +93,4 @@ const CardRecentTicketsComponent = () => {
   )
 }
 
-export { CardRecentTicketsComponent }
+export { RecentTickets }

@@ -1,22 +1,23 @@
-import { CardCreateTicketComponent } from '@/components/client/card-create-ticket-component'
-import { CardChatComponent } from '@/components/client/card-chat-component'
-import { CardRecentTicketsComponent } from '@/components/client/card-recent-tickets-component'
-import { CardOpenedTicketsComponent } from '@/components/client/card-opened-tickets-component'
-import { CardClosedTicketsComponent } from '@/components/client/card-closed-tickets-component'
-import { CardResponsiblesComponent } from '@/components/client/card-responsibles-component'
+import { CreateTicket } from '@/components/client/create-ticket'
+import { Chat } from '@/components/client/chat'
+import { RecentTickets } from '@/components/client/recent-tickets'
+
+import { OpenedTickets } from '@/components/client/opened-tickets'
+import { ClosedTickets } from '@/components/client/closed-tickets'
+import { Responsibles } from '@/components/client/responsibles'
 
 const Page = () => {
   return (
     <div className='flex min-h-[calc(90vh_-_theme(spacing.16))] flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10'>
       <div className='grid gap-4 lg:grid-cols-3'>
-        <CardCreateTicketComponent />
-        <CardRecentTicketsComponent />
-        <CardChatComponent />
+        <CreateTicket />
+        <RecentTickets />
+        <Chat />
       </div>
       <div className='grid gap-4 lg:grid-cols-3'>
-        <CardOpenedTicketsComponent />
-        <CardClosedTicketsComponent />
-        <CardResponsiblesComponent />
+        <OpenedTickets />
+        <ClosedTickets />
+        <Responsibles />
       </div>
     </div>
   )
