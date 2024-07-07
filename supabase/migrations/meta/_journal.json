@@ -15,6 +15,13 @@
       "when": 1719681643951,
       "tag": "0001_handy_tomas",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1720373181344,
+      "tag": "0002_sour_frank_castle",
+      "breakpoints": true
     }
   ]
 }

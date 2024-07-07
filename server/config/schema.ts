@@ -1,4 +1,4 @@
-import { integer, timestamp, pgTable, text, serial, uuid } from 'drizzle-orm/pg-core'
+import { integer, timestamp, pgTable, text, serial, uuid, boolean } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 
 // Schema
@@ -74,6 +74,28 @@ const sessionToken = {
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow()
 }
 
+const aiConfiguration = {
+  id: serial('id').primaryKey(),
+  provider: text('provider').notNull(),
+  model: text('model').notNull(),
+  aiKeyId: integer('ai_key_id')
+    .references(() => aiKeys.id)
+    .notNull(),
+  creatorId: uuid('creator_id')
+    .references(() => users.id)
+    .notNull(),
+  global: boolean('global').default(false),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow(),
+  updatedAt: timestamp('updated_at', { mode: 'date' })
+}
+
+const aiKey = {
+  id: serial('id').primaryKey(),
+  hashedKey: text('hashed_key').notNull(),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow(),
+  updatedAt: timestamp('updated_at', { mode: 'date' })
+}
+
 // Table
 export const users = pgTable('users', user)
 export const tickets = pgTable('tickets', ticket)
@@ -82,13 +104,16 @@ export const statuses = pgTable('statuses', status)
 export const resolutions = pgTable('resolutions', resolution)
 export const priorities = pgTable('priorities', priority)
 export const sessionTokens = pgTable('session_tokens', sessionToken)
+export const aiConfigurations = pgTable('ai_configurations', aiConfiguration)
+export const aiKeys = pgTable('ai_keys', aiKey)
 
 // Relations
 export const usersRelations = relations(users, ({ one, many }) => ({
   createdTickets: many(tickets),
   responsibleOfTickets: many(tickets),
   role: one(roles, { fields: [users.roleId], references: [roles.id] }),
-  sessionTokens: many(sessionTokens)
+  sessionTokens: many(sessionTokens),
+  aiConfiguration: one(aiConfigurations)
 }))
 
 export const ticketsRelations = relations(tickets, ({ one }) => ({
@@ -122,6 +147,17 @@ export const sessionTokensRelations = relations(sessionTokens, ({ one }) => ({
   user: one(users, { fields: [sessionTokens.userId], references: [users.id] })
 }))
 
+export const aiConfigurationsRelations = relations(aiConfigurations, ({ one }) => ({
+  creator: one(users, {
+    fields: [aiConfigurations.creatorId],
+    references: [users.id]
+  }),
+  key: one(aiKeys, {
+    fields: [aiConfigurations.aiKeyId],
+    references: [aiKeys.id]
+  })
+}))
+
 // Types
 export type InsertUser = typeof users.$inferInsert
 export type SelectUser = typeof users.$inferSelect
@@ -143,3 +179,9 @@ export type SelectPriority = typeof priorities.$inferSelect
 
 export type InsertSessionToken = typeof sessionTokens.$inferInsert
 export type SelectSessionToken = typeof sessionTokens.$inferSelect
+
+export type InsertAiConfiguration = typeof aiConfigurations.$inferInsert
+export type SelectAiConfiguration = typeof aiConfigurations.$inferSelect
+
+export type InsertAiKey = typeof aiKeys.$inferInsert
+export type SelectAiKey = typeof aiKeys.$inferSelect
