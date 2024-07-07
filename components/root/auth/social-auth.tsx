@@ -2,7 +2,7 @@ import { ChromeIcon, GithubIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 
-const SocialAuthComponent = () => {
+const SocialAuth = () => {
   return (
     <>
       <div className='relative'>
@@ -35,4 +35,4 @@ const SocialAuthComponent = () => {
   )
 }
 
-export { SocialAuthComponent }
+export { SocialAuth }

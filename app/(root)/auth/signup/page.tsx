@@ -3,8 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = { title: 'Gelda | Sign Up' }
 
-import { SignupFormComponent } from '@/components/root/auth/signup-form-component'
-// import {SocialAuthComponent} from '@/components/root/auth/social-auth-component'
+import { SignupForm } from '@/components/root/auth/signup-form'
 
 const Page = () => {
   return (
@@ -25,8 +24,7 @@ const Page = () => {
             </Link>
           </p>
         </div>
-        <SignupFormComponent />
-        {/* <SocialAuthComponent /> */}
+        <SignupForm />
       </div>
     </div>
   )
