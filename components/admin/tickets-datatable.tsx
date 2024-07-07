@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { DataTable } from '@/components/ui/datatable'
-import { LoaderComponent } from '../ui/shared/loader'
+import { Loader } from '../ui/shared/loader'
 
 import { useTickets } from '@/hooks/mod/tickets/use-tickets'
 
@@ -142,7 +142,7 @@ const columns: ColumnDef<TicketInformationWithRelationType>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const user = row.original
+      const ticket = row.original
 
       return (
         <DropdownMenu>
@@ -171,7 +171,7 @@ const TicketsDatatable = () => {
     <>
       {loading ? (
         <div className='w-full h-[60vh] flex justify-center items-center'>
-          <LoaderComponent />
+          <Loader />
         </div>
       ) : (
         <>

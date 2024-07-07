@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { LoaderComponent } from '../ui/shared/loader'
+import { Loader } from '../ui/shared/loader'
 
 import { useUsers } from '@/hooks/mod/users/use-users'
 import { useTickets } from '@/hooks/mod/tickets/use-tickets'
@@ -21,7 +21,7 @@ const Metrics = () => {
     <>
       {usersLoading || ticketsLoading ? (
         <div className='w-full h-[60vh] flex justify-center items-center'>
-          <LoaderComponent />
+          <Loader />
         </div>
       ) : (
         <div className='grid gap-12 md:grid-cols-2'>
