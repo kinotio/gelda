@@ -8,7 +8,7 @@ export const cn = (...inputs: ClassValue[]) => {
 }
 
 export const getInitials = (user: UserInformationType | undefined) => {
-  if (user === null || user === undefined) return 'N/A'
+  if (user === null || user === undefined) return '...'
   return user.name
     .match(/(\b\S)?/g)
     ?.join('')

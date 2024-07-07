@@ -1,6 +1,6 @@
 'use client'
 
-import { LifeBuoy, LogOut, Settings, User } from 'lucide-react'
+import { LifeBuoy, LogOut } from 'lucide-react'
 
 import { Avatar as AvatarRoot, AvatarFallback } from '@/components/ui/avatar'
 import {
@@ -9,8 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  DropdownMenuGroup
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 
@@ -25,7 +24,13 @@ const Avatar = () => {
 
   return (
     <>
-      {loading ? null : (
+      {loading ? (
+        <Button className='rounded-full' size='icon' variant='ghost'>
+          <AvatarRoot className='flex justify-center items-center'>
+            <AvatarFallback>{getInitials(user)}</AvatarFallback>
+          </AvatarRoot>
+        </Button>
+      ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className='rounded-full' size='icon' variant='ghost'>
@@ -36,17 +41,6 @@ const Avatar = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent className='min-w-56 mr-2 mt-2'>
             <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <User className='mr-2 h-4 w-4' />
-                <span>Profile</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Settings className='mr-2 h-4 w-4' />
-                <span>Settings</span>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <LifeBuoy className='mr-2 h-4 w-4' />

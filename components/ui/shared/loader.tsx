@@ -1,4 +1,4 @@
-const LoaderComponent = () => {
+const Loader = () => {
   return (
     <div className='lds-ellipsis'>
       <div></div>
@@ -9,4 +9,4 @@ const LoaderComponent = () => {
   )
 }
 
-export { LoaderComponent }
+export { Loader }
