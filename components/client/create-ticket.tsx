@@ -24,7 +24,7 @@ import { TicketInformationFormType } from '@/lib/definitions'
 import { useCreateTicket } from '@/hooks/mod/tickets/use-create-ticket'
 import { usePriorities } from '@/hooks/mod/priorities/use-priorities'
 
-const CardCreateTicketComponent = () => {
+const CreateTicket = () => {
   const { createTicket, loading, message, success } = useCreateTicket()
   const { priorities } = usePriorities()
 
@@ -117,4 +117,4 @@ const CardCreateTicketComponent = () => {
   )
 }
 
-export { CardCreateTicketComponent }
+export { CreateTicket }

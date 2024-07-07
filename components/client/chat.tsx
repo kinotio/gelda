@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 
 // import { useAi } from '@/hooks/shared/use-ai'
 
-const CardChatComponent = () => {
+const Chat = () => {
   // const { content } = useAi()
 
   return (
@@ -49,4 +49,4 @@ const CardChatComponent = () => {
   )
 }
 
-export { CardChatComponent }
+export { Chat }
