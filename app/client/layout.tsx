@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
-import { HeaderComponent } from '@/components/shared/header'
-import { Footercomponent } from '@/components/shared/footer'
+import { Header } from '@/components/shared/header'
+import { Footer } from '@/components/shared/footer'
 
 import { Toaster } from '@/components/ui/toaster'
 
@@ -14,9 +14,11 @@ const Layout = ({
 }>) => {
   return (
     <div className='flex flex-col w-full min-h-screen'>
-      <HeaderComponent />
-      {children}
-      <Footercomponent />
+      <Header />
+
+      <main> {children}</main>
+
+      <Footer />
       <Toaster />
     </div>
   )
