@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge'
 
 import { APP_VERSION } from '@/lib/constants'
 
-const Footercomponent = () => {
+const Footer = () => {
   return (
     <footer className='flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6'>
       <div className='gap-6 flex'>
@@ -25,4 +25,4 @@ const Footercomponent = () => {
   )
 }
 
-export { Footercomponent }
+export { Footer }

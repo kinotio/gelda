@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
-import { HeaderComponent } from '@/components/shared/header-component'
-import { Footercomponent } from '@/components/shared/footer-component'
+import { HeaderComponent } from '@/components/shared/header'
+import { Footercomponent } from '@/components/shared/footer'
 
 import { Toaster } from '@/components/ui/toaster'
 
