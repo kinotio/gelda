@@ -23,7 +23,7 @@ const Avatar = () => {
   const { signOut } = useSignout()
 
   return (
-    <>
+    <div>
       {loading ? (
         <Button className='rounded-full' size='icon' variant='ghost'>
           <AvatarRoot className='flex justify-center items-center'>
@@ -39,7 +39,7 @@ const Avatar = () => {
               </AvatarRoot>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className='min-w-56 mr-2 mt-2'>
+          <DropdownMenuContent className='min-w-56 mr-8 mt-2'>
             <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
@@ -54,7 +54,7 @@ const Avatar = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       )}
-    </>
+    </div>
   )
 }
 

@@ -14,7 +14,8 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { DataTable } from '@/components/ui/datatable'
-import { Loader } from '../ui/shared/loader'
+import { Loader } from '@/components/ui/shared/loader'
+import { Card, CardContent } from '@/components/ui/card'
 
 import { useTickets } from '@/hooks/mod/tickets/use-tickets'
 
@@ -177,7 +178,13 @@ const TicketsDatatable = () => {
         <>
           {Array.isArray(tickets) && tickets.length > 0 ? (
             <DataTable data={tickets} columns={columns} />
-          ) : null}
+          ) : (
+            <Card className='p-8'>
+              <CardContent className='flex items-center justify-center pt-6'>
+                <div className='text-2xl font-bold'>Oops, no tickets has been created for now</div>
+              </CardContent>
+            </Card>
+          )}
         </>
       )}
     </>

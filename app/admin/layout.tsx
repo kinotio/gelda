@@ -43,7 +43,7 @@ const Layout = ({
       </div>
       <Separator />
 
-      <main>{children}</main>
+      <main className='w-[75vw] mx-auto'>{children}</main>
 
       <Footer />
       <Toaster />

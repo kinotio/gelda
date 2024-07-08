@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 
 const Settings = () => {
   return (
-    <>
+    <div className='grid gap-8'>
       <Card>
         <CardHeader>
           <CardTitle>Update Profile Information</CardTitle>
@@ -97,7 +97,7 @@ const Settings = () => {
           <Button>Save Changes</Button>
         </CardFooter>
       </Card>
-    </>
+    </div>
   )
 }
 
