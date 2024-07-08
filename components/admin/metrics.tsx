@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { Loader } from '../ui/shared/loader'
+import { Loader } from '@/components/ui/shared/loader'
 
 import { useUsers } from '@/hooks/mod/users/use-users'
 import { useTickets } from '@/hooks/mod/tickets/use-tickets'
@@ -17,6 +17,33 @@ const Metrics = () => {
   const resolvedTickets = tickets?.filter((t) => t.resolutionId === RESOLUTION_BY_NAME.RESOLVED)
   const unresolvedTickets = tickets?.filter((t) => t.resolutionId === RESOLUTION_BY_NAME.UNRESOLVED)
 
+  const metrics = [
+    {
+      label: 'Total Users',
+      count: users?.length
+    },
+    {
+      label: 'Total Tickets',
+      count: tickets?.length
+    },
+    {
+      label: 'Opened Users',
+      count: openedTickets?.length
+    },
+    {
+      label: 'Closed Users',
+      count: closedTickets?.length
+    },
+    {
+      label: 'Resolved Users',
+      count: resolvedTickets?.length
+    },
+    {
+      label: 'Unresolved Users',
+      count: unresolvedTickets?.length
+    }
+  ]
+
   return (
     <>
       {usersLoading || ticketsLoading ? (
@@ -25,54 +52,16 @@ const Metrics = () => {
         </div>
       ) : (
         <div className='grid gap-12 md:grid-cols-2'>
-          <Card className='bg-primary text-primary-foreground p-8'>
-            <CardHeader className='flex flex-row items-center justify-between pb-3'>
-              <CardTitle className='text-base font-medium'>Total Users</CardTitle>
-            </CardHeader>
-            <CardContent className='flex items-center justify-center'>
-              <div className='text-6xl font-bold'>{users?.length}</div>
-            </CardContent>
-          </Card>
-          <Card className='bg-gray-700 text-primary-foreground p-8'>
-            <CardHeader className='flex flex-row items-center justify-between pb-3'>
-              <CardTitle className='text-base font-medium'>Total Tickets</CardTitle>
-            </CardHeader>
-            <CardContent className='flex items-center justify-center'>
-              <div className='text-6xl font-bold'>{tickets?.length}</div>
-            </CardContent>
-          </Card>
-          <Card className='bg-secondary text-secondary-foreground p-8'>
-            <CardHeader className='flex flex-row items-center justify-between pb-3'>
-              <CardTitle className='text-base font-medium'>Opened Tickets</CardTitle>
-            </CardHeader>
-            <CardContent className='flex items-center justify-center'>
-              <div className='text-6xl font-bold'>{openedTickets?.length}</div>
-            </CardContent>
-          </Card>
-          <Card className='bg-muted text-muted-foreground p-8'>
-            <CardHeader className='flex flex-row items-center justify-between pb-3'>
-              <CardTitle className='text-base font-medium'>Closed Tickets</CardTitle>
-            </CardHeader>
-            <CardContent className='flex items-center justify-center'>
-              <div className='text-6xl font-bold'>{closedTickets?.length}</div>
-            </CardContent>
-          </Card>
-          <Card className='text-success-foreground p-8'>
-            <CardHeader className='flex flex-row items-center justify-between pb-3'>
-              <CardTitle className='text-base font-medium'>Resolved Tickets</CardTitle>
-            </CardHeader>
-            <CardContent className='flex items-center justify-center'>
-              <div className='text-6xl font-bold'>{resolvedTickets?.length}</div>
-            </CardContent>
-          </Card>
-          <Card className='bg-gray-800 text-success-foreground p-8'>
-            <CardHeader className='flex flex-row items-center justify-between pb-3'>
-              <CardTitle className='text-white text-base font-medium'>Unresolved Tickets</CardTitle>
-            </CardHeader>
-            <CardContent className='flex items-center justify-center'>
-              <div className='text-white text-6xl font-bold'>{unresolvedTickets?.length}</div>
-            </CardContent>
-          </Card>
+          {metrics.map((metric, idx) => (
+            <Card className='p-8' key={idx}>
+              <CardHeader className='flex flex-row items-center justify-between pb-3'>
+                <CardTitle className='text-base font-medium'>{metric.label}</CardTitle>
+              </CardHeader>
+              <CardContent className='flex items-center justify-center'>
+                <div className='text-6xl font-bold'>{metric.count}</div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       )}
     </>

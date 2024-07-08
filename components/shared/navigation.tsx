@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-
 import { usePathname } from 'next/navigation'
 
 import {
@@ -10,12 +9,10 @@ import {
   NavigationMenuLink,
   NavigationMenuList
 } from '@/components/ui/navigation-menu'
-import React from 'react'
 
 type Menu = {
   label: string
   path: string
-  icon?: React.ReactNode
 }
 
 const Navigation = ({ menus }: { menus: Menu[] }) => {
@@ -33,7 +30,6 @@ const Navigation = ({ menus }: { menus: Menu[] }) => {
                     pathname === menu.path ? 'text-black border-b-2' : 'text-gray-500'
                   }`}
                 >
-                  {/* <menu.icon size='16' /> */}
                   {menu.label}
                 </NavigationMenuLink>
               </Link>

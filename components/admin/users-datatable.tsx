@@ -14,7 +14,8 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { DataTable } from '@/components/ui/datatable'
-import { Loader } from '../ui/shared/loader'
+import { Loader } from '@/components/ui/shared/loader'
+import { Card, CardContent } from '@/components/ui/card'
 
 import { useUsers } from '@/hooks/mod/users/use-users'
 
@@ -102,7 +103,13 @@ const UsersDatatable = () => {
         <>
           {Array.isArray(users) && users.length > 0 ? (
             <DataTable data={users} columns={columns} />
-          ) : null}
+          ) : (
+            <Card className='p-8'>
+              <CardContent className='flex items-center justify-center pt-6'>
+                <div className='text-2xl font-bold'>Oops, no users has been joined for now</div>
+              </CardContent>
+            </Card>
+          )}
         </>
       )}
     </>
