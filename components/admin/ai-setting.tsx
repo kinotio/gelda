@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/form'
 
 const FormSchema = z.object({
-  type: z.enum(['openai', 'anthropic'], {
+  provider: z.enum(['openai', 'anthropic'], {
     required_error: 'You need to select a api key provider type.'
   }),
   model: z.enum(['gpt-4o', 'gpt-3.5', 'claude-3.5-sonnet', 'claude-3-opus'], {
@@ -76,7 +76,7 @@ const AiSettings = () => {
           <form className='w-2/3 space-y-6'>
             <FormField
               control={form.control}
-              name='type'
+              name='provider'
               render={({ field }) => (
                 <FormItem className='space-y-3'>
                   <FormLabel>Provider</FormLabel>

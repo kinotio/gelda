@@ -26,3 +26,5 @@ export const formatDate = (date: string) => {
 
   return `${day}-${month}-${year} ${minutes}:${hours}:${seconds}`
 }
+
+export const getCurrentYear = () => new Date().getFullYear()
