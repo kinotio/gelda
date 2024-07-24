@@ -13,7 +13,7 @@ const Header = () => {
   return (
     <header className='bg-gray-50 text-gray-900 pt-4 pb-2 px-6 flex items-center justify-between'>
       <Link href={PATH.HOME}>
-        <Image src='/images/gelda-black.png' alt='Gelda' width={90} height={90} />
+        <Image src='/images/gelda-black.png' alt='Gelda' width={90} height={90} priority />
       </Link>
 
       <div className='flex items-center gap-4'>
