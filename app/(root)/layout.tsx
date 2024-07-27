@@ -9,9 +9,7 @@ const Layout = ({
   return (
     <>
       <Header />
-
       <main>{children}</main>
-
       <Footer />
     </>
   )
