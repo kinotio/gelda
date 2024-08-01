@@ -15,9 +15,7 @@ const Layout = ({
   return (
     <div className='flex flex-col w-full min-h-screen'>
       <Header />
-
-      <main className='w-[75vw] h-[85vh] mx-auto'>{children}</main>
-
+      <main className='w-[75vw] h-full mx-auto'>{children}</main>
       <Footer />
       <Toaster />
     </div>
