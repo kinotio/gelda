@@ -9,6 +9,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList
 } from '@/components/ui/navigation-menu'
+import { Separator } from '@/components/ui/separator'
 
 type Menu = {
   label: string
@@ -19,8 +20,8 @@ const Navigation = ({ menus }: { menus: Menu[] }) => {
   const pathname = usePathname()
 
   return (
-    <div className='bg-gray-50 mx-2'>
-      <NavigationMenu>
+    <div>
+      <NavigationMenu className='w-full px-2 bg-white'>
         <NavigationMenuList className='mx-4 gap-6'>
           {menus.map((menu, idx) => (
             <NavigationMenuItem key={idx}>
@@ -37,6 +38,8 @@ const Navigation = ({ menus }: { menus: Menu[] }) => {
           ))}
         </NavigationMenuList>
       </NavigationMenu>
+
+      <Separator />
     </div>
   )
 }

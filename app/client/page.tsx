@@ -1,5 +1,3 @@
-'use client'
-
 import { CreateTicket } from '@/components/client/create-ticket'
 import { Chat } from '@/components/client/chat'
 import { RecentTickets } from '@/components/client/recent-tickets'

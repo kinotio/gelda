@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 
-import { Separator } from '@/components/ui/separator'
 import { Toaster } from '@/components/ui/toaster'
 
 import { Header } from '@/components/shared/header'
@@ -36,12 +35,11 @@ const Layout = ({
   children: React.ReactNode
 }>) => {
   return (
-    <div className='flex flex-col w-full min-h-screen'>
-      <Header />
-      <div className='w-full'>
+    <div className='flex flex-col min-h-screen'>
+      <div className='sticky top-0 w-full'>
+        <Header />
         <Navigation menus={menus} />
       </div>
-      <Separator />
       <main className='w-[75vw] mx-auto'>{children}</main>
       <Footer />
       <Toaster />
