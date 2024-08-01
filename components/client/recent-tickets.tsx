@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { LoaderComponent } from '@/components/ui/shared/loader'
+import { Loader } from '@/components/ui/shared/loader'
 
 import { useUserTickets } from '@/hooks/mod/tickets/use-user-tickets'
 import { COLOR_BY_PRIORITY_ID, COLOR_BY_STATUS_ID } from '@/lib/constants'
@@ -33,7 +33,7 @@ const RecentTickets = () => {
       </CardHeader>
       {loading ? (
         <div className='flex w-full justify-center items-center mt-32'>
-          <LoaderComponent />
+          <Loader />
         </div>
       ) : (
         <CardContent className='h-[500px] overflow-auto'>

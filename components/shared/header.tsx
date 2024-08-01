@@ -11,7 +11,7 @@ import { PATH } from '@/lib/constants'
 
 const Header = () => {
   return (
-    <header className='bg-gray-50 text-gray-900 pt-4 pb-2 px-6 flex items-center justify-between'>
+    <header className='text-gray-900 pt-4 pb-2 px-6 flex items-center justify-between'>
       <Link href={PATH.HOME}>
         <Image src='/images/gelda-black.png' alt='Gelda' width={90} height={90} priority />
       </Link>

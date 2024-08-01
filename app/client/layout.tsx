@@ -16,7 +16,7 @@ const Layout = ({
     <div className='flex flex-col w-full min-h-screen'>
       <Header />
 
-      <main> {children}</main>
+      <main className='w-[75vw] h-[85vh] mx-auto'>{children}</main>
 
       <Footer />
       <Toaster />

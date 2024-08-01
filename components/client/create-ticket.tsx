@@ -46,7 +46,7 @@ const CreateTicket = () => {
         <CardTitle className='text-sm font-medium'>Create Ticket</CardTitle>
         <PlusIcon className='w-4 h-4 text-gray-500 dark:text-gray-400' onClick={() => reset()} />
       </CardHeader>
-      <CardContent className='h-[500px] overflow-auto'>
+      <CardContent className='overflow-auto'>
         {!success && message !== '' ? (
           <Alert variant='destructive'>
             <AlertCircle className='h-4 w-4' />
@@ -72,7 +72,7 @@ const CreateTicket = () => {
               <Textarea
                 id='description'
                 placeholder='Describe the issue'
-                rows={11}
+                rows={14}
                 {...register('description')}
               />
             </div>
