@@ -3,7 +3,7 @@
 import Link from 'next/link'
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { LoaderComponent } from '@/components/ui/shared/loader'
+import { Loader } from '@/components/ui/shared/loader'
 
 import { useUserClosedTickets } from '@/hooks/mod/tickets/use-user-tickets'
 import { COLOR_BY_PRIORITY_ID } from '@/lib/constants'
@@ -25,7 +25,7 @@ const ClosedTickets = () => {
       </CardHeader>
       {loading ? (
         <div className='flex w-full justify-center items-center'>
-          <LoaderComponent />
+          <Loader />
         </div>
       ) : (
         <CardContent className='h-[100px] overflow-auto'>
