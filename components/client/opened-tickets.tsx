@@ -5,11 +5,11 @@ import Link from 'next/link'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Loader } from '@/components/ui/shared/loader'
 
-import { useUserOpenedTickets } from '@/hooks/mod/tickets/use-user-tickets'
+import { useUserTickets } from '@/hooks/mod/tickets/use-user-tickets'
 import { COLOR_BY_PRIORITY_ID } from '@/lib/constants'
 
 const OpenedTickets = () => {
-  const { tickets, loading } = useUserOpenedTickets()
+  const { tickets, loading } = useUserTickets({ status: 'opened', limit: 3 })
 
   const hasTickets = Array.isArray(tickets) && tickets.length > 0
 

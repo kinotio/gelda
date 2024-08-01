@@ -23,17 +23,32 @@ export const getAllTicketsQuery = async () => {
   }
 }
 
-export const getAllClientTicketsQuery = async (userId: string) => {
+export const getAllClientTicketsQuery = async ({
+  userId,
+  status,
+  limit = 7
+}: {
+  userId: string
+  status?: string
+  limit?: number
+}) => {
+  const where =
+    status === 'opened'
+      ? and(eq(tickets.creatorId, userId), eq(tickets.statusId, STATUS_BY_NAME.OPEN))
+      : status === 'closed'
+        ? and(eq(tickets.creatorId, userId), eq(tickets.statusId, STATUS_BY_NAME.CLOSED))
+        : eq(tickets.creatorId, userId)
+
   try {
     const data = await database.query.tickets.findMany({
-      where: eq(tickets.creatorId, userId),
+      where,
       with: {
         status: true,
         priority: true,
         resolution: true
       },
       orderBy: [desc(tickets.createdAt)],
-      limit: 7
+      limit
     })
     return response(true, 'Tickets fetched successfully', data)
   } catch (error) {
@@ -50,42 +65,6 @@ export const getTicketByIdQuery = async (id: string) => {
         priority: true,
         resolution: true
       }
-    })
-    return response(true, 'Ticket fetched successfully', data)
-  } catch (error) {
-    return response(false, 'An error occurred while fetching a ticket')
-  }
-}
-
-export const getAllClientOpenedTicketsQuery = async (userId: string) => {
-  try {
-    const data = await database.query.tickets.findMany({
-      where: and(eq(tickets.creatorId, userId), eq(tickets.statusId, STATUS_BY_NAME.OPEN)),
-      with: {
-        status: true,
-        priority: true,
-        resolution: true
-      },
-      orderBy: [desc(tickets.createdAt)],
-      limit: 3
-    })
-    return response(true, 'Ticket fetched successfully', data)
-  } catch (error) {
-    return response(false, 'An error occurred while fetching a ticket')
-  }
-}
-
-export const getAllClientClosedTicketsQuery = async (userId: string) => {
-  try {
-    const data = await database.query.tickets.findMany({
-      where: and(eq(tickets.creatorId, userId), eq(tickets.statusId, STATUS_BY_NAME.CLOSED)),
-      with: {
-        status: true,
-        priority: true,
-        resolution: true
-      },
-      orderBy: [desc(tickets.createdAt)],
-      limit: 3
     })
     return response(true, 'Ticket fetched successfully', data)
   } catch (error) {

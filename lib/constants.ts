@@ -66,7 +66,7 @@ export const COLOR_BY_STATUS_ID: { [key: number]: string } = {
   0: 'bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-400',
   1: 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-400',
   2: 'bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-400',
-  3: 'bg-yellow-100 text-yellow-6000 dark:bg-yellow-900 dark:text-yellow-400'
+  3: 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900 dark:text-yellow-400'
 }
 
 export const COLOR_BY_PRIORITY_ID: { [key: number]: string } = {
