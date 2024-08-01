@@ -34,20 +34,16 @@ export const useUserTickets = ({ status, limit }: { status?: string; limit?: num
       .finally(() => {
         setLoading(false)
       })
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
 
   useEffect(() => {
-    if (newTicket && newTicket.creator_id === user?.id) {
+    if (newTicket) {
       getTicketByIdQuery(newTicket.id)
         .then(({ data }) => {
-          console.log(data)
           setTickets((prevTickets) => [data, ...(prevTickets || [])])
         })
-        .catch((error) => {
-          console.log(error)
-        })
+        .catch((error) => console.log(error))
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

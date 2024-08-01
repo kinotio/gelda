@@ -42,9 +42,7 @@ const Layout = ({
         <Navigation menus={menus} />
       </div>
       <Separator />
-
-      <main className='w-[75vw] h-[80vh] mx-auto'>{children}</main>
-
+      <main className='w-[75vw] mx-auto'>{children}</main>
       <Footer />
       <Toaster />
     </div>

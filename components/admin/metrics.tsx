@@ -27,19 +27,19 @@ const Metrics = () => {
       count: tickets?.length
     },
     {
-      label: 'Opened Users',
+      label: 'Opened Tickets',
       count: openedTickets?.length
     },
     {
-      label: 'Closed Users',
+      label: 'Closed Tickets',
       count: closedTickets?.length
     },
     {
-      label: 'Resolved Users',
+      label: 'Resolved Tickets',
       count: resolvedTickets?.length
     },
     {
-      label: 'Unresolved Users',
+      label: 'Unresolved Tickets',
       count: unresolvedTickets?.length
     }
   ]
