@@ -13,7 +13,7 @@ export type AuthSignUpFormType = {
 
 // User-related types
 export type UserInformationBaseType = {
-  id?: string
+  id: string
   name: string
   email: string
 }
