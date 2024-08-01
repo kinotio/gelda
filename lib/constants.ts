@@ -49,7 +49,8 @@ export const PATH = {
   SIGNUP: '/auth/signup',
 
   CLIENT: '/client',
-  CLIENT_DASHBOARD: '/client/dashboard',
+  CLIENT_TICKETS: '/client/tickets',
+  CLIENT_CHAT: '/client/chat',
 
   ADMIN: '/admin',
   ADMIN_DASHBOARD: '/admin/dashboard',

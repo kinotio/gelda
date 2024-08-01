@@ -2,10 +2,28 @@ import type { Metadata } from 'next'
 
 import { Header } from '@/components/shared/header'
 import { Footer } from '@/components/shared/footer'
+import { Navigation } from '@/components/shared/navigation'
 
 import { Toaster } from '@/components/ui/toaster'
 
+import { PATH } from '@/lib/constants'
+
 export const metadata: Metadata = { title: 'Gelda | Client Dashboard' }
+
+const menus = [
+  {
+    label: 'Dashboard',
+    path: PATH.CLIENT
+  },
+  {
+    label: 'Tickets',
+    path: PATH.CLIENT_TICKETS
+  },
+  {
+    label: 'Chat',
+    path: PATH.CLIENT_CHAT
+  }
+]
 
 const Layout = ({
   children
@@ -13,8 +31,11 @@ const Layout = ({
   children: React.ReactNode
 }>) => {
   return (
-    <div className='flex flex-col w-full min-h-screen'>
-      <Header />
+    <div className='flex flex-col min-h-screen'>
+      <div className='sticky top-0'>
+        <Header />
+        <Navigation menus={menus} />
+      </div>
       <main className='w-[75vw] h-full mx-auto'>{children}</main>
       <Footer />
       <Toaster />
