@@ -23,17 +23,15 @@ const Page = () => {
       </div>
       <div className='border-t border-gray-200 p-4 w-full'>
         <form className='flex items-center space-x-2'>
-          <Input
-            id='message'
-            placeholder='Type your message...'
-            className='flex-1'
-            autoComplete='off'
-          />
+          <Input id='message' placeholder='Ask...' className='flex-1' autoComplete='off' />
           <Button type='submit' size='icon'>
             <SendIcon className='h-4 w-4' />
             <span className='sr-only'>Send</span>
           </Button>
         </form>
+        <span className='flex w-full justify-center text-xs pt-2'>
+          Gelda can make mistakes. Consider checking important information.
+        </span>
       </div>
     </div>
   )
