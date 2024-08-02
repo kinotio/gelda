@@ -1,6 +1,6 @@
 'use client'
 
-import { LifeBuoy, LogOut } from 'lucide-react'
+import { LifeBuoy, LogOut, UserIcon } from 'lucide-react'
 
 import { Avatar as AvatarRoot, AvatarFallback } from '@/components/ui/avatar'
 import {
@@ -16,8 +16,6 @@ import { Button } from '@/components/ui/button'
 import { useUser } from '@/hooks/mod/users/use-user'
 import { useSignout } from '@/hooks/auth/use-signout'
 
-import { getInitials } from '@/lib/utils'
-
 const Avatar = () => {
   const { loading, user } = useUser()
   const { signOut } = useSignout()
@@ -27,7 +25,9 @@ const Avatar = () => {
       {loading ? (
         <Button className='rounded-full' size='icon' variant='ghost'>
           <AvatarRoot className='flex justify-center items-center'>
-            <AvatarFallback>{getInitials(user)}</AvatarFallback>
+            <AvatarFallback className='flex justify-center items-center'>
+              <UserIcon size={20} />
+            </AvatarFallback>
           </AvatarRoot>
         </Button>
       ) : (
@@ -35,7 +35,9 @@ const Avatar = () => {
           <DropdownMenuTrigger asChild>
             <Button className='rounded-full' size='icon' variant='ghost'>
               <AvatarRoot>
-                <AvatarFallback>{getInitials(user)}</AvatarFallback>
+                <AvatarFallback className='flex justify-center items-center'>
+                  <UserIcon size={20} />
+                </AvatarFallback>
               </AvatarRoot>
             </Button>
           </DropdownMenuTrigger>
