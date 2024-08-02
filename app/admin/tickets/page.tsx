@@ -179,7 +179,7 @@ const Page = () => {
           ) : (
             <Card className='p-8'>
               <CardContent className='flex items-center justify-center pt-6'>
-                <div className='text-2xl font-bold'>Oops, no tickets has been created for now</div>
+                <div className='text-2xl font-bold'>Oops, no tickets have been created for now</div>
               </CardContent>
             </Card>
           )}
