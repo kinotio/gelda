@@ -3,7 +3,7 @@ import { HeadphonesIcon, TicketIcon, InfoIcon } from 'lucide-react'
 
 const Page = () => {
   return (
-    <div className='flex flex-col min-h-[calc(95vh_-_theme(spacing.16))] '>
+    <div className='flex flex-col min-h-[calc(95vh_-_theme(spacing.16))]'>
       <div className='flex-1'>
         <section className='w-full pt-12'>
           <div className='px-4 md:px-6 space-y-10 xl:space-y-16'>

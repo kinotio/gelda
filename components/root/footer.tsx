@@ -5,7 +5,7 @@ import { getCurrentYear } from '@/lib/utils'
 
 const Footer = () => {
   return (
-    <footer className='sticky bottom-0 border-t flex flex-col gap-2 sm:flex-row py-4 w-full shrink-0 items-center px-4 md:px-6'>
+    <footer className='sticky bottom-0 border-t flex flex-col gap-2 sm:flex-row py-4 w-full shrink-0 items-center px-4 md:px-6 bg-white'>
       <p className='text-xs text-gray-500 dark:text-gray-400'>{`© ${getCurrentYear()} Kinotio`}</p>
       <nav className='sm:ml-auto flex gap-2 items-center'>
         <span className='text-sm font-semibold'>By</span>

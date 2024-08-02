@@ -20,8 +20,8 @@ const Navigation = ({ menus }: { menus: Menu[] }) => {
   const pathname = usePathname()
 
   return (
-    <div>
-      <NavigationMenu className='w-full px-2 bg-white'>
+    <div className='w-full bg-white'>
+      <NavigationMenu className='w-full px-2'>
         <NavigationMenuList className='mx-4 gap-6'>
           {menus.map((menu, idx) => (
             <NavigationMenuItem key={idx}>

@@ -4,7 +4,7 @@ import { GithubIcon } from 'lucide-react'
 
 const Header = () => {
   return (
-    <header className='pt-4 px-4 lg:px-6 flex items-center'>
+    <header className='pt-4 pb-2 px-6 flex items-center justify-between'>
       <Link className='flex items-center justify-center' href='/'>
         <Image src='/images/gelda-black.png' width={90} height={90} alt='Gelda' priority />
       </Link>
