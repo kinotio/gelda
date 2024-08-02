@@ -36,7 +36,7 @@ const Layout = ({
         <Header />
         <Navigation menus={menus} />
       </div>
-      <main className='w-[75vw] h-full mx-auto'>{children}</main>
+      <main>{children}</main>
       <Footer />
       <Toaster />
     </div>
