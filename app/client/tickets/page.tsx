@@ -17,7 +17,7 @@ import { DataTable } from '@/components/ui/datatable'
 import { Loader } from '@/components/ui/shared/loader'
 import { Card, CardContent } from '@/components/ui/card'
 
-import { useTickets } from '@/hooks/mod/tickets/use-tickets'
+import { useUserTickets } from '@/hooks/mod/tickets/use-user-tickets'
 
 import { TicketInformationWithRelationType } from '@/lib/definitions'
 import { COLOR_BY_STATUS_ID, COLOR_BY_PRIORITY_ID, COLOR_BY_RESOLUTION_ID } from '@/lib/constants'
@@ -117,11 +117,6 @@ const columns: ColumnDef<TicketInformationWithRelationType>[] = [
     )
   },
   {
-    accessorKey: 'creator',
-    header: ({ column }) => <div className='text-left'>Creator</div>,
-    cell: ({ row }) => <div className='capitalize'>{row.original.creator?.name}</div>
-  },
-  {
     accessorKey: 'createdAt',
     header: ({ column }) => {
       return (
@@ -143,8 +138,6 @@ const columns: ColumnDef<TicketInformationWithRelationType>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const ticket = row.original
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -165,11 +158,11 @@ const columns: ColumnDef<TicketInformationWithRelationType>[] = [
   }
 ]
 
-const TicketsDatatable = () => {
-  const { loading, tickets } = useTickets()
+const Page = () => {
+  const { loading, tickets } = useUserTickets({ limit: 0 })
 
   return (
-    <>
+    <div className='flex min-h-[calc(92vh_-_theme(spacing.16))] flex-1 flex-col gap-8 p-6 md:gap-12 md:p-12'>
       {loading ? (
         <div className='w-full h-[60vh] flex justify-center items-center'>
           <Loader />
@@ -181,14 +174,14 @@ const TicketsDatatable = () => {
           ) : (
             <Card className='p-8'>
               <CardContent className='flex items-center justify-center pt-6'>
-                <div className='text-2xl font-bold'>Oops, no tickets has been created for now</div>
+                <div className='text-2xl font-bold'>Oops, no tickets have been created for now</div>
               </CardContent>
             </Card>
           )}
         </>
       )}
-    </>
+    </div>
   )
 }
 
-export { TicketsDatatable }
+export default Page
