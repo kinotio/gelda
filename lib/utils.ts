@@ -28,3 +28,5 @@ export const formatDate = (date: string) => {
 }
 
 export const getCurrentYear = () => new Date().getFullYear()
+
+export const shortText = (text: string) => text.slice(0, 10) + '...'

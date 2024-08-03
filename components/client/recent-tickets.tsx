@@ -15,9 +15,10 @@ import { Loader } from '@/components/ui/shared/loader'
 
 import { useUserTickets } from '@/hooks/mod/tickets/use-user-tickets'
 import { COLOR_BY_PRIORITY_ID, COLOR_BY_STATUS_ID } from '@/lib/constants'
+import { shortText } from '@/lib/utils'
 
 const RecentTickets = () => {
-  const { tickets, loading } = useUserTickets({})
+  const { tickets, loading } = useUserTickets({ limit: 0 })
 
   const hasTickets = Array.isArray(tickets) && tickets.length > 0
 
@@ -36,10 +37,10 @@ const RecentTickets = () => {
           <Loader />
         </div>
       ) : (
-        <CardContent className='overflow-auto'>
+        <CardContent>
           {hasTickets ? (
-            <Table>
-              <TableHeader>
+            <Table className='w-full'>
+              <TableHeader className='table table-fixed w-full'>
                 <TableRow>
                   <TableHead>Ref</TableHead>
                   <TableHead>Title</TableHead>
@@ -47,20 +48,12 @@ const RecentTickets = () => {
                   <TableHead>Priority</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody className='h-[650px] block overflow-auto'>
                 <>
                   {tickets.map((ticket) => (
-                    <TableRow key={ticket.id}>
-                      <TableCell>
-                        <Link className='font-medium' href='#'>
-                          #{ticket.reference}
-                        </Link>
-                      </TableCell>
-                      <TableCell>
-                        <Link className='font-medium' href='#'>
-                          {ticket.title}
-                        </Link>
-                      </TableCell>
+                    <TableRow key={ticket.id} className='table table-fixed w-full'>
+                      <TableCell>#{ticket.reference}</TableCell>
+                      <TableCell className='text-wrap'>{shortText(ticket.title)}</TableCell>
                       <TableCell>
                         <div
                           className={`capitalize inline-flex items-center gap-2 rounded-full px-2 py-1 text-xs font-medium ${COLOR_BY_STATUS_ID[ticket.statusId]}`}
