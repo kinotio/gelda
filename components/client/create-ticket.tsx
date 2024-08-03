@@ -72,8 +72,9 @@ const CreateTicket = () => {
               <Textarea
                 id='description'
                 placeholder='Describe the issue'
-                rows={14}
+                rows={27}
                 {...register('description')}
+                className='resize-none'
               />
             </div>
             <div>

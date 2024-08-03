@@ -10,7 +10,7 @@ const Chat = () => {
   // const { content } = useAi()
 
   return (
-    <Card>
+    <Card className='h-full'>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
         <CardTitle className='text-sm font-medium'>Gelda: Chat</CardTitle>
         <Button className='rounded-full' size='icon' variant='ghost'>
@@ -18,7 +18,7 @@ const Chat = () => {
           <span className='sr-only'>New chat</span>
         </Button>
       </CardHeader>
-      <CardContent className='h-[375px] overflow-auto'>
+      <CardContent className='h-[600px] overflow-y-scroll'>
         <div className='space-y-4'>
           <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900'>
             Hi
@@ -26,9 +26,14 @@ const Chat = () => {
           <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800'>
             Hi, how can I assist you today?
           </div>
-          <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900'>
-            I m having trouble with my computer. Can you help me?
-          </div>
+          {Array.from({ length: 20 }).map((_, idx) => (
+            <div
+              key={idx}
+              className='flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900'
+            >
+              I m having trouble with my computer. Can you help me?
+            </div>
+          ))}
         </div>
       </CardContent>
       <CardFooter>
