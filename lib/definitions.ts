@@ -85,6 +85,9 @@ export type StatusType = CommonIdAndNameType
 // Priority-related types
 export type PriorityType = CommonIdAndNameType
 
+// Resolution-related types
+export type ResolutionType = CommonIdAndNameType
+
 // Role-related types
 export type RoleType = CommonIdAndNameType
 
