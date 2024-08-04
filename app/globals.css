@@ -122,6 +122,15 @@
   animation: lds-ellipsis3 0.6s infinite;
 }
 
+.custom-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.custom-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 @keyframes lds-ellipsis1 {
   0% {
     transform: scale(0);

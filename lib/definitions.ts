@@ -110,3 +110,10 @@ export type SessionTokenType = {
   createdAt: string
   updateAt: string
 }
+
+export type MetricType = {
+  type: string
+  name: string
+  description: string
+  count: number
+}
