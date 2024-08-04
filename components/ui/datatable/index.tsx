@@ -19,7 +19,17 @@ import { DataTableBody } from '@/components/ui/datatable/data-table-body'
 import { DataTableHeaders } from '@/components/ui/datatable/data-table-headers'
 import { DataTablePagination } from '@/components/ui/datatable/data-table-pagination'
 
-const DataTable = <T,>({ data, columns }: { data: T[]; columns: ColumnDef<T>[] }) => {
+const DataTable = <T,>({
+  data,
+  columns,
+  options
+}: {
+  data: T[]
+  columns: ColumnDef<T>[]
+  options?: {
+    pageSize?: number
+  }
+}) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -39,7 +49,7 @@ const DataTable = <T,>({ data, columns }: { data: T[]; columns: ColumnDef<T>[] }
     initialState: {
       pagination: {
         pageIndex: 0,
-        pageSize: 8
+        pageSize: options?.pageSize || 8
       }
     },
     state: {

@@ -5,7 +5,7 @@ import { eq, desc, and, count } from 'drizzle-orm'
 import { database } from '@/server/config/database'
 import { tickets } from '@/server/config/schema'
 
-import { STATUS_BY_NAME } from '@/lib/constants'
+import { STATUS_BY_NAME, METRICS } from '@/lib/constants'
 import { response } from '@/server/lib/helpers'
 import { MetricType } from '@/lib/definitions'
 
@@ -74,20 +74,9 @@ export const getTicketByIdQuery = async (id: string) => {
   }
 }
 
-export const getTicketsCountQuery = async () => {
+export const getTicketsCountQuery = async ({ userId }: { userId: string }) => {
   try {
-    const initialMetrics: MetricType[] = [
-      { type: 'status', name: 'open', description: 'Open tickets count', count: 0 },
-      { type: 'status', name: 'closed', description: 'Closed tickets count', count: 0 },
-      { type: 'status', name: 'in progress', description: 'In Progress tickets count', count: 0 },
-      { type: 'priority', name: 'low', description: 'Low priority tickets count', count: 0 },
-      { type: 'priority', name: 'medium', description: 'Medium priority tickets count', count: 0 },
-      { type: 'priority', name: 'high', description: 'High priority tickets count', count: 0 },
-      { type: 'resolution', name: 'resolved', description: 'Resolved tickets count', count: 0 },
-      { type: 'resolution', name: 'unresolved', description: 'Unresolved tickets count', count: 0 }
-    ]
-
-    const counts = await database
+    const results = await database
       .select({
         statusId: tickets.statusId,
         priorityId: tickets.priorityId,
@@ -95,14 +84,15 @@ export const getTicketsCountQuery = async () => {
         count: count()
       })
       .from(tickets)
+      .where(eq(tickets.creatorId, userId))
       .groupBy(tickets.statusId, tickets.priorityId, tickets.resolutionId)
 
-    const metricsMap: Record<string, MetricType> = initialMetrics.reduce((acc: any, metric) => {
+    const metricsMap: Record<string, MetricType> = METRICS.reduce((acc: any, metric) => {
       acc[`${metric.type}-${metric.name}`] = metric
       return acc
     }, {})
 
-    counts.forEach(({ statusId, priorityId, resolutionId, count }) => {
+    results.forEach(({ statusId, priorityId, resolutionId, count }) => {
       if (statusId !== null) {
         if (statusId === 1) metricsMap['status-open'].count = count
         if (statusId === 2) metricsMap['status-closed'].count = count
