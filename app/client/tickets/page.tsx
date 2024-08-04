@@ -175,7 +175,7 @@ const Page = () => {
       ) : (
         <>
           {Array.isArray(tickets) && tickets.length > 0 ? (
-            <DataTable data={tickets} columns={columns} />
+            <DataTable data={tickets} columns={columns} options={{ pageSize: 7 }} />
           ) : (
             <Card className='p-8'>
               <CardContent className='flex items-center justify-center pt-6'>
@@ -200,7 +200,7 @@ const Metrics = () => {
   return (
     <section className='bg-white'>
       <div className='flex justify-between items-center mb-4'>
-        <Button variant='ghost' onClick={() => handleScroll(0)} className='p-0 m-0'>
+        <Button variant='ghost' onClick={() => handleScroll(0)}>
           <h2 className='text-2xl font-bold cursor-pointer'>Metrics</h2>
         </Button>
 
@@ -216,18 +216,32 @@ const Metrics = () => {
       ) : (
         <div id='scroll-container' className='overflow-x-auto custom-scroll'>
           <div className='grid grid-flow-col auto-cols-max gap-4'>
-            {metrics.map((metric, idx) => (
-              <Card key={idx} className='col-span-1 w-64'>
-                <CardContent className='flex justify-between items-center p-6'>
-                  <div>
-                    <Badge variant='secondary'>{metric.type}</Badge>
-                    <h3 className='text-lg font-semibold capitalize'>{metric.name}</h3>
-                    <p className='text-sm text-muted-foreground'>{metric.description}</p>
-                  </div>
-                  <span className='text-3xl font-bold'>{metric.count}</span>
-                </CardContent>
-              </Card>
-            ))}
+            <>
+              {Array.isArray(metrics) && metrics.length > 0 ? (
+                <>
+                  {metrics.map((metric, idx) => (
+                    <Card key={idx} className='col-span-1 w-64'>
+                      <CardContent className='flex justify-between items-center p-6'>
+                        <div>
+                          <Badge variant='secondary'>{metric.type}</Badge>
+                          <h3 className='text-lg font-semibold capitalize'>{metric.name}</h3>
+                          <p className='text-sm text-muted-foreground'>{metric.description}</p>
+                        </div>
+                        <span className='text-3xl font-bold'>{metric.count}</span>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </>
+              ) : (
+                <Card className='p-8'>
+                  <CardContent className='flex items-center justify-center pt-6'>
+                    <div className='text-2xl font-bold'>
+                      Oops, no tickets metrics have been found for now
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </>
           </div>
         </div>
       )}

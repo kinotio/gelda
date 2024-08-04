@@ -82,3 +82,71 @@ export const COLOR_BY_RESOLUTION_ID: { [key: number]: string } = {
   1: 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-400',
   2: 'bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-400'
 }
+
+const METRIC_TYPES = {
+  STATUS: 'status',
+  PRIORITY: 'priority',
+  RESOLUTION: 'resolution'
+}
+
+const METRIC_NAMES = {
+  OPEN: 'open',
+  CLOSED: 'closed',
+  IN_PROGRESS: 'in progress',
+  LOW: 'low',
+  MEDIUM: 'medium',
+  HIGH: 'high',
+  RESOLVED: 'resolved',
+  UNRESOLVED: 'unresolved'
+}
+
+export const METRICS = [
+  {
+    type: METRIC_TYPES.STATUS,
+    name: METRIC_NAMES.OPEN,
+    description: 'Opened tickets',
+    count: 0
+  },
+  {
+    type: METRIC_TYPES.STATUS,
+    name: METRIC_NAMES.CLOSED,
+    description: 'Closed tickets',
+    count: 0
+  },
+  {
+    type: METRIC_TYPES.STATUS,
+    name: METRIC_NAMES.IN_PROGRESS,
+    description: 'In Progress tickets',
+    count: 0
+  },
+  {
+    type: METRIC_TYPES.PRIORITY,
+    name: METRIC_NAMES.LOW,
+    description: 'Low priority tickets',
+    count: 0
+  },
+  {
+    type: METRIC_TYPES.PRIORITY,
+    name: METRIC_NAMES.MEDIUM,
+    description: 'Medium priority tickets',
+    count: 0
+  },
+  {
+    type: METRIC_TYPES.PRIORITY,
+    name: METRIC_NAMES.HIGH,
+    description: 'High priority tickets',
+    count: 0
+  },
+  {
+    type: METRIC_TYPES.RESOLUTION,
+    name: METRIC_NAMES.RESOLVED,
+    description: 'Resolved tickets',
+    count: 0
+  },
+  {
+    type: METRIC_TYPES.RESOLUTION,
+    name: METRIC_NAMES.UNRESOLVED,
+    description: 'Unresolved tickets',
+    count: 0
+  }
+]
