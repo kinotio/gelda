@@ -1,11 +1,12 @@
 'use server'
 
-import { eq, desc, and } from 'drizzle-orm'
+import { eq, desc, and, count } from 'drizzle-orm'
 
-import { response } from '@/server/lib/helpers'
 import { database } from '@/server/config/database'
 import { tickets } from '@/server/config/schema'
+
 import { STATUS_BY_NAME } from '@/lib/constants'
+import { response } from '@/server/lib/helpers'
 
 export const getAllTicketsQuery = async () => {
   try {
@@ -69,5 +70,14 @@ export const getTicketByIdQuery = async (id: string) => {
     return response(true, 'Ticket fetched successfully', data)
   } catch (error) {
     return response(false, 'An error occurred while fetching a ticket')
+  }
+}
+
+export const getTicketsCountQuery = async () => {
+  try {
+    const data = await database.select({ count: count() }).from(tickets)
+    return response(true, 'Tickets count fetched successfully', data)
+  } catch (error) {
+    return response(false, 'An error occurred while fetching tickets count')
   }
 }
