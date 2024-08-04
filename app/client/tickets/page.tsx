@@ -16,6 +16,7 @@ import {
 import { DataTable } from '@/components/ui/datatable'
 import { Loader } from '@/components/ui/shared/loader'
 import { Card, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 
 import { useUserTickets } from '@/hooks/mod/tickets/use-user-tickets'
 
@@ -162,7 +163,8 @@ const Page = () => {
   const { loading, tickets } = useUserTickets({ limit: 0 })
 
   return (
-    <div className='flex min-h-[calc(92vh_-_theme(spacing.16))] flex-1 flex-col gap-8 p-6 md:gap-12 md:p-12'>
+    <div className='flex min-h-[calc(92vh_-_theme(spacing.16))] flex-1 flex-col gap-6 p-6 md:p-12'>
+      <Metrics />
       {loading ? (
         <div className='w-full h-[60vh] flex justify-center items-center'>
           <Loader />
@@ -181,6 +183,28 @@ const Page = () => {
         </>
       )}
     </div>
+  )
+}
+
+const Metrics = () => {
+  return (
+    <section className='bg-white'>
+      <div className='flex justify-between items-center mb-4'>
+        <h2 className='text-2xl font-bold'>Metrics</h2>
+      </div>
+      <div className='grid grid-cols-6 gap-4'>
+        <Card className='col-span-1'>
+          <CardContent className='flex justify-between items-center p-6'>
+            <div>
+              <Badge variant='secondary'>Status</Badge>
+              <h3 className='text-lg font-semibold'>Open</h3>
+              <p className='text-sm text-muted-foreground'>Opened tickets</p>
+            </div>
+            <span className='text-3xl font-bold'>14</span>
+          </CardContent>
+        </Card>
+      </div>
+    </section>
   )
 }
 

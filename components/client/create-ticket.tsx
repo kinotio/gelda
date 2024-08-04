@@ -44,7 +44,13 @@ const CreateTicket = () => {
     <Card>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
         <CardTitle className='text-sm font-medium'>Create Ticket</CardTitle>
-        <PlusIcon className='w-4 h-4 text-gray-500 dark:text-gray-400' onClick={() => reset()} />
+        <Button className='rounded-full' size='icon' variant='ghost'>
+          <PlusIcon
+            className='w-4 h-4 text-gray-500 dark:text-gray-400 cursor-pointer'
+            onClick={() => reset()}
+          />
+          <span className='sr-only'>New ticket</span>
+        </Button>
       </CardHeader>
       <CardContent className='overflow-auto'>
         {!success && message !== '' ? (
