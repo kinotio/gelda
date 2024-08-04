@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown, MoreHorizontal, ArrowRightIcon } from 'lucide-react'
 
@@ -233,7 +232,7 @@ const Metrics = () => {
                   ))}
                 </>
               ) : (
-                <Card className='p-8'>
+                <Card className='w-[94vw] p-8'>
                   <CardContent className='flex items-center justify-center pt-6'>
                     <div className='text-2xl font-bold'>
                       Oops, no tickets metrics have been found for now
