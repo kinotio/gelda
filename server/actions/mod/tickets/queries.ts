@@ -7,6 +7,7 @@ import { tickets } from '@/server/config/schema'
 
 import { STATUS_BY_NAME } from '@/lib/constants'
 import { response } from '@/server/lib/helpers'
+import { MetricType } from '@/lib/definitions'
 
 export const getAllTicketsQuery = async () => {
   try {
@@ -75,7 +76,52 @@ export const getTicketByIdQuery = async (id: string) => {
 
 export const getTicketsCountQuery = async () => {
   try {
-    const data = await database.select({ count: count() }).from(tickets)
+    const initialMetrics: MetricType[] = [
+      { type: 'status', name: 'open', description: 'Open tickets count', count: 0 },
+      { type: 'status', name: 'closed', description: 'Closed tickets count', count: 0 },
+      { type: 'status', name: 'in progress', description: 'In Progress tickets count', count: 0 },
+      { type: 'priority', name: 'low', description: 'Low priority tickets count', count: 0 },
+      { type: 'priority', name: 'medium', description: 'Medium priority tickets count', count: 0 },
+      { type: 'priority', name: 'high', description: 'High priority tickets count', count: 0 },
+      { type: 'resolution', name: 'resolved', description: 'Resolved tickets count', count: 0 },
+      { type: 'resolution', name: 'unresolved', description: 'Unresolved tickets count', count: 0 }
+    ]
+
+    const counts = await database
+      .select({
+        statusId: tickets.statusId,
+        priorityId: tickets.priorityId,
+        resolutionId: tickets.resolutionId,
+        count: count()
+      })
+      .from(tickets)
+      .groupBy(tickets.statusId, tickets.priorityId, tickets.resolutionId)
+
+    const metricsMap: Record<string, MetricType> = initialMetrics.reduce((acc: any, metric) => {
+      acc[`${metric.type}-${metric.name}`] = metric
+      return acc
+    }, {})
+
+    counts.forEach(({ statusId, priorityId, resolutionId, count }) => {
+      if (statusId !== null) {
+        if (statusId === 1) metricsMap['status-open'].count = count
+        if (statusId === 2) metricsMap['status-closed'].count = count
+        if (statusId === 3) metricsMap['status-inProgress'].count = count
+      }
+
+      if (priorityId !== null) {
+        if (priorityId === 1) metricsMap['priority-low'].count = count
+        if (priorityId === 2) metricsMap['priority-medium'].count = count
+        if (priorityId === 3) metricsMap['priority-high'].count = count
+      }
+
+      if (resolutionId !== null) {
+        if (resolutionId === 1) metricsMap['resolution-resolved'].count = count
+        if (resolutionId === 2) metricsMap['resolution-unresolved'].count = count
+      }
+    })
+    const data: MetricType[] = Object.values(metricsMap)
+
     return response(true, 'Tickets count fetched successfully', data)
   } catch (error) {
     return response(false, 'An error occurred while fetching tickets count')

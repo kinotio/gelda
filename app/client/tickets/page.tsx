@@ -1,7 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
+import { ArrowUpDown, MoreHorizontal, ArrowRightIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -19,6 +20,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
 import { useUserTickets } from '@/hooks/mod/tickets/use-user-tickets'
+import { useUserTicketsMetrics } from '@/hooks/mod/tickets/use-user-tickets-metrics'
 
 import { TicketInformationWithRelationType } from '@/lib/definitions'
 import { COLOR_BY_STATUS_ID, COLOR_BY_PRIORITY_ID, COLOR_BY_RESOLUTION_ID } from '@/lib/constants'
@@ -160,13 +162,14 @@ const columns: ColumnDef<TicketInformationWithRelationType>[] = [
 ]
 
 const Page = () => {
-  const { loading, tickets } = useUserTickets({ limit: 0 })
+  const { loading: isTicketsLoading, tickets } = useUserTickets({ limit: 0 })
 
   return (
     <div className='flex min-h-[calc(92vh_-_theme(spacing.16))] flex-1 flex-col gap-6 p-6 md:p-12'>
       <Metrics />
-      {loading ? (
-        <div className='w-full h-[60vh] flex justify-center items-center'>
+
+      {isTicketsLoading ? (
+        <div className='w-full h-[40vh] flex justify-center items-center'>
           <Loader />
         </div>
       ) : (
@@ -187,23 +190,47 @@ const Page = () => {
 }
 
 const Metrics = () => {
+  const { loading: isTicketsMetricsLoading, metrics } = useUserTicketsMetrics()
+
+  const handleScroll = (left: number) => {
+    const container = document.getElementById('scroll-container')
+    if (container) container.scrollTo({ left, behavior: 'smooth' })
+  }
+
   return (
     <section className='bg-white'>
       <div className='flex justify-between items-center mb-4'>
-        <h2 className='text-2xl font-bold'>Metrics</h2>
+        <Button variant='ghost' onClick={() => handleScroll(0)} className='p-0 m-0'>
+          <h2 className='text-2xl font-bold cursor-pointer'>Metrics</h2>
+        </Button>
+
+        <Button variant='ghost' onClick={() => handleScroll(200)}>
+          <ArrowRightIcon className='h-4 w-4' />
+        </Button>
       </div>
-      <div className='grid grid-cols-6 gap-4'>
-        <Card className='col-span-1'>
-          <CardContent className='flex justify-between items-center p-6'>
-            <div>
-              <Badge variant='secondary'>Status</Badge>
-              <h3 className='text-lg font-semibold'>Open</h3>
-              <p className='text-sm text-muted-foreground'>Opened tickets</p>
-            </div>
-            <span className='text-3xl font-bold'>14</span>
-          </CardContent>
-        </Card>
-      </div>
+
+      {isTicketsMetricsLoading ? (
+        <div className='w-full flex justify-center items-center'>
+          <Loader />
+        </div>
+      ) : (
+        <div id='scroll-container' className='overflow-x-auto custom-scroll'>
+          <div className='grid grid-flow-col auto-cols-max gap-4'>
+            {metrics.map((metric, idx) => (
+              <Card key={idx} className='col-span-1 w-64'>
+                <CardContent className='flex justify-between items-center p-6'>
+                  <div>
+                    <Badge variant='secondary'>{metric.type}</Badge>
+                    <h3 className='text-lg font-semibold capitalize'>{metric.name}</h3>
+                    <p className='text-sm text-muted-foreground'>{metric.description}</p>
+                  </div>
+                  <span className='text-3xl font-bold'>{metric.count}</span>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   )
 }
