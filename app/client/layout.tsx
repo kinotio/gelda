@@ -20,8 +20,8 @@ const menus = [
     path: PATH.CLIENT_TICKETS
   },
   {
-    label: 'Chat',
-    path: PATH.CLIENT_CHAT
+    label: 'Discussions',
+    path: PATH.CLIENT_DISCUSSIONS
   }
 ]
 

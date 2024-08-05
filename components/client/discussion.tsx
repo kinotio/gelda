@@ -6,16 +6,16 @@ import { Input } from '@/components/ui/input'
 
 // import { useAi } from '@/hooks/shared/use-ai'
 
-const Chat = () => {
+const Discussion = () => {
   // const { content } = useAi()
 
   return (
     <Card className='h-full'>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
-        <CardTitle className='text-sm font-medium'>Gelda: Chat</CardTitle>
+        <CardTitle className='text-sm font-medium'>Gelda</CardTitle>
         <Button className='rounded-full' size='icon' variant='ghost'>
           <PlusIcon className='w-4 h-4' />
-          <span className='sr-only'>New chat</span>
+          <span className='sr-only'>New Discussion</span>
         </Button>
       </CardHeader>
       <CardContent className='h-[600px] overflow-y-scroll'>
@@ -54,4 +54,4 @@ const Chat = () => {
   )
 }
 
-export { Chat }
+export { Discussion }

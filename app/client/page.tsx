@@ -1,5 +1,5 @@
 import { CreateTicket } from '@/components/client/create-ticket'
-import { Chat } from '@/components/client/chat'
+import { Discussion } from '@/components/client/discussion'
 import { RecentTickets } from '@/components/client/recent-tickets'
 
 const Page = () => {
@@ -8,7 +8,7 @@ const Page = () => {
       <div className='grid gap-4 lg:grid-cols-3 h-full'>
         <CreateTicket />
         <RecentTickets />
-        <Chat />
+        <Discussion />
       </div>
     </div>
   )

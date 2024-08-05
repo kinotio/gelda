@@ -50,7 +50,7 @@ export const PATH = {
 
   CLIENT: '/client',
   CLIENT_TICKETS: '/client/tickets',
-  CLIENT_CHAT: '/client/chat',
+  CLIENT_DISCUSSIONS: '/client/discussions',
 
   ADMIN: '/admin',
   ADMIN_DASHBOARD: '/admin/dashboard',
