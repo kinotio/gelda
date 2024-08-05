@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { TicketIcon } from 'lucide-react'
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import {
@@ -18,14 +19,17 @@ import { COLOR_BY_PRIORITY_ID, COLOR_BY_STATUS_ID } from '@/lib/constants'
 import { shortText } from '@/lib/utils'
 
 const RecentTickets = () => {
-  const { tickets, loading } = useUserTickets({ limit: 0 })
+  const { tickets, loading } = useUserTickets({ limit: 13 })
 
   const hasTickets = Array.isArray(tickets) && tickets.length > 0
 
   return (
     <Card>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
-        <CardTitle className='text-sm font-medium'>Recent Tickets</CardTitle>
+        <CardTitle className='text-sm font-medium flex items-center gap-2'>
+          <TicketIcon size={20} />
+          <span className='text-xl font-bold'>Recent Tickets</span>
+        </CardTitle>
         {hasTickets ? (
           <Link className='text-sm text-gray-500 dark:text-gray-400' href='#'>
             View all

@@ -1,4 +1,4 @@
-import { BellIcon, AtSignIcon, EyeOffIcon } from 'lucide-react'
+import { BellIcon, BellOffIcon } from 'lucide-react'
 
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
@@ -70,21 +70,12 @@ const Settings = () => {
             <div className='space-y-1'>
               <p className='text-sm font-medium leading-none'>Everything</p>
               <p className='text-sm text-gray-500 dark:text-gray-400'>
-                Email digest, mentions & all activity.
-              </p>
-            </div>
-          </div>
-          <div className='-mx-2 flex items-start space-x-4 rounded-md bg-gray-100 p-2 text-gray-900 transition-all dark:bg-gray-800 dark:text-gray-50'>
-            <AtSignIcon className='mt-px h-5 w-5' />
-            <div className='space-y-1'>
-              <p className='text-sm font-medium leading-none'>Available</p>
-              <p className='text-sm text-gray-500 dark:text-gray-400'>
-                Only mentions and comments.
+                Ticket opened, resolved & all activity.
               </p>
             </div>
           </div>
           <div className='-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50'>
-            <EyeOffIcon className='mt-px h-5 w-5' />
+            <BellOffIcon className='mt-px h-5 w-5' />
             <div className='space-y-1'>
               <p className='text-sm font-medium leading-none'>Ignoring</p>
               <p className='text-sm text-gray-500 dark:text-gray-400'>

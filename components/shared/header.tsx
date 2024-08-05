@@ -18,7 +18,7 @@ const Header = () => {
 
       <div className='flex items-center gap-4'>
         <Button className='rounded-full' size='icon' variant='ghost'>
-          <BellIcon />
+          <BellIcon size={20} />
         </Button>
 
         <Avatar />

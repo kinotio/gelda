@@ -1,7 +1,7 @@
 'use client'
 
 import type { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, MoreHorizontal, ArrowRightIcon } from 'lucide-react'
+import { ArrowUpDown, MoreHorizontal, ArrowRightIcon, RectangleHorizontalIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -200,6 +200,7 @@ const Metrics = () => {
     <section className='bg-white'>
       <div className='flex justify-between items-center mb-4'>
         <Button variant='ghost' onClick={() => handleScroll(0)}>
+          <RectangleHorizontalIcon className='mr-2' size={20} />
           <h2 className='text-2xl font-bold cursor-pointer'>Metrics</h2>
         </Button>
 

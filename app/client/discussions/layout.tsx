@@ -1,3 +1,5 @@
+import { HistoryIcon } from 'lucide-react'
+
 const Layout = ({
   children
 }: Readonly<{
@@ -16,7 +18,10 @@ const Layout = ({
 const SidebarHistory = () => {
   return (
     <div className='border-r border-gray-200 p-6 flex flex-col gap-4'>
-      <h2 className='text-lg font-semibold'>Conversation History</h2>
+      <div className='font-semibold flex items-center gap-2'>
+        <HistoryIcon size={20} />
+        <h2 className='text-xl font-bold'>Conversation History</h2>
+      </div>
       <div className='flex flex-col gap-4 h-[78vh] overflow-y-scroll pr-6'>
         {Array.from({ length: 20 }).map((_, idx) => (
           <SidebarHistoryCard key={idx} />

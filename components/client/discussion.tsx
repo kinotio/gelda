@@ -1,4 +1,4 @@
-import { PlusIcon, SendIcon } from 'lucide-react'
+import { PlusIcon, SendIcon, MessagesSquareIcon } from 'lucide-react'
 
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -12,7 +12,10 @@ const Discussion = () => {
   return (
     <Card className='h-full'>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
-        <CardTitle className='text-sm font-medium'>Gelda</CardTitle>
+        <CardTitle className='text-sm font-medium flex items-center gap-2'>
+          <MessagesSquareIcon size={20} />
+          <span className='text-xl font-bold'>Gelda</span>
+        </CardTitle>
         <Button className='rounded-full' size='icon' variant='ghost'>
           <PlusIcon className='w-4 h-4' />
           <span className='sr-only'>New Discussion</span>
