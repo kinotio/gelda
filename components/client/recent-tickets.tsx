@@ -15,7 +15,7 @@ import {
 import { Loader } from '@/components/ui/shared/loader'
 
 import { useUserTickets } from '@/hooks/mod/tickets/use-user-tickets'
-import { COLOR_BY_PRIORITY_ID, COLOR_BY_STATUS_ID } from '@/lib/constants'
+import { COLOR_BY_PRIORITY_ID, COLOR_BY_STATUS_ID, PATH } from '@/lib/constants'
 import { shortText } from '@/lib/utils'
 
 const RecentTickets = () => {
@@ -31,7 +31,11 @@ const RecentTickets = () => {
           <span className='text-xl font-bold'>Recent Tickets</span>
         </CardTitle>
         {hasTickets ? (
-          <Link className='text-sm text-gray-500 dark:text-gray-400' href='#'>
+          <Link
+            className='text-sm text-gray-500 dark:text-gray-400'
+            href={PATH.CLIENT_TICKETS}
+            prefetch={false}
+          >
             View all
           </Link>
         ) : null}
