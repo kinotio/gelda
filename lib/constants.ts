@@ -51,6 +51,7 @@ export const PATH = {
   CLIENT: '/client',
   CLIENT_TICKETS: '/client/tickets',
   CLIENT_DISCUSSIONS: '/client/discussions',
+  CLIENT_SETTINGS: '/client/settings',
 
   ADMIN: '/admin',
   ADMIN_DASHBOARD: '/admin/dashboard',

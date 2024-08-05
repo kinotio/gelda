@@ -25,6 +25,11 @@ const menus = [
     label: 'Discussions',
     path: PATH.CLIENT_DISCUSSIONS,
     icon: 'MessagesSquare'
+  },
+  {
+    label: 'Settings',
+    path: PATH.CLIENT_SETTINGS,
+    icon: 'Settings'
   }
 ]
 
