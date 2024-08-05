@@ -1,8 +1,7 @@
 'use client'
 
-import { PlusIcon } from 'lucide-react'
+import { PlusIcon, AlertCircle, TicketPlusIcon } from 'lucide-react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
-import { AlertCircle } from 'lucide-react'
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
@@ -43,7 +42,10 @@ const CreateTicket = () => {
   return (
     <Card>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
-        <CardTitle className='text-sm font-medium'>Create Ticket</CardTitle>
+        <CardTitle className='text-sm font-medium flex items-center gap-2'>
+          <TicketPlusIcon size={20} />
+          <span className='text-xl font-bold'>Create Ticket</span>
+        </CardTitle>
         <Button className='rounded-full' size='icon' variant='ghost' onClick={() => reset()}>
           <PlusIcon className='w-4 h-4 text-gray-500 dark:text-gray-400 cursor-pointer' />
           <span className='sr-only'>New ticket</span>
