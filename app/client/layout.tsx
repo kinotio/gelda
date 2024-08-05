@@ -13,15 +13,18 @@ export const metadata: Metadata = { title: 'Gelda | Client Dashboard' }
 const menus = [
   {
     label: 'Dashboard',
-    path: PATH.CLIENT
+    path: PATH.CLIENT,
+    icon: 'LayoutDashboard'
   },
   {
     label: 'Tickets',
-    path: PATH.CLIENT_TICKETS
+    path: PATH.CLIENT_TICKETS,
+    icon: 'Ticket'
   },
   {
     label: 'Discussions',
-    path: PATH.CLIENT_DISCUSSIONS
+    path: PATH.CLIENT_DISCUSSIONS,
+    icon: 'MessagesSquare'
   }
 ]
 

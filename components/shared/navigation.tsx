@@ -2,6 +2,9 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { icons } from 'lucide-react'
+
+import { Icon } from '@/components/ui/icon'
 
 import {
   NavigationMenu,
@@ -14,6 +17,7 @@ import { Separator } from '@/components/ui/separator'
 type Menu = {
   label: string
   path: string
+  icon: string
 }
 
 const Navigation = ({ menus }: { menus: Menu[] }) => {
@@ -31,6 +35,7 @@ const Navigation = ({ menus }: { menus: Menu[] }) => {
                     pathname === menu.path ? 'text-black border-b-2' : 'text-gray-500'
                   }`}
                 >
+                  <Icon name={menu.icon as keyof typeof icons} size={14} />
                   {menu.label}
                 </NavigationMenuLink>
               </Link>
