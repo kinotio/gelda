@@ -13,19 +13,23 @@ export const metadata: Metadata = { title: 'Gelda | Admin Dashboard' }
 const menus = [
   {
     label: 'Dashboard',
-    path: PATH.ADMIN_DASHBOARD
+    path: PATH.ADMIN_DASHBOARD,
+    icon: 'LayoutDashboard'
   },
   {
     label: 'Users',
-    path: PATH.ADMIN_USERS
+    path: PATH.ADMIN_USERS,
+    icon: 'Users'
   },
   {
     label: 'Tickets',
-    path: PATH.ADMIN_TICKETS
+    path: PATH.ADMIN_TICKETS,
+    icon: 'Ticket'
   },
   {
     label: 'Settings',
-    path: PATH.ADMIN_SETTINGS
+    path: PATH.ADMIN_SETTINGS,
+    icon: 'Settings'
   }
 ]
 
