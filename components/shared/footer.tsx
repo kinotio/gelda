@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { GithubIcon } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
+import { KinotioLogo } from '@/components/logos/kinotio-logo'
 
 import { APP_VERSION } from '@/lib/constants'
 
@@ -18,13 +18,7 @@ const Footer = () => {
       <nav className='sm:ml-auto flex gap-2 items-center'>
         <span className='text-sm font-semibold'>By</span>
         <Link href={'https://github.com/kinotio'}>
-          <Image
-            src='/images/kinotio-logo-dark.png'
-            alt='Kinotio'
-            width={80}
-            height={80}
-            priority
-          />
+          <KinotioLogo width={100} height={50} />
         </Link>
       </nav>
     </footer>
