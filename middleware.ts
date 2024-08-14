@@ -10,7 +10,9 @@ const middleware = async (request: NextRequest) => {
   const path = request.nextUrl.pathname
 
   if (!token) {
-    if (path === PATH.HOME || [PATH.SIGNIN, PATH.SIGNUP].includes(path)) {
+    if (path === PATH.HOME) {
+      return NextResponse.redirect(new URL(PATH.SIGNIN, request.url))
+    } else if ([PATH.SIGNIN, PATH.SIGNUP].includes(path)) {
       return NextResponse.next()
     }
     return NextResponse.redirect(new URL(PATH.SIGNIN, request.url))
