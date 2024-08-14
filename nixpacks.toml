@@ -1,0 +1,38 @@
+providers = []
+buildImage = 'ghcr.io/railwayapp/nixpacks:ubuntu-1722902622'
+
+[variables]
+CI = 'true'
+NIXPACKS_METADATA = 'node'
+NODE_ENV = 'production'
+NPM_CONFIG_PRODUCTION = 'false'
+[phases.build]
+dependsOn = ['install']
+cmds = ['pnpm run build']
+cacheDirectories = [
+    '.next/cache',
+    'node_modules/.cache',
+]
+
+[phases.install]
+dependsOn = ['setup']
+cmds = [
+    'npm install -g corepack@0.24.1 && corepack enable',
+    'pnpm i --frozen-lockfile',
+]
+cacheDirectories = ['/root/.local/share/pnpm/store/v3']
+paths = ['/app/node_modules/.bin']
+
+[phases.setup]
+nixPkgs = [
+    'nodejs_18',
+    'pnpm-8_x',
+    'openssl',
+]
+nixLibs = ['gcc-unwrapped']
+nixOverlays = ['https://github.com/railwayapp/nix-npm-overlay/archive/main.tar.gz']
+nixpkgsArchive = 'e05605ec414618eab4a7a6aea8b38f6fbbcc8f08'
+
+[start]
+cmd = 'pnpm run start'
+
