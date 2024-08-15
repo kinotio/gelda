@@ -1,6 +1,6 @@
 FROM node:20-alpine as base
 RUN apk add --no-cache g++ make py3-pip libc6-compat
-RUN npm install -g corepack@0.24.1 && corepack enable
+RUN npm install -g corepack@0.24.1 && corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
 COPY package*.json ./
 
