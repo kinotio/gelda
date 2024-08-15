@@ -1,16 +1,47 @@
-version: '3.1'
+version: '3.8'
 
 services:
-  gelda:
-    build: .
-    x-develop:
-      watch:
-        - action: sync
-          path: .
-          target: /app
-    container_name: gelda
-    restart: always
-    ports:
-      - 3000:3000
+  kinotio-gelda-app:
+    container_name: kinotio_gelda_app
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - .:/app
+      - /app/node_modules
+    ports:
+      - '3000:3000'
+    environment:
+      SUPABASE_URL: http://localhost:54321
+      SUPABASE_ANON_KEY: <your-supabase-anon-key>
+      SUPABASE_DATABASE_URL: postgresql://postgres:postgres@localhost:54322/postgres
+    depends_on:
+      - kinotio-gelda-supabase
+    command: pnpm install && pnpm dev
+
+  kinotio-gelda-supabase:
+    image: supabase/postgres:15.2.0
+    container_name: kinotio_gelda_supabase
+    ports:
+      - '54321:5432'
+    environment:
+      SUPABASE_URL: http://localhost:54321
+      POSTGRES_PASSWORD: supersecurepassword
+      POSTGRES_DB: supabase
+    volumes:
+      - supabase-data:/var/lib/postgresql/data
+
+  supabase-studio:
+    image: supabase/postgres-meta:15.2.0
+    container_name: supabase-studio
+    ports:
+      - '54323:8080'
+    environment:
+      SUPABASE_URL: http://supabase:5432
+      SUPABASE_ANON_KEY: <your-supabase-anon-key>
+      SUPABASE_JWT_SECRET: <your-supabase-jwt-secret>
+    depends_on:
+      - kinotio-gelda-supabase
+
+volumes:
+  supabase-data:
