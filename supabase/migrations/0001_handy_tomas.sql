@@ -1,1 +1,0 @@
-ALTER TABLE "session_tokens" ADD COLUMN "token_version" integer DEFAULT 0;

@@ -8,11 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write \"./**/*.{ts,tsx}\"",
-    "drizzle:generate": "npx drizzle-kit generate",
-    "drizzle:migrate": "npx drizzle-kit migrate",
-    "drizzle:push": "npx drizzle-kit push",
-    "drizzle:seed": "npx tsx ./database/seeds.ts"
+    "format": "prettier --write \"./**/*.{ts,tsx}\""
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.24.3",
@@ -36,7 +32,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
-    "drizzle-orm": "^0.31.2",
     "jose": "^5.4.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.390.0",

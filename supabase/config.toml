@@ -15,6 +15,9 @@ extra_search_path = ["public", "extensions"]
 # for accidental or malicious requests.
 max_rows = 1000
 
+[api.tls]
+enabled = false
+
 [db]
 # Port to use for the local database URL.
 port = 54322
@@ -69,6 +72,13 @@ file_size_limit = "50MiB"
 
 [storage.image_transformation]
 enabled = true
+
+# Uncomment to configure local storage buckets
+# [storage.buckets.images]
+# public = false
+# file_size_limit = "50MiB"
+# allowed_mime_types = ["image/png", "image/jpeg"]
+# objects_path = "./images"
 
 [auth]
 enabled = true
@@ -174,9 +184,8 @@ policy = "oneshot"
 inspector_port = 8083
 
 [analytics]
-enabled = false
+enabled = true
 port = 54327
-vector_port = 54328
 # Configure one of the supported backends: `postgres`, `bigquery`.
 backend = "postgres"
 
