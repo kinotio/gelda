@@ -31,9 +31,9 @@ services:
     volumes:
       - supabase-data:/var/lib/postgresql/data
 
-  supabase-studio:
+  kinotio-gelda-supabase-studio:
     image: supabase/postgres-meta:15.2.0
-    container_name: supabase-studio
+    container_name: kinotio_gelda_supabase_studio
     ports:
       - '54323:8080'
     environment:
