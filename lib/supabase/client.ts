@@ -28,4 +28,4 @@ export const removeListener = (listener: any) => {
   supabase.removeChannel(supabase.channel(listener))
 }
 
-export { createClient }
+export { supabase }

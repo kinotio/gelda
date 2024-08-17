@@ -2,28 +2,38 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { EyeIcon, EyeOffIcon, AlertCircle } from 'lucide-react'
+
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
+// import { Checkbox } from '@/components/ui/checkbox'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
-import { AuthSignInFormType } from '@/lib/definitions'
+import { EMAIL_PATTERN } from '@/lib/constants'
+
+import { useAuth } from '@/hooks/use-auth'
+
+const LoginFormSchema = z.object({
+  email: z.string().email({ message: 'Invalid email' }),
+  password: z.string()
+})
 
 const Page = () => {
   return (
     <div className='mx-auto w-full max-w-md space-y-8'>
       <div>
         <h2 className='mt-6 text-center text-3xl font-bold tracking-tight'>
-          Sign in to your account
+          Login to your account
         </h2>
         <p className='mt-2 text-center text-sm'>
           Or{' '}
-          <Link href='/auth/signup' className='font-medium' prefetch={false}>
-            sign up for a new account
+          <Link href='/auth/register' className='font-medium' prefetch={false}>
+            register for a new account
           </Link>
         </p>
       </div>
@@ -33,24 +43,25 @@ const Page = () => {
 }
 
 const LoginForm = () => {
-  const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false)
-
   const {
     register,
     handleSubmit,
-    formState: { errors }
-  } = useForm<AuthSignInFormType>()
+    formState: { errors },
+    reset
+  } = useForm<z.infer<typeof LoginFormSchema>>({
+    resolver: zodResolver(LoginFormSchema)
+  })
+  const { login, message, loading } = useAuth()
 
-  const loading = false
-  const message = ''
-  const success = false
+  const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false)
 
-  const onSubmit: SubmitHandler<AuthSignInFormType> = async (form: AuthSignInFormType) =>
-    console.log(form)
+  const onSubmit = (form: z.infer<typeof LoginFormSchema>) => {
+    login(form).finally(() => reset())
+  }
 
   return (
     <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
-      {!success && message !== '' ? (
+      {message !== '' ? (
         <Alert variant='destructive'>
           <AlertCircle className='h-4 w-4' />
           <AlertTitle>Error</AlertTitle>
@@ -69,7 +80,7 @@ const LoginForm = () => {
             type='email'
             placeholder='john.doe@example.com'
             className='block w-full appearance-none rounded-md border px-3 py-2 shadow-sm'
-            {...register('email', { required: 'Email is required' })}
+            {...register('email', { required: 'Email is required', pattern: EMAIL_PATTERN })}
           />
           {errors.email && <span className='text-red-500 text-sm'>{errors.email.message}</span>}
         </div>
@@ -113,12 +124,12 @@ const LoginForm = () => {
         </div>
       </div>
       <div className='flex items-center justify-between'>
-        <div className='flex items-center'>
+        {/* <div className='flex items-center'>
           <Checkbox id='remember-me' name='remember-me' className='h-4 w-4 rounded' />
           <Label htmlFor='remember-me' className='ml-2 block text-sm'>
             Remember me
           </Label>
-        </div>
+        </div> */}
         <div className='text-sm'>
           <Link href='#' className='font-medium' prefetch={false}>
             Forgot your password?
@@ -129,6 +140,7 @@ const LoginForm = () => {
         <Button
           type='submit'
           className='flex w-full justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2'
+          disabled={loading}
         >
           {loading ? 'Loading...' : 'Sign in'}
         </Button>

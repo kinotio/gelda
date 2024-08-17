@@ -14,7 +14,6 @@ services:
     environment:
       SUPABASE_URL: http://localhost:54321
       SUPABASE_ANON_KEY: <your-supabase-anon-key>
-      SUPABASE_DATABASE_URL: postgresql://postgres:postgres@localhost:54322/postgres
     depends_on:
       - kinotio-gelda-supabase
     command: pnpm install && pnpm dev
@@ -27,7 +26,7 @@ services:
     environment:
       SUPABASE_URL: http://localhost:54321
       POSTGRES_PASSWORD: supersecurepassword
-      POSTGRES_DB: supabase
+      POSTGRES_DB: gelda
     volumes:
       - supabase-data:/var/lib/postgresql/data
 

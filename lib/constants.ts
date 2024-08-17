@@ -22,7 +22,7 @@ export const PG_UNIQUE_VIOLATION_ERROR_CODE = 23505
 
 export const ROLE_BY_NAME = {
   CLIENT: 1,
-  ADMIN: 2
+  CONTROL: 2
 }
 
 export const STATUS_BY_NAME = {
@@ -45,21 +45,22 @@ export const RESOLUTION_BY_NAME = {
 export const PATH = {
   HOME: '/',
 
-  SIGNIN: '/auth/signin',
-  SIGNUP: '/auth/signup',
+  AUTH: '/auth',
 
-  CLIENT: '/client',
-  CLIENT_TICKETS: '/client/tickets',
-  CLIENT_DISCUSSIONS: '/client/discussions',
-  CLIENT_SETTINGS: '/client/settings',
+  LOGIN: '/auth/login',
+  REGISTER: '/auth/register',
 
-  ADMIN: '/admin',
-  ADMIN_DASHBOARD: '/admin/dashboard',
-  ADMIN_USERS: '/admin/users',
-  ADMIN_TICKETS: '/admin/tickets',
-  ADMIN_TICKETS_VIEW: '/admin/tickets/[id]',
-  ADMIN_AI: '/admin/ai',
-  ADMIN_SETTINGS: '/admin/settings'
+  USER_OVERVIEW: '/u/overview',
+  USER_TICKETS: '/u/tickets',
+  USER_DISCUSSIONS: '/u/discussions',
+  USER_SETTINGS: '/u/settings',
+
+  CONTROL_DASHBOARD: '/c/dashboard',
+  CONTROL_USERS: '/c/users',
+  CONTROL_TICKETS: '/c/tickets',
+  CONTROL_TICKETS_VIEW: '/c/tickets/[id]',
+  CONTROL_AI: '/c/ai',
+  CONTROL_SETTINGS: '/c/settings'
 }
 
 export const TOKEN_NAME = 'access-token'

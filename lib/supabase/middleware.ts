@@ -1,12 +1,14 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 
+import { PATH } from '@/lib/constants'
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request
   })
 
-  const supabase = createServerClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY!, {
+  const supabase = createServerClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY, {
     cookies: {
       getAll() {
         return request.cookies.getAll()
@@ -31,14 +33,18 @@ export async function updateSession(request: NextRequest) {
     data: { user }
   } = await supabase.auth.getUser()
 
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith('/auth/login') &&
-    !request.nextUrl.pathname.startsWith('/auth')
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
+  if (!user && !request.nextUrl.pathname.startsWith(PATH.AUTH)) {
     const url = request.nextUrl.clone()
-    url.pathname = '/auth/login'
+    url.pathname = PATH.LOGIN
+    return NextResponse.redirect(url)
+  }
+
+  if (
+    (user && request.nextUrl.pathname.startsWith(PATH.AUTH)) ||
+    (user && request.nextUrl.pathname === PATH.HOME)
+  ) {
+    const url = request.nextUrl.clone()
+    url.pathname = PATH.USER_OVERVIEW
     return NextResponse.redirect(url)
   }
 
