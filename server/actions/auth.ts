@@ -10,9 +10,7 @@ export const login = async (form: { email: string; password: string }) => {
     email: form.email,
     password: form.password
   })
-
   if (error) throw new Error(error.message)
-
   revalidatePath('/u/overview', 'layout')
   redirect('/u/overview')
 }
@@ -24,7 +22,6 @@ export const register = async (form: {
   confirmPassword: string
 }) => {
   if (form.password !== form.confirmPassword) throw new Error('Passwords do not match')
-
   const { error } = await supabase.auth.signUp({
     email: form.email,
     password: form.password,
@@ -34,18 +31,14 @@ export const register = async (form: {
       }
     }
   })
-
   if (error) throw new Error(error.message)
-
   revalidatePath('/', 'layout')
   redirect('/')
 }
 
 export const logout = async () => {
   const { error } = await supabase.auth.signOut()
-
   if (error) throw new Error(error.message)
-
   revalidatePath('/', 'layout')
   redirect('/')
 }
@@ -54,5 +47,23 @@ export const getUser = async () => {
   const {
     data: { user }
   } = await supabase.auth.getUser()
+  return user
+}
+
+export const updateUser = async (email: string) => {
+  const {
+    error,
+    data: { user }
+  } = await supabase.auth.updateUser({ email })
+  if (error) throw new Error(error.message)
+  return user
+}
+
+export const reauthenticate = async () => {
+  const {
+    error,
+    data: { user }
+  } = await supabase.auth.reauthenticate()
+  if (error) throw new Error(error.message)
   return user
 }
