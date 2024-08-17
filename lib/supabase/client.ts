@@ -1,7 +1,14 @@
 import { createBrowserClient } from '@supabase/ssr'
 
+const SUPABASE_URL = process.env.SUPABASE_URL
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY
+
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  throw new Error('Missing Supabase environment variables')
+}
+
 const createClient = () => {
-  return createBrowserClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY)
+  return createBrowserClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 }
 
 const supabase = createClient()
