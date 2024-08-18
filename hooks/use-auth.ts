@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import type { User } from '@supabase/supabase-js'
 
 import {
@@ -15,13 +15,10 @@ export const useAuth = () => {
   const [message, setMessage] = useState<string>('')
   const [authenticatedUser, setAuthenticatedUser] = useState<User | null>()
 
-  useEffect(() => {
-    authenticate()
-  }, [])
-
   const login = async (form: { email: string; password: string }) => {
     setLoading(true)
     loginAction(form)
+      .then(() => window.location.reload())
       .catch((error) => setMessage(error.message))
       .finally(() => setLoading(false))
   }
@@ -34,6 +31,7 @@ export const useAuth = () => {
   }) => {
     setLoading(true)
     registerAction(form)
+      .then(() => window.location.reload())
       .catch((error) => setMessage(error.message))
       .finally(() => setLoading(false))
   }
@@ -41,6 +39,7 @@ export const useAuth = () => {
   const logout = async () => {
     setLoading(true)
     logoutAction()
+      .then(() => window.location.reload())
       .catch((error) => setMessage(error.message))
       .finally(() => setLoading(false))
   }

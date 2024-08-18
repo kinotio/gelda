@@ -1,18 +1,26 @@
 'use server'
 
+import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { supabase } from '@/lib/supabase/server'
 
 export const login = async (form: { email: string; password: string }) => {
-  const { error } = await supabase.auth.signInWithPassword({
+  const cookieStore = cookies()
+
+  const { data, error } = await supabase.auth.signInWithPassword({
     email: form.email,
     password: form.password
   })
-  if (error) throw new Error(error.message)
-  revalidatePath('/u/overview', 'layout')
-  redirect('/u/overview')
+
+  cookieStore.set('sb-access-token', data?.session?.access_token ?? '')
+  cookieStore.set('sb-refresh-token', data?.session?.refresh_token ?? '')
+
+  if (error) throw error
+
+  revalidatePath('/', 'layout')
+  redirect('/')
 }
 
 export const register = async (form: {
@@ -27,43 +35,54 @@ export const register = async (form: {
     password: form.password,
     options: {
       data: {
-        name: form.name
+        name: form.name,
+        role: 'user'
       }
     }
   })
-  if (error) throw new Error(error.message)
+
+  if (error) throw error
+
   revalidatePath('/', 'layout')
   redirect('/')
 }
 
 export const logout = async () => {
+  const supaCookies = cookies().getAll()
+
   const { error } = await supabase.auth.signOut()
-  if (error) throw new Error(error.message)
+
+  if (error) throw error
+
+  supaCookies.map((cookie) => {
+    if (cookie.name.includes('sb-')) cookies().delete(cookie.name)
+  })
+
   revalidatePath('/', 'layout')
   redirect('/')
 }
 
 export const getUser = async () => {
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
-  return user
-}
+  let user = null
+  const cookieStore = cookies()
 
-export const updateUser = async (email: string) => {
-  const {
-    error,
-    data: { user }
-  } = await supabase.auth.updateUser({ email })
-  if (error) throw new Error(error.message)
-  return user
-}
+  const accessToken = cookieStore.get('sb-access-token')
+  const refreshToken = cookieStore.get('sb-refresh-token')
 
-export const reauthenticate = async () => {
-  const {
-    error,
-    data: { user }
-  } = await supabase.auth.reauthenticate()
-  if (error) throw new Error(error.message)
+  const { error, data } = await supabase.auth.getUser()
+
+  if (!data.user || error) {
+    const {
+      data: { user: sessionUser }
+    } = await supabase.auth.setSession({
+      access_token: accessToken?.value ?? '',
+      refresh_token: refreshToken?.value ?? ''
+    })
+
+    user = sessionUser
+  } else {
+    user = data.user
+  }
+
   return user
 }
