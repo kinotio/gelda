@@ -50,11 +50,13 @@ export const PATH = {
   LOGIN: '/auth/login',
   REGISTER: '/auth/register',
 
+  USER: '/u',
   USER_OVERVIEW: '/u/overview',
   USER_TICKETS: '/u/tickets',
   USER_DISCUSSIONS: '/u/discussions',
   USER_SETTINGS: '/u/settings',
 
+  CONTROL: '/c',
   CONTROL_DASHBOARD: '/c/dashboard',
   CONTROL_USERS: '/c/users',
   CONTROL_TICKETS: '/c/tickets',

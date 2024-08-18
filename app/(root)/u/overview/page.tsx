@@ -1,9 +1,16 @@
 'use client'
 
+import { useEffect } from 'react'
+
 import { useAuth } from '@/hooks/use-auth'
 
 const Page = () => {
-  const { authenticatedUser } = useAuth()
+  const { authenticatedUser, authenticate } = useAuth()
+
+  useEffect(() => {
+    authenticate()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div>

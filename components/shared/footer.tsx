@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { GithubIcon } from 'lucide-react'
 import { isEmpty } from 'lodash'
@@ -13,10 +14,15 @@ import { APP_VERSION } from '@/lib/constants'
 import { useAuth } from '@/hooks/use-auth'
 
 const Footer = () => {
-  const { loading, authenticatedUser } = useAuth()
+  const { loading, authenticatedUser, authenticate } = useAuth()
+
+  useEffect(() => {
+    authenticate()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
-    <footer className='flex flex-col gap-2 sm:flex-row py-2 w-full shrink-0 items-center px-4 md:px-6 border-t'>
+    <footer className='fixed bottom-0 flex flex-col gap-2 sm:flex-row py-2 w-full shrink-0 items-center px-4 md:px-6 border-t'>
       {!loading && isEmpty(authenticatedUser) ? (
         <div>
           <h3>

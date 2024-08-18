@@ -2,9 +2,8 @@
 
 import { useEffect } from 'react'
 import Link from 'next/link'
-import { GithubIcon, BellIcon, LifeBuoy, LogOut, UserIcon } from 'lucide-react'
+import { GithubIcon, InboxIcon, LifeBuoy, LogOut, UserIcon } from 'lucide-react'
 import { isEmpty } from 'lodash'
-import type { User } from '@supabase/supabase-js'
 
 import { GeldaLogo } from '@/components/svg/gelda-logo'
 import { ToggleTheme } from '@/components/shared/toogle-theme'
@@ -22,10 +21,15 @@ import {
 import { useAuth } from '@/hooks/use-auth'
 
 const Header = () => {
-  const { authenticatedUser, logout, loading } = useAuth()
+  const { authenticatedUser, logout, loading, authenticate } = useAuth()
+
+  useEffect(() => {
+    authenticate()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
-    <header className='pt-4 pb-2 px-6 flex items-center justify-between'>
+    <header className='fixed top-0 w-full pt-4 pb-2 px-6 flex items-center justify-between'>
       <Link className='flex items-center justify-center' href='/'>
         <GeldaLogo width={100} height={50} />
       </Link>
@@ -38,23 +42,27 @@ const Header = () => {
             </Link>
           </div>
         ) : (
-          <div className='flex items-center gap-4'>
+          <div className='flex items-center justify-center gap-4'>
             <Button className='rounded-full' size='icon' variant='ghost'>
-              <BellIcon size={20} />
+              <InboxIcon size={20} />
             </Button>
+
+            <ToggleTheme />
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className='rounded-full' size='icon' variant='ghost'>
+                <Button className='rounded-full bg-white' size='icon' variant='ghost'>
                   <AvatarRoot>
-                    <AvatarFallback className='flex justify-center items-center'>
+                    <AvatarFallback className='flex justify-center items-center bg-white text-black'>
                       <UserIcon size={20} />
                     </AvatarFallback>
                   </AvatarRoot>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className='min-w-56 mr-8 mt-2'>
-                <DropdownMenuLabel>{authenticatedUser?.user_metadata.name}</DropdownMenuLabel>
+                {!isEmpty(authenticatedUser?.user_metadata.name) ? (
+                  <DropdownMenuLabel>{authenticatedUser?.user_metadata.name}</DropdownMenuLabel>
+                ) : null}
                 <DropdownMenuLabel className='font-medium'>
                   {authenticatedUser?.email}
                 </DropdownMenuLabel>
