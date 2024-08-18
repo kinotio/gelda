@@ -14,7 +14,7 @@ const Page = () => {
 
   return (
     <div>
-      <h1>Welcome, {authenticatedUser?.user_metadata.name}</h1>
+      <h1>Welcome, {authenticatedUser?.email}</h1>
     </div>
   )
 }
