@@ -43,8 +43,8 @@ export const register = async (form: {
 
   if (error) throw error
 
-  revalidatePath('/', 'layout')
-  redirect('/')
+  revalidatePath('/auth/login', 'layout')
+  redirect('/auth/login')
 }
 
 export const logout = async () => {
