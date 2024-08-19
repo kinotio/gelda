@@ -31,7 +31,6 @@ export const useAuth = () => {
   }) => {
     setLoading(true)
     registerAction(form)
-      .then(() => window.location.reload())
       .catch((error) => setMessage(error.message))
       .finally(() => setLoading(false))
   }
