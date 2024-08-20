@@ -199,7 +199,7 @@ alter table public.ai_configurations enable row level security;
 alter table public.ai_tokens enable row level security;
 alter table public.discussion_messages enable row level security;
 alter table public.direct_messages enable row level security;
-alter table public.direct_messages enable row level security;
+alter table public.inboxes enable row level security;
 ----------------------------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------------------------
@@ -335,4 +335,3 @@ values
     ('client', 'direct_messages.delete'),
     ('client', 'inboxes.delete');
 ----------------------------------------------------------------------------------------------
-
