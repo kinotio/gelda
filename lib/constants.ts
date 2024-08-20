@@ -22,7 +22,7 @@ export const PG_UNIQUE_VIOLATION_ERROR_CODE = 23505
 
 export const ROLE_BY_NAME = {
   CLIENT: 1,
-  CONTROL: 2
+  ADMIN: 2
 }
 
 export const STATUS_BY_NAME = {
@@ -50,22 +50,20 @@ export const PATH = {
   LOGIN: '/auth/login',
   REGISTER: '/auth/register',
 
-  USER: '/u',
-  USER_OVERVIEW: '/u/overview',
-  USER_TICKETS: '/u/tickets',
-  USER_DISCUSSIONS: '/u/discussions',
-  USER_SETTINGS: '/u/settings',
+  CLIENT: '/c',
+  CLIENT_OVERVIEW: '/c/overview',
+  CLIENT_TICKETS: '/c/tickets',
+  CLIENT_DISCUSSIONS: '/c/discussions',
+  CLIENT_SETTINGS: '/c/settings',
 
-  CONTROL: '/c',
-  CONTROL_DASHBOARD: '/c/dashboard',
-  CONTROL_USERS: '/c/users',
-  CONTROL_TICKETS: '/c/tickets',
-  CONTROL_TICKETS_VIEW: '/c/tickets/[id]',
-  CONTROL_AI: '/c/ai',
-  CONTROL_SETTINGS: '/c/settings'
+  ADMIN: '/a',
+  ADMIN_DASHBOARD: '/a/dashboard',
+  ADMIN_USERS: '/a/users',
+  ADMIN_TICKETS: '/a/tickets',
+  ADMIN_TICKETS_VIEW: '/a/tickets/[id]',
+  ADMIN_AI: '/a/ai',
+  ADMIN_SETTINGS: '/a/settings'
 }
-
-export const TOKEN_NAME = 'access-token'
 
 export const COLOR_BY_STATUS_ID: { [key: number]: string } = {
   0: 'bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-400',

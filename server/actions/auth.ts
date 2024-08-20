@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { supabase } from '@/lib/supabase/server'
+import { isEmpty } from 'lodash'
 
 export const login = async (form: { email: string; password: string }) => {
   const cookieStore = cookies()
@@ -26,17 +27,23 @@ export const login = async (form: { email: string; password: string }) => {
 export const register = async (form: {
   name: string
   email: string
+  username: string
   password: string
   confirmPassword: string
 }) => {
   if (form.password !== form.confirmPassword) throw new Error('Passwords do not match')
+
+  const { data } = await supabase.from('users').select('*').eq('username', form.username)
+
+  if (Array.isArray(data) && data.length > 0) throw new Error('Username already taken')
+
   const { error } = await supabase.auth.signUp({
     email: form.email,
     password: form.password,
     options: {
       data: {
         name: form.name,
-        role: 'user'
+        username: form.username
       }
     }
   })
@@ -82,6 +89,14 @@ export const getUser = async () => {
     user = sessionUser
   } else {
     user = data.user
+  }
+
+  if (isEmpty(user)) {
+    const supaCookies = cookies().getAll()
+
+    supaCookies.map((cookie) => {
+      if (cookie.name.includes('sb-')) cookies().delete(cookie.name)
+    })
   }
 
   return user

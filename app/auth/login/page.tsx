@@ -69,7 +69,7 @@ const LoginForm = () => {
         </Alert>
       ) : null}
 
-      <div>
+      <div className='flex flex-col gap-1'>
         <Label htmlFor='email' className='block text-sm font-medium'>
           Email address
         </Label>
@@ -85,7 +85,7 @@ const LoginForm = () => {
           {errors.email && <span className='text-red-500 text-sm'>{errors.email.message}</span>}
         </div>
       </div>
-      <div>
+      <div className='flex flex-col gap-1'>
         <Label htmlFor='password' className='block text-sm font-medium'>
           Password
         </Label>

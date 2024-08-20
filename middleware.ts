@@ -2,7 +2,6 @@ import { cookies } from 'next/headers'
 import { NextResponse, type NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import type { User } from '@supabase/supabase-js'
-
 import { isEmpty } from 'lodash'
 
 import { PATH } from '@/lib/constants'
@@ -41,24 +40,24 @@ const handleUnauthenticatedClient = (user: User | null, request: NextRequest): N
 
   if (userRole === 'user' && request.nextUrl.pathname === PATH.HOME) {
     const url = request.nextUrl.clone()
-    url.pathname = PATH.USER_OVERVIEW
+    url.pathname = PATH.CLIENT_OVERVIEW
     return NextResponse.redirect(url)
   }
 
-  if (userRole === 'user' && request.nextUrl.pathname.startsWith(PATH.CONTROL)) {
+  if (userRole === 'user' && request.nextUrl.pathname.startsWith(PATH.ADMIN)) {
     const url = request.nextUrl.clone()
-    url.pathname = PATH.USER_OVERVIEW
+    url.pathname = PATH.CLIENT_OVERVIEW
     return NextResponse.redirect(url)
   }
 
   if (
     (user && request.nextUrl.pathname.startsWith(PATH.AUTH)) ||
-    (user && request.nextUrl.pathname.startsWith(PATH.USER)) ||
-    (user && request.nextUrl.pathname.startsWith(PATH.CONTROL))
+    (user && request.nextUrl.pathname.startsWith(PATH.CLIENT)) ||
+    (user && request.nextUrl.pathname.startsWith(PATH.ADMIN))
   ) {
     const url = request.nextUrl.clone()
-    let targetPath = PATH.USER_OVERVIEW
-    if (isEmpty(userRole)) targetPath = PATH.CONTROL_DASHBOARD
+    let targetPath = PATH.CLIENT_OVERVIEW
+    if (isEmpty(userRole)) targetPath = PATH.ADMIN_DASHBOARD
     if (request.nextUrl.pathname !== targetPath) {
       url.pathname = targetPath
       return NextResponse.redirect(url)

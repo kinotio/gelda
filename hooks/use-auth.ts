@@ -26,6 +26,7 @@ export const useAuth = () => {
   const register = async (form: {
     name: string
     email: string
+    username: string
     password: string
     confirmPassword: string
   }) => {

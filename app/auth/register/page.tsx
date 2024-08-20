@@ -19,6 +19,7 @@ import { useAuth } from '@/hooks/use-auth'
 
 const RegisterFormSchema = z.object({
   name: z.string().min(3, { message: 'Name is required' }),
+  username: z.string().min(3, { message: 'Username is required' }),
   email: z.string().email({ message: 'Invalid email' }),
   password: z.string().min(8, { message: 'Password is required' }),
   confirmPassword: z.string().min(8, { message: 'Confirm Password is required' })
@@ -74,7 +75,7 @@ const RegisterForm = () => {
         </Alert>
       ) : null}
 
-      <div>
+      <div className='flex flex-col gap-1'>
         <Label htmlFor='name' className='block text-sm font-medium'>
           Name
         </Label>
@@ -90,7 +91,27 @@ const RegisterForm = () => {
           {errors.name && <span className='text-red-500 text-sm'>{errors.name.message}</span>}
         </div>
       </div>
-      <div>
+      <div className='flex flex-col gap-1'>
+        <Label htmlFor='username' className='block text-sm font-medium'>
+          Username
+        </Label>
+        <div className='mt-1'>
+          <Input
+            autoComplete='username'
+            id='username'
+            type='text'
+            placeholder='johndoe'
+            className='block w-full appearance-none rounded-md border px-3 py-2 shadow-smfocus:outline-none'
+            {...registerForm('username', {
+              required: 'Username is required'
+            })}
+          />
+          {errors.username && (
+            <span className='text-red-500 text-sm'>{errors.username.message}</span>
+          )}
+        </div>
+      </div>
+      <div className='flex flex-col gap-1'>
         <Label htmlFor='email' className='block text-sm font-medium'>
           Email address
         </Label>
@@ -106,7 +127,7 @@ const RegisterForm = () => {
           {errors.email && <span className='text-red-500 text-sm'>{errors.email.message}</span>}
         </div>
       </div>
-      <div>
+      <div className='flex flex-col gap-1'>
         <Label htmlFor='password' className='block text-sm font-medium'>
           Password
         </Label>
@@ -144,7 +165,7 @@ const RegisterForm = () => {
           )}
         </div>
       </div>
-      <div>
+      <div className='flex flex-col gap-1'>
         <Label htmlFor='confirmPassword' className='block text-sm font-medium'>
           Re-Type Password
         </Label>
