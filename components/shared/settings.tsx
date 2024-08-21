@@ -62,7 +62,7 @@ const Settings = () => {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Notification Preferences</CardTitle>
+          <CardTitle>Inboxes Preferences</CardTitle>
         </CardHeader>
         <CardContent>
           <div className='-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50'>
