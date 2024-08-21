@@ -1,20 +1,31 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import {
   list as listAction,
   create as createAction,
-  listTicketPriorities as listTicketPrioritiesAction
+  listTicketPriorities as listTicketPrioritiesAction,
+  metrics as metricsAction
 } from '@/server/actions/tickets'
 
 import { TicketType, TicketFormType, TicketPriorityType } from '@/lib/definitions'
+
+import { useRealtime } from '@/hooks/use-realtime'
 
 export const useTickets = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [tickets, setTickets] = useState<TicketType[]>([])
   const [ticketPriorities, setTicketPriorities] = useState<TicketPriorityType[]>([])
+  const [ticketsMetrics, setTicketsMetrics] = useState<any[]>([])
+
+  const { newData } = useRealtime({ table: 'tickets' })
+
+  useEffect(() => {
+    if (newData) setTickets((prevTickets) => [newData, ...(prevTickets || [])])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newData])
 
   const list = async () => {
     setLoading(true)
@@ -39,5 +50,23 @@ export const useTickets = () => {
       .finally(() => setLoading(false))
   }
 
-  return { loading, message, tickets, list, create, listTicketPriorities, ticketPriorities }
+  const metrics = async () => {
+    setLoading(true)
+    metricsAction({})
+      .then((data) => setTicketsMetrics(data))
+      .catch((error) => setMessage(error.message))
+      .finally(() => setLoading(false))
+  }
+
+  return {
+    loading,
+    message,
+    tickets,
+    list,
+    create,
+    listTicketPriorities,
+    ticketPriorities,
+    metrics,
+    ticketsMetrics
+  }
 }

@@ -20,10 +20,12 @@ export type TicketFormType = {
 export type TicketType = {
   id: number
   title: string
+  slug: string
   description: string
   priority_id: number
   status_id: number
-  user_id: string
+  creator_id: string
+  created_at: Date
 }
 
 export type TicketPriorityType = {
