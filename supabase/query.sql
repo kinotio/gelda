@@ -99,9 +99,9 @@ create table public.tickets (
   description     text,
   status_id       bigint references public.ticket_statuses not null,
   priority_id     bigint references public.ticket_priorities not null,
-  resolution_id   bigint references public.ticket_resolutions not null,
+  resolution_id   bigint references public.ticket_resolutions,
   creator_id      uuid references public.users not null,
-  responsible_id  uuid references public.users not null,
+  responsible_id  uuid references public.users,
   slug            text not null unique,
   created_at      timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at      timestamp with time zone

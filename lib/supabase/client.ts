@@ -13,7 +13,13 @@ const createClient = () => {
 
 const supabase = createClient()
 
-export const onInsertListener = (tableName: string, handleNewValue: Function) => {
+export const onInsertListener = ({
+  tableName,
+  handleNewValue
+}: {
+  tableName: string
+  handleNewValue: Function
+}) => {
   return supabase
     .channel(`public:${tableName}`)
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: tableName }, (payload) =>
@@ -22,7 +28,13 @@ export const onInsertListener = (tableName: string, handleNewValue: Function) =>
     .subscribe() as any
 }
 
-export const onDeleteListener = (tableName: string, handleNewValue: Function) => {
+export const onDeleteListener = ({
+  tableName,
+  handleNewValue
+}: {
+  tableName: string
+  handleNewValue: Function
+}) => {
   return supabase
     .channel(`public:${tableName}`)
     .on('postgres_changes', { event: 'DELETE', schema: 'public', table: tableName }, (payload) =>
@@ -31,7 +43,7 @@ export const onDeleteListener = (tableName: string, handleNewValue: Function) =>
     .subscribe() as any
 }
 
-export const removeListener = (listener: any) => {
+export const removeListener = ({ listener }: { listener: any }) => {
   supabase.removeChannel(supabase.channel(listener))
 }
 

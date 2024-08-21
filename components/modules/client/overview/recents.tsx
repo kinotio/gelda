@@ -16,6 +16,7 @@ import {
 import { Loader } from '@/components/ui/shared/loader'
 
 import { useTickets } from '@/hooks/use-tickets'
+
 import { COLOR_BY_PRIORITY_ID, COLOR_BY_STATUS_ID, PATH } from '@/lib/constants'
 import { shortText } from '@/lib/utils'
 
@@ -58,8 +59,8 @@ const Recents = () => {
                 <TableRow>
                   <TableHead>Ref</TableHead>
                   <TableHead>Title</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Priority</TableHead>
+                  {/* <TableHead>Status</TableHead>
+                  <TableHead>Priority</TableHead> */}
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[650px] block overflow-auto'>

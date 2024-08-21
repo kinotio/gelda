@@ -23,3 +23,10 @@ export const shortText = (text: string) => {
   if (!text || text === '') return '-'
   return text.slice(0, 10) + '...'
 }
+export const sluggify = (text: string): string =>
+  text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/[\s\W-]+/g, '-')
+    .replace(/^-+|-+$/g, '')

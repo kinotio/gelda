@@ -66,7 +66,7 @@ const Create = () => {
         ) : null}
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='space-y-4'>
-            <div>
+            <div className='flex flex-col gap-3'>
               <Label htmlFor='title'>Title</Label>
               <Input
                 id='title'
@@ -77,7 +77,7 @@ const Create = () => {
               />
               {errors.title && <ErrorMessage message={errors.title.message as string} />}
             </div>
-            <div>
+            <div className='flex flex-col gap-3'>
               <Label htmlFor='description'>Description</Label>
               <Textarea
                 id='description'
