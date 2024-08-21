@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import { NextResponse, type NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
-import type { User } from '@supabase/supabase-js'
+import type { User, SupabaseClient } from '@supabase/supabase-js'
 import { isEmpty } from 'lodash'
 
 import { PATH } from '@/lib/constants'
@@ -17,6 +17,26 @@ const protectedRoutes = ['/', '/c', '/a']
 
 export const config = {
   matcher: ['/', '/auth/:path*', '/c/:path*', '/a/:path*']
+}
+
+const handleGettingUserRole = async ({
+  supabase,
+  user
+}: {
+  supabase: SupabaseClient<any, 'public', any>
+  user: User | null
+}) => {
+  const { data: userRole, error } = await supabase
+    .from('user_roles')
+    .select('role')
+    .eq('user_id', user?.id)
+    .limit(1)
+
+  if (error || !userRole) {
+    throw new Error(`An error occurred while getting user role: ${error?.message}`)
+  }
+
+  return userRole
 }
 
 const isProtectedRoute = (pathname: string): boolean => {
@@ -119,22 +139,14 @@ export const middleware = async (request: NextRequest) => {
 
   if (!data.user || error) {
     const {
-      data: { user: sessionUser },
-      error: sessionError
+      data: { user: sessionUser }
     } = await supabase.auth.setSession({
       access_token: accessToken?.value ?? '',
       refresh_token: refreshToken?.value ?? ''
     })
 
     if (sessionUser) {
-      const { data: userRole, error } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', sessionUser?.id)
-        .limit(1)
-
-      if (error) throw error
-
+      const userRole = await handleGettingUserRole({ supabase, user: sessionUser })
       role = userRole[0].role
     }
 
@@ -144,14 +156,7 @@ export const middleware = async (request: NextRequest) => {
         : handleUnauthenticatedClient(sessionUser, role, request)
     }
   } else {
-    const { data: userRole, error } = await supabase
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', data.user?.id)
-      .limit(1)
-
-    if (error) throw error
-
+    const userRole = await handleGettingUserRole({ supabase, user: data.user })
     role = userRole[0].role
 
     if (isProtectedRoute(pathname)) {

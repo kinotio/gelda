@@ -65,7 +65,7 @@ const Navigation = () => {
           <NavigationMenu className='w-full px-2'>
             <NavigationMenuList className='mx-4 gap-6'>
               {menus.map((menu, idx) => (
-                <NavigationMenuItem key={idx}>
+                <NavigationMenuItem key={menu.path}>
                   <Link href={menu.path} legacyBehavior passHref>
                     <NavigationMenuLink
                       className={`py-4 text-sm flex items-center justify-center gap-2 border-black dark:border-white ${

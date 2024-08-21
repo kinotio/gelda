@@ -12,7 +12,7 @@ import { LoginFormType, RegisterFormType } from '@/lib/definitions'
 export const login = async (form: LoginFormType) => {
   const cookieStore = cookies()
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { data, error: signInError } = await supabase.auth.signInWithPassword({
     email: form.email,
     password: form.password
   })
@@ -26,7 +26,7 @@ export const login = async (form: LoginFormType) => {
     secure: true
   })
 
-  if (error) throw error
+  if (signInError) throw new Error(`An error occurred while signin: ${signInError.message}`)
 
   revalidatePath('/', 'layout')
   redirect('/')
@@ -39,7 +39,7 @@ export const register = async (form: RegisterFormType) => {
 
   if (Array.isArray(data) && data.length > 0) throw new Error('Username already taken')
 
-  const { error } = await supabase.auth.signUp({
+  const { error: signUpError } = await supabase.auth.signUp({
     email: form.email,
     password: form.password,
     options: {
@@ -50,7 +50,7 @@ export const register = async (form: RegisterFormType) => {
     }
   })
 
-  if (error) throw error
+  if (signUpError) throw new Error(`An error occurred while signup: ${signUpError.message}`)
 
   revalidatePath('/auth/login', 'layout')
   redirect('/auth/login')
@@ -76,9 +76,9 @@ export const getUser = async () => {
   const accessToken = cookieStore.get('access-token')
   const refreshToken = cookieStore.get('refresh-token')
 
-  const { error, data } = await supabase.auth.getUser()
+  const { error: getUserError, data } = await supabase.auth.getUser()
 
-  if (!data.user || error) {
+  if (!data.user || getUserError) {
     const {
       data: { user: sessionUser }
     } = await supabase.auth.setSession({
@@ -100,4 +100,19 @@ export const getUser = async () => {
   }
 
   return user
+}
+
+export const getUserRoles = async () => {
+  const user = await getUser()
+
+  const { data, error: getUserRolesError } = await supabase
+    .from('user_roles')
+    .select('role')
+    .eq('user_id', user?.id)
+    .limit(1)
+
+  if (getUserRolesError || !data)
+    throw new Error(`An error occurred while fetching user roles: ${getUserRolesError.message}`)
+
+  return data
 }
