@@ -13,17 +13,21 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
   throw new Error('Missing Supabase environment variables')
 }
 
-const protectedRoutes = ['/', '/u', '/c']
+const protectedRoutes = ['/', '/c', '/a']
 
 export const config = {
-  matcher: ['/', '/auth/:path*', '/u/:path*', '/c/:path*']
+  matcher: ['/', '/auth/:path*', '/c/:path*', '/a/:path*']
 }
 
 const isProtectedRoute = (pathname: string): boolean => {
   return protectedRoutes.some((route) => pathname.startsWith(route))
 }
 
-const handleUnauthenticatedClient = (user: User | null, request: NextRequest): NextResponse => {
+const handleUnauthenticatedClient = (
+  user: User | null,
+  role: string,
+  request: NextRequest
+): NextResponse => {
   if (!user && request.nextUrl.pathname === PATH.HOME) {
     const url = request.nextUrl.clone()
     url.pathname = PATH.LOGIN
@@ -36,15 +40,13 @@ const handleUnauthenticatedClient = (user: User | null, request: NextRequest): N
     return NextResponse.redirect(url)
   }
 
-  const userRole = user?.user_metadata?.role
-
-  if (userRole === 'user' && request.nextUrl.pathname === PATH.HOME) {
+  if (role === 'client' && request.nextUrl.pathname === PATH.HOME) {
     const url = request.nextUrl.clone()
     url.pathname = PATH.CLIENT_OVERVIEW
     return NextResponse.redirect(url)
   }
 
-  if (userRole === 'user' && request.nextUrl.pathname.startsWith(PATH.ADMIN)) {
+  if (role === 'client' && request.nextUrl.pathname.startsWith(PATH.ADMIN)) {
     const url = request.nextUrl.clone()
     url.pathname = PATH.CLIENT_OVERVIEW
     return NextResponse.redirect(url)
@@ -57,7 +59,7 @@ const handleUnauthenticatedClient = (user: User | null, request: NextRequest): N
   ) {
     const url = request.nextUrl.clone()
     let targetPath = PATH.CLIENT_OVERVIEW
-    if (isEmpty(userRole)) targetPath = PATH.ADMIN_DASHBOARD
+    if (isEmpty(role)) targetPath = PATH.ADMIN_DASHBOARD
     if (request.nextUrl.pathname !== targetPath) {
       url.pathname = targetPath
       return NextResponse.redirect(url)
@@ -106,31 +108,56 @@ export const middleware = async (request: NextRequest) => {
   let response = NextResponse.next({ request })
   const supabase = createSupabaseServerClient(request, response)
 
-  const accessToken = cookieStore.get('sb-access-token')
-  const refreshToken = cookieStore.get('sb-refresh-token')
+  const accessToken = cookieStore.get('access-token')
+  const refreshToken = cookieStore.get('refresh-token')
 
   const { error, data } = await supabase.auth.getUser()
 
   const { pathname } = request.nextUrl
 
+  let role = null
+
   if (!data.user || error) {
     const {
-      data: { user: sessionUser }
+      data: { user: sessionUser },
+      error: sessionError
     } = await supabase.auth.setSession({
       access_token: accessToken?.value ?? '',
       refresh_token: refreshToken?.value ?? ''
     })
 
+    if (sessionUser) {
+      const { data: userRole, error } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', sessionUser?.id)
+        .limit(1)
+
+      if (error) throw error
+
+      role = userRole[0].role
+    }
+
     if (isProtectedRoute(pathname)) {
       return isApiRoute(pathname)
         ? handleUnauthenticatedApi()
-        : handleUnauthenticatedClient(sessionUser, request)
+        : handleUnauthenticatedClient(sessionUser, role, request)
     }
   } else {
+    const { data: userRole, error } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', data.user?.id)
+      .limit(1)
+
+    if (error) throw error
+
+    role = userRole[0].role
+
     if (isProtectedRoute(pathname)) {
       return isApiRoute(pathname)
         ? handleUnauthenticatedApi()
-        : handleUnauthenticatedClient(data.user, request)
+        : handleUnauthenticatedClient(data.user, role, request)
     }
   }
 

@@ -3,11 +3,13 @@
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-
-import { supabase } from '@/lib/supabase/server'
 import { isEmpty } from 'lodash'
 
-export const login = async (form: { email: string; password: string }) => {
+import { supabase } from '@/lib/supabase/server'
+
+import { LoginFormType, RegisterFormType } from '@/lib/definitions'
+
+export const login = async (form: LoginFormType) => {
   const cookieStore = cookies()
 
   const { data, error } = await supabase.auth.signInWithPassword({
@@ -15,8 +17,14 @@ export const login = async (form: { email: string; password: string }) => {
     password: form.password
   })
 
-  cookieStore.set('sb-access-token', data?.session?.access_token ?? '')
-  cookieStore.set('sb-refresh-token', data?.session?.refresh_token ?? '')
+  cookieStore.set('access-token', data?.session?.access_token ?? '', {
+    sameSite: true,
+    secure: true
+  })
+  cookieStore.set('refresh-token', data?.session?.refresh_token ?? '', {
+    sameSite: true,
+    secure: true
+  })
 
   if (error) throw error
 
@@ -24,13 +32,7 @@ export const login = async (form: { email: string; password: string }) => {
   redirect('/')
 }
 
-export const register = async (form: {
-  name: string
-  email: string
-  username: string
-  password: string
-  confirmPassword: string
-}) => {
+export const register = async (form: RegisterFormType) => {
   if (form.password !== form.confirmPassword) throw new Error('Passwords do not match')
 
   const { data } = await supabase.from('users').select('*').eq('username', form.username)
@@ -61,9 +63,7 @@ export const logout = async () => {
 
   if (error) throw error
 
-  supaCookies.map((cookie) => {
-    if (cookie.name.includes('sb-')) cookies().delete(cookie.name)
-  })
+  supaCookies.map((cookie) => cookies().delete(cookie.name))
 
   revalidatePath('/', 'layout')
   redirect('/')
@@ -73,8 +73,8 @@ export const getUser = async () => {
   let user = null
   const cookieStore = cookies()
 
-  const accessToken = cookieStore.get('sb-access-token')
-  const refreshToken = cookieStore.get('sb-refresh-token')
+  const accessToken = cookieStore.get('access-token')
+  const refreshToken = cookieStore.get('refresh-token')
 
   const { error, data } = await supabase.auth.getUser()
 
