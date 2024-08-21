@@ -48,42 +48,30 @@ const handleUnauthenticatedClient = (
   role: string,
   request: NextRequest
 ): NextResponse => {
-  if (!user && request.nextUrl.pathname === PATH.HOME) {
-    const url = request.nextUrl.clone()
+  const url = request.nextUrl.clone()
+
+  if (
+    (!user && request.nextUrl.pathname === PATH.HOME) ||
+    (!user && !request.nextUrl.pathname.startsWith(PATH.AUTH))
+  ) {
     url.pathname = PATH.LOGIN
     return NextResponse.redirect(url)
   }
 
-  if (!user && !request.nextUrl.pathname.startsWith(PATH.AUTH)) {
-    const url = request.nextUrl.clone()
-    url.pathname = PATH.LOGIN
-    return NextResponse.redirect(url)
-  }
-
-  if (role === 'client' && request.nextUrl.pathname === PATH.HOME) {
-    const url = request.nextUrl.clone()
-    url.pathname = PATH.CLIENT_OVERVIEW
-    return NextResponse.redirect(url)
-  }
-
-  if (role === 'client' && request.nextUrl.pathname.startsWith(PATH.ADMIN)) {
-    const url = request.nextUrl.clone()
+  if (
+    (role === 'client' && request.nextUrl.pathname === PATH.HOME) ||
+    (role === 'client' && request.nextUrl.pathname.startsWith(PATH.ADMIN))
+  ) {
     url.pathname = PATH.CLIENT_OVERVIEW
     return NextResponse.redirect(url)
   }
 
   if (
-    (user && request.nextUrl.pathname.startsWith(PATH.AUTH)) ||
-    (user && request.nextUrl.pathname.startsWith(PATH.CLIENT)) ||
-    (user && request.nextUrl.pathname.startsWith(PATH.ADMIN))
+    (role === 'admin' && request.nextUrl.pathname === PATH.HOME) ||
+    (role === 'admin' && request.nextUrl.pathname.startsWith(PATH.CLIENT))
   ) {
-    const url = request.nextUrl.clone()
-    let targetPath = PATH.CLIENT_OVERVIEW
-    if (isEmpty(role)) targetPath = PATH.ADMIN_DASHBOARD
-    if (request.nextUrl.pathname !== targetPath) {
-      url.pathname = targetPath
-      return NextResponse.redirect(url)
-    }
+    url.pathname = PATH.ADMIN_DASHBOARD
+    return NextResponse.redirect(url)
   }
 
   return NextResponse.next()
