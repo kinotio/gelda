@@ -61,7 +61,7 @@ const Navigation = () => {
   return (
     <>
       {!loading && !isEmpty(authenticatedUser) ? (
-        <div className='w-full bg-white dark:bg-inherit'>
+        <div className='relative w-full bg-white dark:bg-slate-950'>
           <NavigationMenu className='w-full px-2'>
             <NavigationMenuList className='mx-4 gap-6'>
               {menus.map((menu, idx) => (
