@@ -13,12 +13,14 @@ const createClient = () => {
 
 const supabase = createClient()
 
+type HandleNewValueType = (payload: any) => void
+
 export const onInsertListener = ({
   tableName,
   handleNewValue
 }: {
   tableName: string
-  handleNewValue: Function
+  handleNewValue: HandleNewValueType
 }) => {
   return supabase
     .channel(`public:${tableName}`)
@@ -33,7 +35,7 @@ export const onDeleteListener = ({
   handleNewValue
 }: {
   tableName: string
-  handleNewValue: Function
+  handleNewValue: HandleNewValueType
 }) => {
   return supabase
     .channel(`public:${tableName}`)

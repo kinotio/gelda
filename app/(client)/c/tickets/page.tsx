@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown, MoreHorizontal, ArrowRightIcon, RectangleHorizontalIcon } from 'lucide-react'
 
@@ -195,6 +195,8 @@ const Page = () => {
 const Metrics = () => {
   const { loading, metrics, ticketsMetrics } = useTickets()
 
+  const memorizedTicketsMetrics = useMemo(() => ticketsMetrics, [ticketsMetrics])
+
   useEffect(() => {
     metrics()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -226,9 +228,9 @@ const Metrics = () => {
         <div id='scroll-container' className='overflow-x-auto custom-scroll w-[95vw]'>
           <div className='grid grid-flow-col auto-cols-max gap-4'>
             <>
-              {Array.isArray(ticketsMetrics) && ticketsMetrics.length > 0 ? (
+              {Array.isArray(memorizedTicketsMetrics) && memorizedTicketsMetrics.length > 0 ? (
                 <>
-                  {ticketsMetrics.map((metric, idx) => (
+                  {memorizedTicketsMetrics.map((metric, idx) => (
                     <Card key={idx} className='col-span-1 w-64'>
                       <CardContent className='flex justify-between items-center p-6'>
                         <div>
