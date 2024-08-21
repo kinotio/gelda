@@ -10,12 +10,14 @@ import {
   getUser as getUserAction
 } from '@/server/actions/auth'
 
+import { LoginFormType, RegisterFormType } from '@/lib/definitions'
+
 export const useAuth = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [authenticatedUser, setAuthenticatedUser] = useState<User | null>()
 
-  const login = async (form: { email: string; password: string }) => {
+  const login = async (form: LoginFormType) => {
     setLoading(true)
     loginAction(form)
       .then(() => window.location.reload())
@@ -23,13 +25,7 @@ export const useAuth = () => {
       .finally(() => setLoading(false))
   }
 
-  const register = async (form: {
-    name: string
-    email: string
-    username: string
-    password: string
-    confirmPassword: string
-  }) => {
+  const register = async (form: RegisterFormType) => {
     setLoading(true)
     registerAction(form)
       .catch((error) => setMessage(error.message))

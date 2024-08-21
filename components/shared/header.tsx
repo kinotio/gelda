@@ -29,7 +29,7 @@ const Header = () => {
   }, [])
 
   return (
-    <header className='fixed top-0 w-full pt-4 pb-2 px-6 flex items-center justify-between'>
+    <header className='w-full pt-4 pb-2 px-6 flex items-center justify-between bg-white dark:bg-inherit'>
       <Link className='flex items-center justify-center' href='/'>
         <GeldaLogo width={100} height={50} />
       </Link>
