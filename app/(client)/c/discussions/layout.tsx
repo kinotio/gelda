@@ -6,7 +6,7 @@ const DiscussionsLayout = ({
   children: React.ReactNode
 }>) => {
   return (
-    <div className='flex h-[84vh] flex-1 flex-col gap-8 pl-4 pt-6'>
+    <div className='flex flex-1 flex-col gap-8 pl-4 pt-6'>
       <div className='grid grid-cols-[400px_1fr] h-full w-full mx-auto overflow-hidden'>
         <SidebarHistory />
         {children}

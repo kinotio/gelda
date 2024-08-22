@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { BellIcon, BellOffIcon } from 'lucide-react'
 
@@ -13,6 +14,8 @@ import { Button } from '@/components/ui/button'
 
 import { NAME_PATTERN, EMAIL_PATTERN } from '@/lib/constants'
 
+import { useAuth } from '@/hooks/use-auth'
+
 const UpdateProfileFormSchema = z.object({
   name: z.string().min(3, { message: 'Name is required' }),
   username: z.string().min(3, { message: 'Username is required' }),
@@ -20,6 +23,8 @@ const UpdateProfileFormSchema = z.object({
 })
 
 const Settings = () => {
+  const { authenticatedUser, authenticate, updateProfileInformation, loading } = useAuth()
+
   const {
     register: registerUpdateProfileForm,
     handleSubmit,
@@ -30,8 +35,16 @@ const Settings = () => {
   })
 
   const onUpdateProfileSubmit = async (form: z.infer<typeof UpdateProfileFormSchema>) => {
-    console.log(form)
+    updateProfileInformation(form).finally(() => {
+      reset()
+      authenticate()
+    })
   }
+
+  useEffect(() => {
+    authenticate()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className='grid gap-8'>
@@ -48,6 +61,7 @@ const Settings = () => {
                 id='name'
                 type='text'
                 placeholder='Enter name'
+                defaultValue={authenticatedUser?.name}
                 {...registerUpdateProfileForm('name', {
                   pattern: NAME_PATTERN
                 })}
@@ -65,6 +79,7 @@ const Settings = () => {
                 id='username'
                 type='text'
                 placeholder='Enter username'
+                defaultValue={authenticatedUser?.username}
                 {...registerUpdateProfileForm('username')}
               />
               {registerUpdateProfileFormError.username && (
@@ -80,6 +95,7 @@ const Settings = () => {
                 id='email'
                 type='text'
                 placeholder='Enter email'
+                defaultValue={authenticatedUser?.email}
                 {...registerUpdateProfileForm('email', {
                   pattern: EMAIL_PATTERN
                 })}
@@ -91,8 +107,8 @@ const Settings = () => {
               )}
             </div>
 
-            <Button type='submit' className='w-1/5'>
-              Save Changes
+            <Button type='submit' className='w-1/5' disabled={loading}>
+              {loading ? 'Saving...' : 'Save Changes'}
             </Button>
           </form>
         </CardContent>

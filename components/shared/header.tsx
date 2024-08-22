@@ -60,11 +60,9 @@ const Header = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className='min-w-56 mr-8 mt-2'>
-                {!isEmpty(authenticatedUser?.user_metadata.name) ? (
-                  <DropdownMenuLabel>{authenticatedUser?.user_metadata.name}</DropdownMenuLabel>
-                ) : null}
+                <DropdownMenuLabel>{authenticatedUser?.name}</DropdownMenuLabel>
                 <DropdownMenuLabel className='font-medium'>
-                  {authenticatedUser?.email}
+                  {`@${authenticatedUser?.username}`}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>

@@ -1,21 +1,26 @@
 'use client'
 
 import { useState } from 'react'
-import type { User } from '@supabase/supabase-js'
 
 import {
   login as loginAction,
   register as registerAction,
   logout as logoutAction,
-  getUser as getUserAction
+  getUser as getUserAction,
+  updateProfileInformation as updateProfileInformationAction
 } from '@/server/actions/auth'
 
-import { LoginFormType, RegisterFormType } from '@/lib/definitions'
+import {
+  LoginFormType,
+  RegisterFormType,
+  UserType,
+  UpdateProfileInformationFormType
+} from '@/lib/definitions'
 
 export const useAuth = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
-  const [authenticatedUser, setAuthenticatedUser] = useState<User | null>()
+  const [authenticatedUser, setAuthenticatedUser] = useState<UserType | null>()
 
   const login = async (form: LoginFormType) => {
     setLoading(true)
@@ -48,5 +53,21 @@ export const useAuth = () => {
       .finally(() => setLoading(false))
   }
 
-  return { login, register, logout, authenticate, message, loading, authenticatedUser }
+  const updateProfileInformation = async (form: UpdateProfileInformationFormType) => {
+    setLoading(true)
+    updateProfileInformationAction(form)
+      .catch((error) => setMessage(error.message))
+      .finally(() => setLoading(false))
+  }
+
+  return {
+    login,
+    register,
+    logout,
+    authenticate,
+    message,
+    loading,
+    authenticatedUser,
+    updateProfileInformation
+  }
 }

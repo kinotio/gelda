@@ -7,7 +7,11 @@ import { isEmpty } from 'lodash'
 
 import { supabase } from '@/lib/supabase/server'
 
-import { LoginFormType, RegisterFormType } from '@/lib/definitions'
+import {
+  LoginFormType,
+  RegisterFormType,
+  UpdateProfileInformationFormType
+} from '@/lib/definitions'
 
 export const login = async (form: LoginFormType) => {
   const cookieStore = cookies()
@@ -76,9 +80,9 @@ export const getUser = async () => {
   const accessToken = cookieStore.get('access-token')
   const refreshToken = cookieStore.get('refresh-token')
 
-  const { error: getUserError, data } = await supabase.auth.getUser()
+  const { error: getAuthUserError, data } = await supabase.auth.getUser()
 
-  if (!data.user || getUserError) {
+  if (!data.user || getAuthUserError) {
     const {
       data: { user: sessionUser }
     } = await supabase.auth.setSession({
@@ -91,12 +95,20 @@ export const getUser = async () => {
     user = data.user
   }
 
+  const { data: getUserData, error: getUserError } = await supabase
+    .from('users')
+    .select()
+    .eq('id', user?.id)
+    .limit(1)
+
+  if (getUserError || !getUserData)
+    throw new Error(`An error occurred while fetching user: ${getUserError?.message}`)
+
+  user = getUserData[0]
+
   if (isEmpty(user)) {
     const supaCookies = cookies().getAll()
-
-    supaCookies.map((cookie) => {
-      if (cookie.name.includes('sb-')) cookies().delete(cookie.name)
-    })
+    supaCookies.map((cookie) => cookies().delete(cookie.name))
   }
 
   return user
@@ -113,6 +125,31 @@ export const getUserRoles = async () => {
 
   if (getUserRolesError || !data)
     throw new Error(`An error occurred while fetching user roles: ${getUserRolesError.message}`)
+
+  return data
+}
+
+export const updateProfileInformation = async (form: UpdateProfileInformationFormType) => {
+  const user = await getUser()
+
+  const { error: updateAuthUserError } = await supabase.auth.updateUser({
+    email: form.email,
+    data: {
+      name: form.name,
+      username: form.username
+    }
+  })
+
+  if (updateAuthUserError)
+    throw new Error(`An error occurred while updating auth user: ${updateAuthUserError.message}`)
+
+  const { data, error: updateUserError } = await supabase
+    .from('users')
+    .update({ name: form.name, username: form.username, email: form.email })
+    .eq('id', user?.id)
+
+  if (updateUserError)
+    throw new Error(`An error occurred while updating user: ${updateUserError.message}`)
 
   return data
 }

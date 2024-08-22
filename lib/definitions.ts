@@ -33,3 +33,18 @@ export type TicketPriorityType = {
   name: string
   slug: string
 }
+
+export type UserType = {
+  id: string
+  email: string
+  name: string
+  username: string
+  status: string
+  created_at: string
+}
+
+export type UpdateProfileInformationFormType = {
+  name: string
+  username: string
+  email: string
+}
