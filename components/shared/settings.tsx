@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { BellIcon, BellOffIcon } from 'lucide-react'
+import { BellIcon, BellOffIcon, EyeIcon, EyeOffIcon } from 'lucide-react'
 
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -12,7 +12,7 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
-import { NAME_PATTERN, EMAIL_PATTERN } from '@/lib/constants'
+import { NAME_PATTERN, EMAIL_PATTERN, PASSWORD_PATTERN } from '@/lib/constants'
 
 import { useAuth } from '@/hooks/use-auth'
 
@@ -22,23 +22,49 @@ const UpdateProfileFormSchema = z.object({
   email: z.string().email({ message: 'Invalid email' })
 })
 
+const ChangePasswordFormSchema = z.object({
+  current_password: z.string({ message: 'Current Password is required' }),
+  new_password: z.string().min(8, { message: 'New Password is required' }),
+  confirm_password: z.string().min(8, { message: 'Confirm Password is required' })
+})
+
 const Settings = () => {
   const { authenticatedUser, authenticate, updateProfileInformation, loading } = useAuth()
 
   const {
     register: registerUpdateProfileForm,
-    handleSubmit,
+    handleSubmit: handleSubmitUpdateProfileForm,
     formState: { errors: registerUpdateProfileFormError },
-    reset
+    reset: resetUpdateProfileForm
   } = useForm<z.infer<typeof UpdateProfileFormSchema>>({
     resolver: zodResolver(UpdateProfileFormSchema)
   })
 
   const onUpdateProfileSubmit = async (form: z.infer<typeof UpdateProfileFormSchema>) => {
     updateProfileInformation(form).finally(() => {
-      reset()
+      resetUpdateProfileForm()
       authenticate()
     })
+  }
+
+  const [currentPasswordVisibility, setCurrentPasswordVisibility] = useState<boolean>(false)
+  const [newPasswordVisibility, setNewPasswordVisibility] = useState<boolean>(false)
+  const [confirmPasswordVisibility, setConfirmPasswordVisibility] = useState<boolean>(false)
+
+  const {
+    register: registerChangePasswordForm,
+    handleSubmit: handleSubmitChangePasswordForm,
+    formState: { errors: registerHandleSubmitUpdateProfileFormError },
+    reset: resetHandleSubmitUpdateProfileForm,
+    watch: watchChangePasswordForm
+  } = useForm<z.infer<typeof ChangePasswordFormSchema>>({
+    resolver: zodResolver(ChangePasswordFormSchema)
+  })
+
+  const newPassword = watchChangePasswordForm('new_password')
+
+  const onChangePasswordSubmit = async (form: z.infer<typeof ChangePasswordFormSchema>) => {
+    console.log(form)
   }
 
   useEffect(() => {
@@ -53,7 +79,10 @@ const Settings = () => {
           <CardTitle>Update Profile Information</CardTitle>
         </CardHeader>
         <CardContent>
-          <form className='grid gap-4' onSubmit={handleSubmit(onUpdateProfileSubmit)}>
+          <form
+            className='grid gap-4'
+            onSubmit={handleSubmitUpdateProfileForm(onUpdateProfileSubmit)}
+          >
             <div className='grid gap-3'>
               <Label htmlFor='name'>Name</Label>
               <Input
@@ -118,32 +147,117 @@ const Settings = () => {
           <CardTitle>Change Password</CardTitle>
         </CardHeader>
         <CardContent>
-          <form className='grid gap-4'>
-            <div className='grid gap-2'>
+          <form
+            className='grid gap-4'
+            onSubmit={handleSubmitChangePasswordForm(onChangePasswordSubmit)}
+          >
+            <div className='grid gap-3'>
               <Label htmlFor='current-password'>Current Password</Label>
-              <Input
-                id='current-password'
-                type='password'
-                placeholder='Enter your current password'
-              />
+              <div className='relative'>
+                <Input
+                  id='current-password'
+                  type={currentPasswordVisibility ? 'text' : 'password'}
+                  placeholder='Enter your current password'
+                  {...registerChangePasswordForm('current_password')}
+                />
+                <Button
+                  variant='ghost'
+                  size='icon'
+                  type='button'
+                  className='absolute top-1/2 right-3 -translate-y-1/2 h-7 w-7 hover:bg-transparent'
+                  onClick={() => setCurrentPasswordVisibility(!currentPasswordVisibility)}
+                >
+                  {currentPasswordVisibility ? (
+                    <EyeOffIcon className='h-4 w-4' />
+                  ) : (
+                    <EyeIcon className='h-4 w-4' />
+                  )}
+
+                  <span className='sr-only'>Toggle password visibility</span>
+                </Button>
+              </div>
+
+              {registerHandleSubmitUpdateProfileFormError.current_password && (
+                <span className='text-red-500 text-sm'>
+                  {registerHandleSubmitUpdateProfileFormError.current_password.message}
+                </span>
+              )}
             </div>
-            <div className='grid gap-2'>
+            <div className='grid gap-3'>
               <Label htmlFor='new-password'>New Password</Label>
-              <Input id='new-password' type='password' placeholder='Enter your new password' />
+              <div className='relative'>
+                <Input
+                  id='new-password'
+                  type={newPasswordVisibility ? 'text' : 'password'}
+                  placeholder='Enter your new password'
+                  {...registerChangePasswordForm('new_password', {
+                    pattern: PASSWORD_PATTERN
+                  })}
+                />
+                <Button
+                  variant='ghost'
+                  size='icon'
+                  type='button'
+                  className='absolute top-1/2 right-3 -translate-y-1/2 h-7 w-7 hover:bg-transparent'
+                  onClick={() => setNewPasswordVisibility(!newPasswordVisibility)}
+                >
+                  {newPasswordVisibility ? (
+                    <EyeOffIcon className='h-4 w-4' />
+                  ) : (
+                    <EyeIcon className='h-4 w-4' />
+                  )}
+
+                  <span className='sr-only'>Toggle password visibility</span>
+                </Button>
+              </div>
+
+              {registerHandleSubmitUpdateProfileFormError.new_password && (
+                <span className='text-red-500 text-sm'>
+                  {registerHandleSubmitUpdateProfileFormError.new_password.message}
+                </span>
+              )}
             </div>
-            <div className='grid gap-2'>
+            <div className='grid gap-3'>
               <Label htmlFor='confirm-password'>Confirm Password</Label>
-              <Input
-                id='confirm-password'
-                type='password'
-                placeholder='Confirm your new password'
-              />
+              <div className='relative'>
+                <Input
+                  id='confirm-password'
+                  type={confirmPasswordVisibility ? 'text' : 'password'}
+                  placeholder='Confirm your new password'
+                  {...registerChangePasswordForm('confirm_password', {
+                    pattern: PASSWORD_PATTERN,
+                    validate: (value) => value === newPassword || 'Passwords do not match'
+                  })}
+                />
+                <Button
+                  variant='ghost'
+                  size='icon'
+                  type='button'
+                  className='absolute top-1/2 right-3 -translate-y-1/2 h-7 w-7 hover:bg-transparent'
+                  onClick={() => setConfirmPasswordVisibility(!confirmPasswordVisibility)}
+                >
+                  {confirmPasswordVisibility ? (
+                    <EyeOffIcon className='h-4 w-4' />
+                  ) : (
+                    <EyeIcon className='h-4 w-4' />
+                  )}
+
+                  <span className='sr-only'>Toggle password visibility</span>
+                </Button>
+              </div>
+
+              {registerHandleSubmitUpdateProfileFormError.confirm_password && (
+                <span className='text-red-500 text-sm'>
+                  {registerHandleSubmitUpdateProfileFormError.confirm_password.message}
+                </span>
+              )}
             </div>
+
+            <Button type='submit' className='w-1/5' disabled={loading}>
+              {loading ? 'Changing...' : 'Change Password'}
+            </Button>
           </form>
         </CardContent>
-        <CardFooter>
-          <Button>Change Password</Button>
-        </CardFooter>
       </Card>
       <Card>
         <CardHeader>
