@@ -22,11 +22,16 @@ const UpdateProfileFormSchema = z.object({
   email: z.string().email({ message: 'Invalid email' })
 })
 
-const ChangePasswordFormSchema = z.object({
-  current_password: z.string({ message: 'Current Password is required' }),
-  new_password: z.string().min(8, { message: 'New Password is required' }),
-  confirm_password: z.string().min(8, { message: 'Confirm Password is required' })
-})
+const ChangePasswordFormSchema = z
+  .object({
+    current_password: z.string({ message: 'Current Password is required' }),
+    new_password: z.string().min(8, { message: 'New Password is required' }),
+    confirm_password: z.string().min(8, { message: 'Confirm Password is required' })
+  })
+  .refine((data) => data.new_password === data.confirm_password, {
+    message: "Passwords don't match",
+    path: ['confirm_password']
+  })
 
 const Settings = () => {
   const { authenticatedUser, authenticate, updateProfileInformation, loading } = useAuth()
@@ -54,14 +59,11 @@ const Settings = () => {
   const {
     register: registerChangePasswordForm,
     handleSubmit: handleSubmitChangePasswordForm,
-    formState: { errors: registerHandleSubmitUpdateProfileFormError },
-    reset: resetHandleSubmitUpdateProfileForm,
-    watch: watchChangePasswordForm
+    formState: { errors: registerChangePasswordFormError },
+    reset: resetChangePasswordForm
   } = useForm<z.infer<typeof ChangePasswordFormSchema>>({
     resolver: zodResolver(ChangePasswordFormSchema)
   })
-
-  const newPassword = watchChangePasswordForm('new_password')
 
   const onChangePasswordSubmit = async (form: z.infer<typeof ChangePasswordFormSchema>) => {
     console.log(form)
@@ -177,9 +179,9 @@ const Settings = () => {
                 </Button>
               </div>
 
-              {registerHandleSubmitUpdateProfileFormError.current_password && (
+              {registerChangePasswordFormError.current_password && (
                 <span className='text-red-500 text-sm'>
-                  {registerHandleSubmitUpdateProfileFormError.current_password.message}
+                  {registerChangePasswordFormError.current_password.message}
                 </span>
               )}
             </div>
@@ -211,9 +213,9 @@ const Settings = () => {
                 </Button>
               </div>
 
-              {registerHandleSubmitUpdateProfileFormError.new_password && (
+              {registerChangePasswordFormError.new_password && (
                 <span className='text-red-500 text-sm'>
-                  {registerHandleSubmitUpdateProfileFormError.new_password.message}
+                  {registerChangePasswordFormError.new_password.message}
                 </span>
               )}
             </div>
@@ -225,8 +227,7 @@ const Settings = () => {
                   type={confirmPasswordVisibility ? 'text' : 'password'}
                   placeholder='Confirm your new password'
                   {...registerChangePasswordForm('confirm_password', {
-                    pattern: PASSWORD_PATTERN,
-                    validate: (value) => value === newPassword || 'Passwords do not match'
+                    pattern: PASSWORD_PATTERN
                   })}
                 />
                 <Button
@@ -246,9 +247,9 @@ const Settings = () => {
                 </Button>
               </div>
 
-              {registerHandleSubmitUpdateProfileFormError.confirm_password && (
+              {registerChangePasswordFormError.confirm_password && (
                 <span className='text-red-500 text-sm'>
-                  {registerHandleSubmitUpdateProfileFormError.confirm_password.message}
+                  {registerChangePasswordFormError.confirm_password.message}
                 </span>
               )}
             </div>
