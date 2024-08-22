@@ -17,13 +17,18 @@ import { NAME_PATTERN, EMAIL_PATTERN, PASSWORD_PATTERN } from '@/lib/constants'
 
 import { useAuth } from '@/hooks/use-auth'
 
-const RegisterFormSchema = z.object({
-  name: z.string().min(3, { message: 'Name is required' }),
-  username: z.string().min(3, { message: 'Username is required' }),
-  email: z.string().email({ message: 'Invalid email' }),
-  password: z.string().min(8, { message: 'Password is required' }),
-  confirmPassword: z.string().min(8, { message: 'Confirm Password is required' })
-})
+const RegisterFormSchema = z
+  .object({
+    name: z.string().min(3, { message: 'Name is required' }),
+    username: z.string().min(3, { message: 'Username is required' }),
+    email: z.string().email({ message: 'Invalid email' }),
+    password: z.string().min(8, { message: 'Password is required' }),
+    confirmPassword: z.string().min(8, { message: 'Confirm Password is required' })
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword']
+  })
 
 const Page = () => {
   return (
@@ -48,7 +53,6 @@ const RegisterForm = () => {
   const {
     register: registerForm,
     handleSubmit,
-    watch,
     formState: { errors },
     reset
   } = useForm<z.infer<typeof RegisterFormSchema>>({
@@ -58,8 +62,6 @@ const RegisterForm = () => {
 
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false)
   const [confirmPasswordVisibility, setconfirmPasswordVisibility] = useState<boolean>(false)
-
-  const password = watch('password')
 
   const onSubmit = async (form: z.infer<typeof RegisterFormSchema>) => {
     register(form).finally(() => reset())
@@ -179,7 +181,6 @@ const RegisterForm = () => {
               className='block w-full appearance-none rounded-md border px-3 py-2 shadow-sm focus:outline-none'
               {...registerForm('confirmPassword', {
                 required: 'Confirm Password is required',
-                validate: (value) => value === password || 'Passwords do not match',
                 pattern: PASSWORD_PATTERN
               })}
             />

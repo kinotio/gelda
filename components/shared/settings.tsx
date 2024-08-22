@@ -24,13 +24,13 @@ const UpdateProfileFormSchema = z.object({
 
 const ChangePasswordFormSchema = z
   .object({
-    current_password: z.string({ message: 'Current Password is required' }),
-    new_password: z.string().min(8, { message: 'New Password is required' }),
-    confirm_password: z.string().min(8, { message: 'Confirm Password is required' })
+    currentPassword: z.string({ message: 'Current Password is required' }),
+    newPassword: z.string().min(8, { message: 'New Password is required' }),
+    confirmPassword: z.string().min(8, { message: 'Confirm Password is required' })
   })
-  .refine((data) => data.new_password === data.confirm_password, {
+  .refine((data) => data.newPassword === data.confirmPassword, {
     message: "Passwords don't match",
-    path: ['confirm_password']
+    path: ['confirmPassword']
   })
 
 const Settings = () => {
@@ -160,7 +160,7 @@ const Settings = () => {
                   id='current-password'
                   type={currentPasswordVisibility ? 'text' : 'password'}
                   placeholder='Enter your current password'
-                  {...registerChangePasswordForm('current_password')}
+                  {...registerChangePasswordForm('currentPassword')}
                 />
                 <Button
                   variant='ghost'
@@ -179,9 +179,9 @@ const Settings = () => {
                 </Button>
               </div>
 
-              {registerChangePasswordFormError.current_password && (
+              {registerChangePasswordFormError.currentPassword && (
                 <span className='text-red-500 text-sm'>
-                  {registerChangePasswordFormError.current_password.message}
+                  {registerChangePasswordFormError.currentPassword.message}
                 </span>
               )}
             </div>
@@ -192,7 +192,7 @@ const Settings = () => {
                   id='new-password'
                   type={newPasswordVisibility ? 'text' : 'password'}
                   placeholder='Enter your new password'
-                  {...registerChangePasswordForm('new_password', {
+                  {...registerChangePasswordForm('newPassword', {
                     pattern: PASSWORD_PATTERN
                   })}
                 />
@@ -213,9 +213,9 @@ const Settings = () => {
                 </Button>
               </div>
 
-              {registerChangePasswordFormError.new_password && (
+              {registerChangePasswordFormError.newPassword && (
                 <span className='text-red-500 text-sm'>
-                  {registerChangePasswordFormError.new_password.message}
+                  {registerChangePasswordFormError.newPassword.message}
                 </span>
               )}
             </div>
@@ -226,7 +226,7 @@ const Settings = () => {
                   id='confirm-password'
                   type={confirmPasswordVisibility ? 'text' : 'password'}
                   placeholder='Confirm your new password'
-                  {...registerChangePasswordForm('confirm_password', {
+                  {...registerChangePasswordForm('confirmPassword', {
                     pattern: PASSWORD_PATTERN
                   })}
                 />
@@ -247,9 +247,9 @@ const Settings = () => {
                 </Button>
               </div>
 
-              {registerChangePasswordFormError.confirm_password && (
+              {registerChangePasswordFormError.confirmPassword && (
                 <span className='text-red-500 text-sm'>
-                  {registerChangePasswordFormError.confirm_password.message}
+                  {registerChangePasswordFormError.confirmPassword.message}
                 </span>
               )}
             </div>
