@@ -1,11 +1,38 @@
+'use client'
+
+import { useForm } from 'react-hook-form'
 import { BellIcon, BellOffIcon } from 'lucide-react'
+
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
+import { NAME_PATTERN, EMAIL_PATTERN } from '@/lib/constants'
+
+const UpdateProfileFormSchema = z.object({
+  name: z.string().min(3, { message: 'Name is required' }),
+  username: z.string().min(3, { message: 'Username is required' }),
+  email: z.string().email({ message: 'Invalid email' })
+})
+
 const Settings = () => {
+  const {
+    register: registerUpdateProfileForm,
+    handleSubmit,
+    formState: { errors: registerUpdateProfileFormError },
+    reset
+  } = useForm<z.infer<typeof UpdateProfileFormSchema>>({
+    resolver: zodResolver(UpdateProfileFormSchema)
+  })
+
+  const onUpdateProfileSubmit = async (form: z.infer<typeof UpdateProfileFormSchema>) => {
+    console.log(form)
+  }
+
   return (
     <div className='grid gap-8'>
       <Card>
@@ -13,20 +40,62 @@ const Settings = () => {
           <CardTitle>Update Profile Information</CardTitle>
         </CardHeader>
         <CardContent>
-          <form className='grid gap-4'>
-            <div className='grid gap-2'>
+          <form className='grid gap-4' onSubmit={handleSubmit(onUpdateProfileSubmit)}>
+            <div className='grid gap-3'>
               <Label htmlFor='name'>Name</Label>
-              <Input id='name' placeholder='Your name' />
+              <Input
+                autoComplete='name'
+                id='name'
+                type='text'
+                placeholder='Enter name'
+                {...registerUpdateProfileForm('name', {
+                  pattern: NAME_PATTERN
+                })}
+              />
+              {registerUpdateProfileFormError.name && (
+                <span className='text-red-500 text-sm'>
+                  {registerUpdateProfileFormError.name.message}
+                </span>
+              )}
             </div>
-            <div className='grid gap-2'>
+            <div className='grid gap-3'>
+              <Label htmlFor='username'>Username</Label>
+              <Input
+                autoComplete='username'
+                id='username'
+                type='text'
+                placeholder='Enter username'
+                {...registerUpdateProfileForm('username')}
+              />
+              {registerUpdateProfileFormError.username && (
+                <span className='text-red-500 text-sm'>
+                  {registerUpdateProfileFormError.username.message}
+                </span>
+              )}
+            </div>
+            <div className='grid gap-3'>
               <Label htmlFor='email'>Email</Label>
-              <Input id='email' type='email' placeholder='Your email' />
+              <Input
+                autoComplete='email'
+                id='email'
+                type='text'
+                placeholder='Enter email'
+                {...registerUpdateProfileForm('email', {
+                  pattern: EMAIL_PATTERN
+                })}
+              />
+              {registerUpdateProfileFormError.email && (
+                <span className='text-red-500 text-sm'>
+                  {registerUpdateProfileFormError.email.message}
+                </span>
+              )}
             </div>
+
+            <Button type='submit' className='w-1/5'>
+              Save Changes
+            </Button>
           </form>
         </CardContent>
-        <CardFooter>
-          <Button>Save Changes</Button>
-        </CardFooter>
       </Card>
       <Card>
         <CardHeader>
