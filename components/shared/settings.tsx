@@ -34,6 +34,23 @@ const ChangePasswordFormSchema = z
   })
 
 const Settings = () => {
+  const { authenticate, loading } = useAuth()
+
+  useEffect(() => {
+    authenticate()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return (
+    <div className='grid gap-8'>
+      <UpdateProfileInformationSettings />
+      <ChangePasswordSettings />
+      <InboxesPreferencesSettings />
+    </div>
+  )
+}
+
+const UpdateProfileInformationSettings = () => {
   const { authenticatedUser, authenticate, updateProfileInformation, loading } = useAuth()
 
   const {
@@ -52,6 +69,81 @@ const Settings = () => {
     })
   }
 
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Update Profile Information</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form
+          className='grid gap-4'
+          onSubmit={handleSubmitUpdateProfileForm(onUpdateProfileSubmit)}
+        >
+          <div className='grid gap-3'>
+            <Label htmlFor='name'>Name</Label>
+            <Input
+              autoComplete='name'
+              id='name'
+              type='text'
+              placeholder='Enter name'
+              defaultValue={authenticatedUser?.name}
+              {...registerUpdateProfileForm('name', {
+                pattern: NAME_PATTERN
+              })}
+            />
+            {registerUpdateProfileFormError.name && (
+              <span className='text-red-500 text-sm'>
+                {registerUpdateProfileFormError.name.message}
+              </span>
+            )}
+          </div>
+          <div className='grid gap-3'>
+            <Label htmlFor='username'>Username</Label>
+            <Input
+              autoComplete='username'
+              id='username'
+              type='text'
+              placeholder='Enter username'
+              defaultValue={authenticatedUser?.username}
+              {...registerUpdateProfileForm('username')}
+            />
+            {registerUpdateProfileFormError.username && (
+              <span className='text-red-500 text-sm'>
+                {registerUpdateProfileFormError.username.message}
+              </span>
+            )}
+          </div>
+          <div className='grid gap-3'>
+            <Label htmlFor='email'>Email</Label>
+            <Input
+              autoComplete='email'
+              id='email'
+              type='text'
+              placeholder='Enter email'
+              defaultValue={authenticatedUser?.email}
+              {...registerUpdateProfileForm('email', {
+                pattern: EMAIL_PATTERN
+              })}
+            />
+            {registerUpdateProfileFormError.email && (
+              <span className='text-red-500 text-sm'>
+                {registerUpdateProfileFormError.email.message}
+              </span>
+            )}
+          </div>
+
+          <Button type='submit' className='w-1/5' disabled={loading}>
+            {loading ? 'Saving...' : 'Save Changes'}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
+  )
+}
+
+const ChangePasswordSettings = () => {
+  const { loading } = useAuth()
+
   const [currentPasswordVisibility, setCurrentPasswordVisibility] = useState<boolean>(false)
   const [newPasswordVisibility, setNewPasswordVisibility] = useState<boolean>(false)
   const [confirmPasswordVisibility, setConfirmPasswordVisibility] = useState<boolean>(false)
@@ -69,226 +161,154 @@ const Settings = () => {
     console.log(form)
   }
 
-  useEffect(() => {
-    authenticate()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
-    <div className='grid gap-8'>
-      <Card>
-        <CardHeader>
-          <CardTitle>Update Profile Information</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form
-            className='grid gap-4'
-            onSubmit={handleSubmitUpdateProfileForm(onUpdateProfileSubmit)}
-          >
-            <div className='grid gap-3'>
-              <Label htmlFor='name'>Name</Label>
+    <Card>
+      <CardHeader>
+        <CardTitle>Change Password</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form
+          className='grid gap-4'
+          onSubmit={handleSubmitChangePasswordForm(onChangePasswordSubmit)}
+        >
+          <div className='grid gap-3'>
+            <Label htmlFor='current-password'>Current Password</Label>
+            <div className='relative'>
               <Input
-                autoComplete='name'
-                id='name'
-                type='text'
-                placeholder='Enter name'
-                defaultValue={authenticatedUser?.name}
-                {...registerUpdateProfileForm('name', {
-                  pattern: NAME_PATTERN
+                id='current-password'
+                type={currentPasswordVisibility ? 'text' : 'password'}
+                placeholder='Enter your current password'
+                {...registerChangePasswordForm('currentPassword')}
+              />
+              <Button
+                variant='ghost'
+                size='icon'
+                type='button'
+                className='absolute top-1/2 right-3 -translate-y-1/2 h-7 w-7 hover:bg-transparent'
+                onClick={() => setCurrentPasswordVisibility(!currentPasswordVisibility)}
+              >
+                {currentPasswordVisibility ? (
+                  <EyeOffIcon className='h-4 w-4' />
+                ) : (
+                  <EyeIcon className='h-4 w-4' />
+                )}
+
+                <span className='sr-only'>Toggle password visibility</span>
+              </Button>
+            </div>
+
+            {registerChangePasswordFormError.currentPassword && (
+              <span className='text-red-500 text-sm'>
+                {registerChangePasswordFormError.currentPassword.message}
+              </span>
+            )}
+          </div>
+          <div className='grid gap-3'>
+            <Label htmlFor='new-password'>New Password</Label>
+            <div className='relative'>
+              <Input
+                id='new-password'
+                type={newPasswordVisibility ? 'text' : 'password'}
+                placeholder='Enter your new password'
+                {...registerChangePasswordForm('newPassword', {
+                  pattern: PASSWORD_PATTERN
                 })}
               />
-              {registerUpdateProfileFormError.name && (
-                <span className='text-red-500 text-sm'>
-                  {registerUpdateProfileFormError.name.message}
-                </span>
-              )}
+              <Button
+                variant='ghost'
+                size='icon'
+                type='button'
+                className='absolute top-1/2 right-3 -translate-y-1/2 h-7 w-7 hover:bg-transparent'
+                onClick={() => setNewPasswordVisibility(!newPasswordVisibility)}
+              >
+                {newPasswordVisibility ? (
+                  <EyeOffIcon className='h-4 w-4' />
+                ) : (
+                  <EyeIcon className='h-4 w-4' />
+                )}
+
+                <span className='sr-only'>Toggle password visibility</span>
+              </Button>
             </div>
-            <div className='grid gap-3'>
-              <Label htmlFor='username'>Username</Label>
+
+            {registerChangePasswordFormError.newPassword && (
+              <span className='text-red-500 text-sm'>
+                {registerChangePasswordFormError.newPassword.message}
+              </span>
+            )}
+          </div>
+          <div className='grid gap-3'>
+            <Label htmlFor='confirm-password'>Confirm Password</Label>
+            <div className='relative'>
               <Input
-                autoComplete='username'
-                id='username'
-                type='text'
-                placeholder='Enter username'
-                defaultValue={authenticatedUser?.username}
-                {...registerUpdateProfileForm('username')}
-              />
-              {registerUpdateProfileFormError.username && (
-                <span className='text-red-500 text-sm'>
-                  {registerUpdateProfileFormError.username.message}
-                </span>
-              )}
-            </div>
-            <div className='grid gap-3'>
-              <Label htmlFor='email'>Email</Label>
-              <Input
-                autoComplete='email'
-                id='email'
-                type='text'
-                placeholder='Enter email'
-                defaultValue={authenticatedUser?.email}
-                {...registerUpdateProfileForm('email', {
-                  pattern: EMAIL_PATTERN
+                id='confirm-password'
+                type={confirmPasswordVisibility ? 'text' : 'password'}
+                placeholder='Confirm your new password'
+                {...registerChangePasswordForm('confirmPassword', {
+                  pattern: PASSWORD_PATTERN
                 })}
               />
-              {registerUpdateProfileFormError.email && (
-                <span className='text-red-500 text-sm'>
-                  {registerUpdateProfileFormError.email.message}
-                </span>
-              )}
+              <Button
+                variant='ghost'
+                size='icon'
+                type='button'
+                className='absolute top-1/2 right-3 -translate-y-1/2 h-7 w-7 hover:bg-transparent'
+                onClick={() => setConfirmPasswordVisibility(!confirmPasswordVisibility)}
+              >
+                {confirmPasswordVisibility ? (
+                  <EyeOffIcon className='h-4 w-4' />
+                ) : (
+                  <EyeIcon className='h-4 w-4' />
+                )}
+
+                <span className='sr-only'>Toggle password visibility</span>
+              </Button>
             </div>
 
-            <Button type='submit' className='w-1/5' disabled={loading}>
-              {loading ? 'Saving...' : 'Save Changes'}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Change Password</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form
-            className='grid gap-4'
-            onSubmit={handleSubmitChangePasswordForm(onChangePasswordSubmit)}
-          >
-            <div className='grid gap-3'>
-              <Label htmlFor='current-password'>Current Password</Label>
-              <div className='relative'>
-                <Input
-                  id='current-password'
-                  type={currentPasswordVisibility ? 'text' : 'password'}
-                  placeholder='Enter your current password'
-                  {...registerChangePasswordForm('currentPassword')}
-                />
-                <Button
-                  variant='ghost'
-                  size='icon'
-                  type='button'
-                  className='absolute top-1/2 right-3 -translate-y-1/2 h-7 w-7 hover:bg-transparent'
-                  onClick={() => setCurrentPasswordVisibility(!currentPasswordVisibility)}
-                >
-                  {currentPasswordVisibility ? (
-                    <EyeOffIcon className='h-4 w-4' />
-                  ) : (
-                    <EyeIcon className='h-4 w-4' />
-                  )}
-
-                  <span className='sr-only'>Toggle password visibility</span>
-                </Button>
-              </div>
-
-              {registerChangePasswordFormError.currentPassword && (
-                <span className='text-red-500 text-sm'>
-                  {registerChangePasswordFormError.currentPassword.message}
-                </span>
-              )}
-            </div>
-            <div className='grid gap-3'>
-              <Label htmlFor='new-password'>New Password</Label>
-              <div className='relative'>
-                <Input
-                  id='new-password'
-                  type={newPasswordVisibility ? 'text' : 'password'}
-                  placeholder='Enter your new password'
-                  {...registerChangePasswordForm('newPassword', {
-                    pattern: PASSWORD_PATTERN
-                  })}
-                />
-                <Button
-                  variant='ghost'
-                  size='icon'
-                  type='button'
-                  className='absolute top-1/2 right-3 -translate-y-1/2 h-7 w-7 hover:bg-transparent'
-                  onClick={() => setNewPasswordVisibility(!newPasswordVisibility)}
-                >
-                  {newPasswordVisibility ? (
-                    <EyeOffIcon className='h-4 w-4' />
-                  ) : (
-                    <EyeIcon className='h-4 w-4' />
-                  )}
-
-                  <span className='sr-only'>Toggle password visibility</span>
-                </Button>
-              </div>
-
-              {registerChangePasswordFormError.newPassword && (
-                <span className='text-red-500 text-sm'>
-                  {registerChangePasswordFormError.newPassword.message}
-                </span>
-              )}
-            </div>
-            <div className='grid gap-3'>
-              <Label htmlFor='confirm-password'>Confirm Password</Label>
-              <div className='relative'>
-                <Input
-                  id='confirm-password'
-                  type={confirmPasswordVisibility ? 'text' : 'password'}
-                  placeholder='Confirm your new password'
-                  {...registerChangePasswordForm('confirmPassword', {
-                    pattern: PASSWORD_PATTERN
-                  })}
-                />
-                <Button
-                  variant='ghost'
-                  size='icon'
-                  type='button'
-                  className='absolute top-1/2 right-3 -translate-y-1/2 h-7 w-7 hover:bg-transparent'
-                  onClick={() => setConfirmPasswordVisibility(!confirmPasswordVisibility)}
-                >
-                  {confirmPasswordVisibility ? (
-                    <EyeOffIcon className='h-4 w-4' />
-                  ) : (
-                    <EyeIcon className='h-4 w-4' />
-                  )}
-
-                  <span className='sr-only'>Toggle password visibility</span>
-                </Button>
-              </div>
-
-              {registerChangePasswordFormError.confirmPassword && (
-                <span className='text-red-500 text-sm'>
-                  {registerChangePasswordFormError.confirmPassword.message}
-                </span>
-              )}
-            </div>
-
-            <Button type='submit' className='w-1/5' disabled={loading}>
-              {loading ? 'Changing...' : 'Change Password'}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Inboxes Preferences</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className='-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50'>
-            <BellIcon className='mt-px h-5 w-5' />
-            <div className='space-y-1'>
-              <p className='text-sm font-medium leading-none'>Everything</p>
-              <p className='text-sm text-gray-500 dark:text-gray-400'>
-                Ticket opened, resolved & all activity.
-              </p>
-            </div>
+            {registerChangePasswordFormError.confirmPassword && (
+              <span className='text-red-500 text-sm'>
+                {registerChangePasswordFormError.confirmPassword.message}
+              </span>
+            )}
           </div>
-          <div className='-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50'>
-            <BellOffIcon className='mt-px h-5 w-5' />
-            <div className='space-y-1'>
-              <p className='text-sm font-medium leading-none'>Ignoring</p>
-              <p className='text-sm text-gray-500 dark:text-gray-400'>
-                Turn off all notifications.
-              </p>
-            </div>
+
+          <Button type='submit' className='w-1/5' disabled={loading}>
+            {loading ? 'Changing...' : 'Change Password'}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
+  )
+}
+
+const InboxesPreferencesSettings = () => {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Inboxes Preferences</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className='-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50'>
+          <BellIcon className='mt-px h-5 w-5' />
+          <div className='space-y-1'>
+            <p className='text-sm font-medium leading-none'>Everything</p>
+            <p className='text-sm text-gray-500 dark:text-gray-400'>
+              Ticket opened, resolved & all activity.
+            </p>
           </div>
-        </CardContent>
-        <CardFooter>
-          <Button>Save Changes</Button>
-        </CardFooter>
-      </Card>
-    </div>
+        </div>
+        <div className='-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50'>
+          <BellOffIcon className='mt-px h-5 w-5' />
+          <div className='space-y-1'>
+            <p className='text-sm font-medium leading-none'>Ignoring</p>
+            <p className='text-sm text-gray-500 dark:text-gray-400'>Turn off all notifications.</p>
+          </div>
+        </div>
+      </CardContent>
+      <CardFooter>
+        <Button>Save Changes</Button>
+      </CardFooter>
+    </Card>
   )
 }
 
