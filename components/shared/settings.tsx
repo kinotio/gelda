@@ -34,13 +34,6 @@ const ChangePasswordFormSchema = z
   })
 
 const Settings = () => {
-  const { authenticate, loading } = useAuth()
-
-  useEffect(() => {
-    authenticate()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <div className='grid gap-8'>
       <UpdateProfileInformationSettings />
@@ -68,6 +61,11 @@ const UpdateProfileInformationSettings = () => {
       authenticate()
     })
   }
+
+  useEffect(() => {
+    authenticate()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Card>
@@ -282,32 +280,56 @@ const ChangePasswordSettings = () => {
 }
 
 const InboxesPreferencesSettings = () => {
+  const { authenticate, getUserInboxesPreferences, inboxesPreferences, loading } = useAuth()
+  const preference = inboxesPreferences?.[0].preference as string
+
+  useEffect(() => {
+    authenticate()
+    getUserInboxesPreferences()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Inboxes Preferences</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className='-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50'>
-          <BellIcon className='mt-px h-5 w-5' />
-          <div className='space-y-1'>
-            <p className='text-sm font-medium leading-none'>Everything</p>
-            <p className='text-sm text-gray-500 dark:text-gray-400'>
-              Ticket opened, resolved & all activity.
-            </p>
-          </div>
+      {loading ? (
+        <div className='w-full flex flex-col gap-2'>
+          <div className='h-14 rounded-md bg-muted' />
+          <div className='h-14 rounded-md bg-muted' />
         </div>
-        <div className='-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50'>
-          <BellOffIcon className='mt-px h-5 w-5' />
-          <div className='space-y-1'>
-            <p className='text-sm font-medium leading-none'>Ignoring</p>
-            <p className='text-sm text-gray-500 dark:text-gray-400'>Turn off all notifications.</p>
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Button>Save Changes</Button>
-      </CardFooter>
+      ) : (
+        <>
+          <CardContent className='flex flex-col gap-2'>
+            <div
+              className={`-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50  ${preference === 'everything' ? 'bg-gray-300 dark:bg-gray-900 dark:text-gray-50' : null}`}
+            >
+              <BellIcon className='mt-px h-5 w-5' />
+              <div className='space-y-1'>
+                <p className='text-sm font-medium leading-none'>Everything</p>
+                <p className='text-sm text-gray-500 dark:text-gray-400'>
+                  Ticket opened, resolved & all activity.
+                </p>
+              </div>
+            </div>
+            <div
+              className={`-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50 ${preference === 'ignoring' ? 'bg-gray-300 dark:bg-gray-900 dark:text-gray-50' : null}`}
+            >
+              <BellOffIcon className='mt-px h-5 w-5' />
+              <div className='space-y-1'>
+                <p className='text-sm font-medium leading-none'>Ignoring</p>
+                <p className='text-sm text-gray-500 dark:text-gray-400'>
+                  Turn off all notifications.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button>Save Changes</Button>
+          </CardFooter>
+        </>
+      )}
     </Card>
   )
 }

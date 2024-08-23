@@ -48,3 +48,7 @@ export type UpdateProfileInformationFormType = {
   username: string
   email: string
 }
+
+export type InboxesPreferencesType = {
+  preference: any
+}
