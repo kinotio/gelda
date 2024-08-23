@@ -24,7 +24,6 @@ const UpdateProfileFormSchema = z.object({
 
 const ChangePasswordFormSchema = z
   .object({
-    currentPassword: z.string({ message: 'Current Password is required' }),
     newPassword: z.string().min(8, { message: 'New Password is required' }),
     confirmPassword: z.string().min(8, { message: 'Confirm Password is required' })
   })
@@ -47,17 +46,17 @@ const UpdateProfileInformationSettings = () => {
   const { authenticatedUser, authenticate, updateProfileInformation, loading } = useAuth()
 
   const {
-    register: registerUpdateProfileForm,
-    handleSubmit: handleSubmitUpdateProfileForm,
-    formState: { errors: registerUpdateProfileFormError },
-    reset: resetUpdateProfileForm
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
   } = useForm<z.infer<typeof UpdateProfileFormSchema>>({
     resolver: zodResolver(UpdateProfileFormSchema)
   })
 
   const onUpdateProfileSubmit = async (form: z.infer<typeof UpdateProfileFormSchema>) => {
     updateProfileInformation(form).finally(() => {
-      resetUpdateProfileForm()
+      reset()
       authenticate()
     })
   }
@@ -73,10 +72,7 @@ const UpdateProfileInformationSettings = () => {
         <CardTitle>Update Profile Information</CardTitle>
       </CardHeader>
       <CardContent>
-        <form
-          className='grid gap-4'
-          onSubmit={handleSubmitUpdateProfileForm(onUpdateProfileSubmit)}
-        >
+        <form className='grid gap-4' onSubmit={handleSubmit(onUpdateProfileSubmit)}>
           <div className='grid gap-3'>
             <Label htmlFor='name'>Name</Label>
             <Input
@@ -85,15 +81,11 @@ const UpdateProfileInformationSettings = () => {
               type='text'
               placeholder='Enter name'
               defaultValue={authenticatedUser?.name}
-              {...registerUpdateProfileForm('name', {
+              {...register('name', {
                 pattern: NAME_PATTERN
               })}
             />
-            {registerUpdateProfileFormError.name && (
-              <span className='text-red-500 text-sm'>
-                {registerUpdateProfileFormError.name.message}
-              </span>
-            )}
+            {errors.name && <span className='text-red-500 text-sm'>{errors.name.message}</span>}
           </div>
           <div className='grid gap-3'>
             <Label htmlFor='username'>Username</Label>
@@ -103,12 +95,10 @@ const UpdateProfileInformationSettings = () => {
               type='text'
               placeholder='Enter username'
               defaultValue={authenticatedUser?.username}
-              {...registerUpdateProfileForm('username')}
+              {...register('username')}
             />
-            {registerUpdateProfileFormError.username && (
-              <span className='text-red-500 text-sm'>
-                {registerUpdateProfileFormError.username.message}
-              </span>
+            {errors.username && (
+              <span className='text-red-500 text-sm'>{errors.username.message}</span>
             )}
           </div>
           <div className='grid gap-3'>
@@ -119,15 +109,11 @@ const UpdateProfileInformationSettings = () => {
               type='text'
               placeholder='Enter email'
               defaultValue={authenticatedUser?.email}
-              {...registerUpdateProfileForm('email', {
+              {...register('email', {
                 pattern: EMAIL_PATTERN
               })}
             />
-            {registerUpdateProfileFormError.email && (
-              <span className='text-red-500 text-sm'>
-                {registerUpdateProfileFormError.email.message}
-              </span>
-            )}
+            {errors.email && <span className='text-red-500 text-sm'>{errors.email.message}</span>}
           </div>
 
           <Button type='submit' className='w-1/5' disabled={loading}>
@@ -140,23 +126,25 @@ const UpdateProfileInformationSettings = () => {
 }
 
 const ChangePasswordSettings = () => {
-  const { loading } = useAuth()
+  const { loading, updatePassword, authenticate } = useAuth()
 
-  const [currentPasswordVisibility, setCurrentPasswordVisibility] = useState<boolean>(false)
   const [newPasswordVisibility, setNewPasswordVisibility] = useState<boolean>(false)
   const [confirmPasswordVisibility, setConfirmPasswordVisibility] = useState<boolean>(false)
 
   const {
-    register: registerChangePasswordForm,
-    handleSubmit: handleSubmitChangePasswordForm,
-    formState: { errors: registerChangePasswordFormError },
-    reset: resetChangePasswordForm
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
   } = useForm<z.infer<typeof ChangePasswordFormSchema>>({
     resolver: zodResolver(ChangePasswordFormSchema)
   })
 
   const onChangePasswordSubmit = async (form: z.infer<typeof ChangePasswordFormSchema>) => {
-    console.log(form)
+    updatePassword(form).finally(() => {
+      reset()
+      authenticate()
+    })
   }
 
   return (
@@ -165,42 +153,7 @@ const ChangePasswordSettings = () => {
         <CardTitle>Change Password</CardTitle>
       </CardHeader>
       <CardContent>
-        <form
-          className='grid gap-4'
-          onSubmit={handleSubmitChangePasswordForm(onChangePasswordSubmit)}
-        >
-          <div className='grid gap-3'>
-            <Label htmlFor='current-password'>Current Password</Label>
-            <div className='relative'>
-              <Input
-                id='current-password'
-                type={currentPasswordVisibility ? 'text' : 'password'}
-                placeholder='Enter your current password'
-                {...registerChangePasswordForm('currentPassword')}
-              />
-              <Button
-                variant='ghost'
-                size='icon'
-                type='button'
-                className='absolute top-1/2 right-3 -translate-y-1/2 h-7 w-7 hover:bg-transparent'
-                onClick={() => setCurrentPasswordVisibility(!currentPasswordVisibility)}
-              >
-                {currentPasswordVisibility ? (
-                  <EyeOffIcon className='h-4 w-4' />
-                ) : (
-                  <EyeIcon className='h-4 w-4' />
-                )}
-
-                <span className='sr-only'>Toggle password visibility</span>
-              </Button>
-            </div>
-
-            {registerChangePasswordFormError.currentPassword && (
-              <span className='text-red-500 text-sm'>
-                {registerChangePasswordFormError.currentPassword.message}
-              </span>
-            )}
-          </div>
+        <form className='grid gap-4' onSubmit={handleSubmit(onChangePasswordSubmit)}>
           <div className='grid gap-3'>
             <Label htmlFor='new-password'>New Password</Label>
             <div className='relative'>
@@ -208,7 +161,7 @@ const ChangePasswordSettings = () => {
                 id='new-password'
                 type={newPasswordVisibility ? 'text' : 'password'}
                 placeholder='Enter your new password'
-                {...registerChangePasswordForm('newPassword', {
+                {...register('newPassword', {
                   pattern: PASSWORD_PATTERN
                 })}
               />
@@ -229,10 +182,8 @@ const ChangePasswordSettings = () => {
               </Button>
             </div>
 
-            {registerChangePasswordFormError.newPassword && (
-              <span className='text-red-500 text-sm'>
-                {registerChangePasswordFormError.newPassword.message}
-              </span>
+            {errors.newPassword && (
+              <span className='text-red-500 text-sm'>{errors.newPassword.message}</span>
             )}
           </div>
           <div className='grid gap-3'>
@@ -242,7 +193,7 @@ const ChangePasswordSettings = () => {
                 id='confirm-password'
                 type={confirmPasswordVisibility ? 'text' : 'password'}
                 placeholder='Confirm your new password'
-                {...registerChangePasswordForm('confirmPassword', {
+                {...register('confirmPassword', {
                   pattern: PASSWORD_PATTERN
                 })}
               />
@@ -263,10 +214,8 @@ const ChangePasswordSettings = () => {
               </Button>
             </div>
 
-            {registerChangePasswordFormError.confirmPassword && (
-              <span className='text-red-500 text-sm'>
-                {registerChangePasswordFormError.confirmPassword.message}
-              </span>
+            {errors.confirmPassword && (
+              <span className='text-red-500 text-sm'>{errors.confirmPassword.message}</span>
             )}
           </div>
 

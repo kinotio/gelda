@@ -58,3 +58,8 @@ export type InboxeType = {
   message: string
   created_at: string
 }
+
+export type UpdatePasswordFormType = {
+  newPassword: string
+  confirmPassword: string
+}

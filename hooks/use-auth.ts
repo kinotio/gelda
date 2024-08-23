@@ -10,7 +10,8 @@ import {
   updateProfileInformation as updateProfileInformationAction,
   getUserInboxesPreferences as getUserInboxesPreferencesAction,
   updateUserInboxesPreferences as updateUserInboxesPreferencesAction,
-  getUserInboxes as getUserInboxesAction
+  getUserInboxes as getUserInboxesAction,
+  updatePassword as updatePasswordAction
 } from '@/server/actions/auth'
 
 import {
@@ -19,7 +20,8 @@ import {
   UserType,
   UpdateProfileInformationFormType,
   InboxesPreferencesType,
-  InboxeType
+  InboxeType,
+  UpdatePasswordFormType
 } from '@/lib/definitions'
 
 export const useAuth = () => {
@@ -90,6 +92,13 @@ export const useAuth = () => {
       .finally(() => setLoading(false))
   }
 
+  const updatePassword = async (form: UpdatePasswordFormType) => {
+    setLoading(true)
+    updatePasswordAction(form)
+      .catch((error) => setMessage(error.message))
+      .finally(() => setLoading(false))
+  }
+
   const states = {
     message,
     loading,
@@ -106,7 +115,8 @@ export const useAuth = () => {
     updateProfileInformation,
     getUserInboxesPreferences,
     updateUserInboxesPreferences,
-    getUserInboxes
+    getUserInboxes,
+    updatePassword
   }
 
   return { ...states, ...methods }

@@ -11,7 +11,7 @@ import {
   LoginFormType,
   RegisterFormType,
   UpdateProfileInformationFormType,
-  InboxesPreferencesType
+  UpdatePasswordFormType
 } from '@/lib/definitions'
 
 export const login = async (form: LoginFormType) => {
@@ -194,6 +194,19 @@ export const getUserInboxes = async () => {
     .limit(10)
 
   if (error) throw new Error(`An error occurred while getting user inboxes: ${error.message}`)
+
+  return data
+}
+
+export const updatePassword = async (form: UpdatePasswordFormType) => {
+  await getUser()
+
+  const { data, error } = await supabase.auth.updateUser({
+    password: form.newPassword
+  })
+
+  if (error)
+    throw new Error(`An error occurred while updating auth user password: ${error.message}`)
 
   return data
 }
