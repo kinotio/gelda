@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import Link from 'next/link'
-import { GithubIcon, InboxIcon, LifeBuoy, LogOut, UserIcon } from 'lucide-react'
+import { GithubIcon, InboxIcon, LogOutIcon, UserIcon, CalendarCheckIcon } from 'lucide-react'
 import { isEmpty } from 'lodash'
 
 import { GeldaLogo } from '@/components/svg/gelda-logo'
@@ -43,9 +43,29 @@ const Header = () => {
           </div>
         ) : (
           <div className='flex items-center justify-center gap-4'>
-            <Button className='rounded-full' size='icon' variant='ghost'>
-              <InboxIcon size={20} />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className='rounded-full' size='icon' variant='ghost'>
+                  <InboxIcon size={20} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align='end' className='w-[360px] p-4'>
+                <DropdownMenuLabel className='mb-2 text-lg font-bold'>Inboxes</DropdownMenuLabel>
+                <div className='space-y-4'>
+                  <div className='flex items-start gap-3'>
+                    <div className='flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground'>
+                      <CalendarCheckIcon className='h-4 w-4' />
+                    </div>
+                    <div className='flex-1 space-y-1'>
+                      <p className='text-sm font-medium'>Meeting Reminder</p>
+                      <p className='text-sm text-muted-foreground'>
+                        Your weekly team meeting is in 15 minutes.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             <ToggleTheme />
 
@@ -59,21 +79,27 @@ const Header = () => {
                   </AvatarRoot>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className='min-w-56 mr-8 mt-2'>
-                <DropdownMenuLabel>{authenticatedUser?.name}</DropdownMenuLabel>
-                <DropdownMenuLabel className='font-medium'>
-                  {`@${authenticatedUser?.username}`}
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <LifeBuoy className='mr-2 h-4 w-4' />
-                  <span>Support</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={logout}>
-                  <LogOut className='mr-2 h-4 w-4' />
-                  <span>Log out</span>
-                </DropdownMenuItem>
+              <DropdownMenuContent
+                align='end'
+                className='w-[240px] p-4 bg-card text-card-foreground rounded-md shadow-lg'
+              >
+                <div className='mb-2'>
+                  <DropdownMenuLabel className='text-md font-bold'>
+                    {authenticatedUser?.name}
+                  </DropdownMenuLabel>
+                  <DropdownMenuLabel className='text-sm font-medium'>
+                    @{authenticatedUser?.username}
+                  </DropdownMenuLabel>
+                </div>
+                <div className='space-y-2'>
+                  <Button
+                    className='flex items-center gap-2 hover:bg-muted/50 px-2 py-1 rounded-md w-full'
+                    variant='outline'
+                  >
+                    <LogOutIcon className='h-4 w-4' />
+                    <span>Logout</span>
+                  </Button>
+                </div>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
