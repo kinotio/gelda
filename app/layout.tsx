@@ -3,10 +3,6 @@ import '@/app/globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
-import { Header } from '@/components/shared/header'
-import { Footer } from '@/components/shared/footer'
-import { Navigation } from '@/components/shared/navigation'
-
 import { ThemeProvider } from '@/components/shared/theme-provider'
 
 const inter = Inter({
@@ -31,12 +27,7 @@ const Layout = ({
           enableSystem
           disableTransitionOnChange
         >
-          <div className='fixed top-0 w-full'>
-            <Header />
-            <Navigation />
-          </div>
-          <main className='flex items-center justify-center mt-[100px]'>{children}</main>
-          <Footer />
+          {children}
         </ThemeProvider>
       </body>
     </html>
