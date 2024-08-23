@@ -281,13 +281,23 @@ const ChangePasswordSettings = () => {
 
 const InboxesPreferencesSettings = () => {
   const { authenticate, getUserInboxesPreferences, inboxesPreferences, loading } = useAuth()
+  const [userInboxesPreferences, setUserInboxesPreferences] = useState<string>()
+
   const preference = inboxesPreferences?.[0].preference as string
+
+  const onSubmitSaveUserInboxesPreferences = async () => {
+    console.log(userInboxesPreferences)
+  }
 
   useEffect(() => {
     authenticate()
     getUserInboxesPreferences()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    setUserInboxesPreferences(preference)
+  }, [preference])
 
   return (
     <Card>
@@ -302,31 +312,35 @@ const InboxesPreferencesSettings = () => {
       ) : (
         <>
           <CardContent className='flex flex-col gap-2'>
-            <div
-              className={`-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50  ${preference === 'everything' ? 'bg-gray-300 dark:bg-gray-900 dark:text-gray-50' : null}`}
+            <Button
+              className={`-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50 cursor-pointer h-14 justify-start ${userInboxesPreferences === 'everything' ? 'bg-gray-300 dark:bg-gray-900 dark:text-gray-50' : null}`}
+              variant='ghost'
+              onClick={() => setUserInboxesPreferences('everything')}
             >
               <BellIcon className='mt-px h-5 w-5' />
-              <div className='space-y-1'>
+              <div className='space-y-1 text-start'>
                 <p className='text-sm font-medium leading-none'>Everything</p>
                 <p className='text-sm text-gray-500 dark:text-gray-400'>
                   Ticket opened, resolved & all activity.
                 </p>
               </div>
-            </div>
-            <div
-              className={`-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50 ${preference === 'ignoring' ? 'bg-gray-300 dark:bg-gray-900 dark:text-gray-50' : null}`}
+            </Button>
+            <Button
+              className={`-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50 h-14 justify-start ${userInboxesPreferences === 'ignoring' ? 'bg-gray-300 dark:bg-gray-900 dark:text-gray-50' : null}`}
+              variant='ghost'
+              onClick={() => setUserInboxesPreferences('ignoring')}
             >
               <BellOffIcon className='mt-px h-5 w-5' />
-              <div className='space-y-1'>
+              <div className='space-y-1 text-start'>
                 <p className='text-sm font-medium leading-none'>Ignoring</p>
                 <p className='text-sm text-gray-500 dark:text-gray-400'>
                   Turn off all notifications.
                 </p>
               </div>
-            </div>
+            </Button>
           </CardContent>
           <CardFooter>
-            <Button>Save Changes</Button>
+            <Button onClick={onSubmitSaveUserInboxesPreferences}>Save Changes</Button>
           </CardFooter>
         </>
       )}
