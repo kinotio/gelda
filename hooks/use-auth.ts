@@ -8,7 +8,8 @@ import {
   logout as logoutAction,
   getUser as getUserAction,
   updateProfileInformation as updateProfileInformationAction,
-  getUserInboxesPreferences as getUserInboxesPreferencesAction
+  getUserInboxesPreferences as getUserInboxesPreferencesAction,
+  updateUserInboxesPreferences as updateUserInboxesPreferencesAction
 } from '@/server/actions/auth'
 
 import {
@@ -71,16 +72,29 @@ export const useAuth = () => {
       .finally(() => setLoading(false))
   }
 
-  return {
+  const updateUserInboxesPreferences = async (preference: string) => {
+    setLoading(true)
+    updateUserInboxesPreferencesAction(preference)
+      .catch((error) => setMessage(error.message))
+      .finally(() => setLoading(false))
+  }
+
+  const states = {
+    message,
+    loading,
+    authenticatedUser,
+    inboxesPreferences
+  }
+
+  const methods = {
     login,
     register,
     logout,
     authenticate,
-    message,
-    loading,
-    authenticatedUser,
     updateProfileInformation,
     getUserInboxesPreferences,
-    inboxesPreferences
+    updateUserInboxesPreferences
   }
+
+  return { ...states, ...methods }
 }
