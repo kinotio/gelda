@@ -7,20 +7,23 @@ import {
   register as registerAction,
   logout as logoutAction,
   getUser as getUserAction,
-  updateProfileInformation as updateProfileInformationAction
+  updateProfileInformation as updateProfileInformationAction,
+  getUserInboxesPreferences as getUserInboxesPreferencesAction
 } from '@/server/actions/auth'
 
 import {
   LoginFormType,
   RegisterFormType,
   UserType,
-  UpdateProfileInformationFormType
+  UpdateProfileInformationFormType,
+  InboxesPreferencesType
 } from '@/lib/definitions'
 
 export const useAuth = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [authenticatedUser, setAuthenticatedUser] = useState<UserType | null>()
+  const [inboxesPreferences, setInboxesPreferences] = useState<InboxesPreferencesType[] | null>()
 
   const login = async (form: LoginFormType) => {
     setLoading(true)
@@ -60,6 +63,14 @@ export const useAuth = () => {
       .finally(() => setLoading(false))
   }
 
+  const getUserInboxesPreferences = async () => {
+    setLoading(true)
+    getUserInboxesPreferencesAction()
+      .then((data) => setInboxesPreferences(data))
+      .catch((error) => setMessage(error.message))
+      .finally(() => setLoading(false))
+  }
+
   return {
     login,
     register,
@@ -68,6 +79,8 @@ export const useAuth = () => {
     message,
     loading,
     authenticatedUser,
-    updateProfileInformation
+    updateProfileInformation,
+    getUserInboxesPreferences,
+    inboxesPreferences
   }
 }

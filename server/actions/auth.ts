@@ -10,7 +10,8 @@ import { supabase } from '@/lib/supabase/server'
 import {
   LoginFormType,
   RegisterFormType,
-  UpdateProfileInformationFormType
+  UpdateProfileInformationFormType,
+  InboxesPreferencesType
 } from '@/lib/definitions'
 
 export const login = async (form: LoginFormType) => {
@@ -150,6 +151,21 @@ export const updateProfileInformation = async (form: UpdateProfileInformationFor
 
   if (updateUserError)
     throw new Error(`An error occurred while updating user: ${updateUserError.message}`)
+
+  return data
+}
+
+export const getUserInboxesPreferences = async () => {
+  const user = await getUser()
+
+  const { data, error } = await supabase
+    .from('inboxes_preferences')
+    .select('preference')
+    .eq('user_id', user.id)
+    .limit(1)
+
+  if (error)
+    throw new Error(`An error occurred while getting user inboxes preferences: ${error.message}`)
 
   return data
 }

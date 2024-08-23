@@ -14,11 +14,11 @@ export const ToggleTheme = () => {
       className='rounded-full'
     >
       <div className='flex gap-2 dark:hidden justify-center items-center'>
-        <Moon className='size-6' />
+        <Moon size={20} />
       </div>
 
       <div className='dark:flex gap-2 hidden justify-center items-center'>
-        <Sun className='size-6' />
+        <Sun size={20} />
       </div>
 
       <span className='sr-only'>Toggle theme</span>

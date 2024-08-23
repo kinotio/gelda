@@ -38,7 +38,7 @@ const Header = () => {
           <div className='ml-auto gap-3 sm:gap-3 flex justify-center items-center'>
             <ToggleTheme />
             <Link href={'https://github.com/kinotio/gelda'} target='_blank'>
-              <GithubIcon />
+              <GithubIcon size={20} />
             </Link>
           </div>
         ) : (
