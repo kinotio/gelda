@@ -40,13 +40,6 @@ const UserLayout = ({
 }
 
 const Header = () => {
-  const { authenticatedUser, logout, loading, authenticate } = useAuth()
-
-  useEffect(() => {
-    authenticate()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <header className='w-full pt-4 pb-2 px-6 flex items-center justify-between bg-white dark:dark:bg-slate-950'>
       <Link className='flex items-center justify-center' href='/'>
@@ -54,14 +47,39 @@ const Header = () => {
       </Link>
       <nav className='ml-auto gap-3 sm:gap-3 flex justify-center items-center'>
         <div className='flex items-center justify-center gap-4'>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button className='rounded-full' size='icon' variant='ghost'>
-                <InboxIcon size={20} />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align='end' className='w-[360px] p-4'>
-              <DropdownMenuLabel className='mb-2 text-lg font-bold'>Inboxes</DropdownMenuLabel>
+          <Inboxes />
+          <ToggleTheme />
+          <UserSettings />
+        </div>
+      </nav>
+    </header>
+  )
+}
+
+const Inboxes = () => {
+  const { loading, getUserInboxes, inboxes } = useAuth()
+
+  useEffect(() => {
+    getUserInboxes()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button className='rounded-full' size='icon' variant='ghost'>
+          <InboxIcon size={20} />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align='end' className='w-[360px] p-4'>
+        <DropdownMenuLabel className='mb-2 text-lg font-bold'>Inboxes</DropdownMenuLabel>
+        {loading ? (
+          <div className='w-full flex flex-col gap-3 space-y-4'>
+            <div className='h-14 rounded-md bg-muted' />
+          </div>
+        ) : (
+          <>
+            {Array.isArray(inboxes) && inboxes.length > 0 ? (
               <div className='space-y-4'>
                 <div className='flex items-start gap-3'>
                   <div className='flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground'>
@@ -75,48 +93,61 @@ const Header = () => {
                   </div>
                 </div>
               </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <ToggleTheme />
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button className='rounded-full bg-white' size='icon' variant='ghost'>
-                <AvatarRoot>
-                  <AvatarFallback className='flex justify-center items-center bg-white text-black'>
-                    <UserIcon size={20} />
-                  </AvatarFallback>
-                </AvatarRoot>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align='end'
-              className='w-[240px] p-4 bg-card text-card-foreground rounded-md shadow-lg'
-            >
-              <div className='mb-2'>
-                <DropdownMenuLabel className='text-md font-bold'>
-                  {authenticatedUser?.name}
-                </DropdownMenuLabel>
-                <DropdownMenuLabel className='text-sm font-medium'>
-                  @{authenticatedUser?.username}
-                </DropdownMenuLabel>
+            ) : (
+              <div className='space-y-4 text-center'>
+                <span>You have no inboxes</span>
               </div>
-              <div className='space-y-2'>
-                <Button
-                  className='flex items-center gap-2 hover:bg-muted/50 px-2 py-1 rounded-md w-full'
-                  variant='outline'
-                  onClick={logout}
-                >
-                  <LogOutIcon className='h-4 w-4' />
-                  <span>Logout</span>
-                </Button>
-              </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            )}
+          </>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
+const UserSettings = () => {
+  const { authenticatedUser, logout, authenticate } = useAuth()
+
+  useEffect(() => {
+    authenticate()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button className='rounded-full bg-white' size='icon' variant='ghost'>
+          <AvatarRoot>
+            <AvatarFallback className='flex justify-center items-center bg-white text-black'>
+              <UserIcon size={20} />
+            </AvatarFallback>
+          </AvatarRoot>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align='end'
+        className='w-[240px] p-4 bg-card text-card-foreground rounded-md shadow-lg'
+      >
+        <div className='mb-2'>
+          <DropdownMenuLabel className='text-md font-bold'>
+            {authenticatedUser?.name}
+          </DropdownMenuLabel>
+          <DropdownMenuLabel className='text-sm font-medium'>
+            @{authenticatedUser?.username}
+          </DropdownMenuLabel>
         </div>
-      </nav>
-    </header>
+        <div className='space-y-2'>
+          <Button
+            className='flex items-center gap-2 hover:bg-muted/50 px-2 py-1 rounded-md w-full'
+            variant='outline'
+            onClick={logout}
+          >
+            <LogOutIcon className='h-4 w-4' />
+            <span>Logout</span>
+          </Button>
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 
