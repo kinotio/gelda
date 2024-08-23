@@ -9,7 +9,8 @@ import {
   getUser as getUserAction,
   updateProfileInformation as updateProfileInformationAction,
   getUserInboxesPreferences as getUserInboxesPreferencesAction,
-  updateUserInboxesPreferences as updateUserInboxesPreferencesAction
+  updateUserInboxesPreferences as updateUserInboxesPreferencesAction,
+  getUserInboxes as getUserInboxesAction
 } from '@/server/actions/auth'
 
 import {
@@ -17,7 +18,8 @@ import {
   RegisterFormType,
   UserType,
   UpdateProfileInformationFormType,
-  InboxesPreferencesType
+  InboxesPreferencesType,
+  InboxeType
 } from '@/lib/definitions'
 
 export const useAuth = () => {
@@ -25,6 +27,7 @@ export const useAuth = () => {
   const [message, setMessage] = useState<string>('')
   const [authenticatedUser, setAuthenticatedUser] = useState<UserType | null>()
   const [inboxesPreferences, setInboxesPreferences] = useState<InboxesPreferencesType[] | null>()
+  const [inboxes, setInboxes] = useState<InboxeType[]>([])
 
   const login = async (form: LoginFormType) => {
     setLoading(true)
@@ -79,11 +82,20 @@ export const useAuth = () => {
       .finally(() => setLoading(false))
   }
 
+  const getUserInboxes = async () => {
+    setLoading(true)
+    getUserInboxesAction()
+      .then((data) => setInboxes(data))
+      .catch((error) => setMessage(error.message))
+      .finally(() => setLoading(false))
+  }
+
   const states = {
     message,
     loading,
     authenticatedUser,
-    inboxesPreferences
+    inboxesPreferences,
+    inboxes
   }
 
   const methods = {
@@ -93,7 +105,8 @@ export const useAuth = () => {
     authenticate,
     updateProfileInformation,
     getUserInboxesPreferences,
-    updateUserInboxesPreferences
+    updateUserInboxesPreferences,
+    getUserInboxes
   }
 
   return { ...states, ...methods }

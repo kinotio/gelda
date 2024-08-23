@@ -52,3 +52,9 @@ export type UpdateProfileInformationFormType = {
 export type InboxesPreferencesType = {
   preference: any
 }
+
+export type InboxeType = {
+  id: number
+  message: string
+  created_at: string
+}
