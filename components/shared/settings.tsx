@@ -280,13 +280,21 @@ const ChangePasswordSettings = () => {
 }
 
 const InboxesPreferencesSettings = () => {
-  const { authenticate, getUserInboxesPreferences, inboxesPreferences, loading } = useAuth()
-  const [userInboxesPreferences, setUserInboxesPreferences] = useState<string>()
+  const {
+    authenticate,
+    getUserInboxesPreferences,
+    inboxesPreferences,
+    loading,
+    updateUserInboxesPreferences
+  } = useAuth()
+  const [userInboxesPreferences, setUserInboxesPreferences] = useState<string>('')
 
   const preference = inboxesPreferences?.[0].preference as string
 
   const onSubmitSaveUserInboxesPreferences = async () => {
-    console.log(userInboxesPreferences)
+    updateUserInboxesPreferences(userInboxesPreferences).finally(() => {
+      authenticate()
+    })
   }
 
   useEffect(() => {

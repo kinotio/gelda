@@ -169,3 +169,17 @@ export const getUserInboxesPreferences = async () => {
 
   return data
 }
+
+export const updateUserInboxesPreferences = async (preference: string) => {
+  const user = await getUser()
+
+  const { data, error } = await supabase
+    .from('inboxes_preferences')
+    .update({ preference })
+    .eq('user_id', user?.id)
+
+  if (error)
+    throw new Error(`An error occurred while updating user inboxes preferences: ${error.message}`)
+
+  return data
+}
