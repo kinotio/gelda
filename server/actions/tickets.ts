@@ -32,6 +32,9 @@ export const list = async ({
 }) => {
   await getUser()
 
+  const query =
+    '*, ticket_statuses (name, slug), ticket_resolutions (name, slug), ticket_priorities (name, slug)'
+
   if (type === 'client') {
     const {
       data: { user },
@@ -43,7 +46,7 @@ export const list = async ({
 
     const { data, error: selectError } = await supabase
       .from('tickets')
-      .select('*')
+      .select(query)
       .eq('creator_id', user?.id)
       .limit(limit)
 
@@ -53,7 +56,7 @@ export const list = async ({
     return data
   }
 
-  const { data, error: selectError } = await supabase.from('tickets').select('*').limit(10)
+  const { data, error: selectError } = await supabase.from('tickets').select(query).limit(10)
 
   if (selectError || !data)
     throw new Error(`An error occurred while getting tickets: ${selectError.message}`)
@@ -91,6 +94,19 @@ export const create = async (form: TicketFormType) => {
     throw new Error(`An error occurred while creating ticket: ${insertError.message}`)
 
   return insertData
+}
+
+export const getTicketById = async (id: number) => {
+  await getUser()
+
+  const query =
+    '*, ticket_statuses (name, slug), ticket_resolutions (name, slug), ticket_priorities (name, slug)'
+
+  const { data, error } = await supabase.from('tickets').select(query).eq('id', id).limit(1)
+
+  if (error) throw new Error(`An error occurred while getting ticke: ${error.message}`)
+
+  return data
 }
 
 export const listTicketPriorities = async () => {

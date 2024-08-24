@@ -58,7 +58,7 @@ const Create = () => {
       </CardHeader>
       <CardContent className='overflow-auto'>
         {!isEmpty(message) ? (
-          <Alert variant='destructive'>
+          <Alert variant='destructive' className='mb-4'>
             <AlertCircle className='h-4 w-4' />
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>{message}</AlertDescription>

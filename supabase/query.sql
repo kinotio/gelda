@@ -361,20 +361,20 @@ alter publication supabase_realtime add table public.activities;
 ----------------------------------------------------------------------------------------------
 insert into public.ticket_statuses (name, slug)
 values
-    ('open', 'open'),
-    ('in progress', 'in_progress'),
-    ('closed', 'closed');
+    ('Open', 'open'),
+    ('In Progress', 'in_progress'),
+    ('Closed', 'closed');
 
 insert into public.ticket_priorities (name, slug)
 values
-    ('low', 'low'),
-    ('medium', 'medium'),
-    ('high', 'high');
+    ('Low', 'low'),
+    ('Medium', 'medium'),
+    ('High', 'high');
 
 insert into public.ticket_resolutions (name, slug)
 values
-    ('resolved', 'resolved'),
-    ('unresolved',  'unresolved');
+    ('Resolved', 'resolved'),
+    ('Unresolved',  'unresolved');
 
 insert into public.role_permissions (role, permission)
 values

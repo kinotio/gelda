@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 
 import { onInsertListener, removeListener } from '@/lib/supabase/client'
 
-export const useRealtime = ({ table }: { table: string }) => {
-  const [newData, handleNewData] = useState()
+export const useRealtime = <T>({ table }: { table: string }) => {
+  const [newData, handleNewData] = useState<T>()
 
   useEffect(() => {
     const listener = onInsertListener({
