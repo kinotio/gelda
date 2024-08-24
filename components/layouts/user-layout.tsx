@@ -19,19 +19,22 @@ import { Badge } from '@/components/ui/badge'
 import { Navigation } from '@/components/shared/navigation'
 
 import { APP_VERSION } from '@/lib/constants'
+import { MenuType } from '@/lib/definitions'
 
 import { useAuth } from '@/hooks/use-auth'
 
 const UserLayout = ({
+  menus,
   children
 }: Readonly<{
+  menus: MenuType[]
   children: React.ReactNode
 }>) => {
   return (
     <>
       <div className='fixed top-0 w-full'>
         <Header />
-        <Navigation />
+        <Navigation menus={menus} />
       </div>
       <main className='flex items-center justify-center mt-[100px]'>{children}</main>
       <Footer />

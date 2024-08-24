@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation'
 import { icons } from 'lucide-react'
 
 import { Icon } from '@/components/ui/icon'
-
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -14,38 +13,9 @@ import {
 } from '@/components/ui/navigation-menu'
 import { Separator } from '@/components/ui/separator'
 
-import { PATH } from '@/lib/constants'
+import { MenuType } from '@/lib/definitions'
 
-type Menu = {
-  label: string
-  path: string
-  icon: string
-}
-
-const menus = [
-  {
-    label: 'Overview',
-    path: PATH.CLIENT_OVERVIEW,
-    icon: 'LayoutDashboard'
-  },
-  {
-    label: 'Tickets',
-    path: PATH.CLIENT_TICKETS,
-    icon: 'Ticket'
-  },
-  {
-    label: 'Discussions',
-    path: PATH.CLIENT_DISCUSSIONS,
-    icon: 'MessagesSquare'
-  },
-  {
-    label: 'Settings',
-    path: PATH.CLIENT_SETTINGS,
-    icon: 'Settings'
-  }
-] as Menu[]
-
-const Navigation = () => {
+const Navigation = ({ menus }: { menus: MenuType[] }) => {
   const pathname = usePathname()
 
   return (

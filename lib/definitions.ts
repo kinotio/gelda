@@ -63,3 +63,9 @@ export type UpdatePasswordFormType = {
   newPassword: string
   confirmPassword: string
 }
+
+export type MenuType = {
+  label: string
+  path: string
+  icon: string
+}
