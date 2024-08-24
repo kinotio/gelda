@@ -1,7 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { ActivityIcon, SearchIcon, FilterIcon } from 'lucide-react'
+import { ActivityIcon, SearchIcon, FilterIcon, Calendar as CalendarIcon } from 'lucide-react'
+import { addDays, format } from 'date-fns'
+import { DateRange } from 'react-day-picker'
 
 import { Card, CardHeader, CardDescription, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -38,42 +40,47 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { DatePickerWithRange } from '@/components/ui/shared/range-datepicker'
+import { Calendar } from '@/components/ui/calendar'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
-import { readableTimestamp, formatToReadable } from '@/lib/utils'
+import { readableTimestamp, formatToReadable, cn } from '@/lib/utils'
 import { ACTIVITIES_TYPES } from '@/lib/constants'
+import { ActivityType } from '@/lib/definitions'
 
 import { useActivities } from '@/hooks/use-activities'
-import { ActivityType } from '@/lib/definitions'
 
 const Page = () => {
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [itemsPerPage, setItemsPerPage] = useState<number>(10)
   const [filters, setFilters] = useState({
-    type: '',
-    timestamp: ''
+    type: ''
   })
+  const [date, setDate] = useState<DateRange | undefined>()
 
   const { list, loading, activities } = useActivities()
 
-  const filteredLogs = activities.filter((log) => {
-    const { type, timestamp } = filters
-
+  const filteredActivities = activities.filter((log) => {
+    const { type } = filters
+    const logTimestamp = new Date(log.timestamp)
     return (
       log.type.toLowerCase().includes(searchTerm.toLowerCase()) &&
       log.type.toLowerCase().includes(type.toLowerCase()) &&
-      log.timestamp.toLowerCase().includes(timestamp.toLowerCase())
+      (!date?.from || logTimestamp >= new Date(date.from)) &&
+      (!date?.to || logTimestamp <= new Date(date.to))
     )
   })
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = filteredLogs.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(filteredLogs.length / itemsPerPage)
+  const currentItems = filteredActivities.slice(indexOfFirstItem, indexOfLastItem)
+  const totalPages = Math.ceil(filteredActivities.length / itemsPerPage)
 
   const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber)
 
-  const handleResetFilters = () => setFilters({ type: '', timestamp: '' })
+  const handleResetFilters = () => {
+    setFilters({ type: '' })
+    setDate(undefined)
+  }
 
   useEffect(() => {
     list()
@@ -144,23 +151,44 @@ const Page = () => {
 
                       <div className='grid gap-4'>
                         <Label htmlFor='timestamp-filter'>Timestamp</Label>
-                        <DatePickerWithRange
-                          onSelect={() => {
-                            console.log('changed')
-                          }}
-                        />
-                        <Input
-                          id='timestamp-filter'
-                          type='text'
-                          placeholder='Filter by timestamp'
-                          value={filters.timestamp}
-                          onChange={(e) =>
-                            setFilters((prev) => ({
-                              ...prev,
-                              timestamp: e.target.value
-                            }))
-                          }
-                        />
+                        <div className='grid gap-2'>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                id='date'
+                                variant={'outline'}
+                                className={cn(
+                                  'w-[300px] justify-start text-left font-normal',
+                                  !date && 'text-muted-foreground'
+                                )}
+                              >
+                                <CalendarIcon className='mr-2 h-4 w-4' />
+                                {date?.from ? (
+                                  date.to ? (
+                                    <>
+                                      {format(date.from, 'LLL dd, y')} -{' '}
+                                      {format(date.to, 'LLL dd, y')}
+                                    </>
+                                  ) : (
+                                    format(date.from, 'LLL dd, y')
+                                  )
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className='w-auto p-0' align='start'>
+                              <Calendar
+                                initialFocus
+                                mode='range'
+                                defaultMonth={date?.from}
+                                selected={date}
+                                onSelect={setDate}
+                                numberOfMonths={2}
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </div>
                       </div>
 
                       <Button variant='outline' onClick={handleResetFilters}>
@@ -177,7 +205,7 @@ const Page = () => {
                 <ActivitiesTablePagination
                   indexOfFirstItem={indexOfFirstItem}
                   indexOfLastItem={indexOfLastItem}
-                  filteredLogs={filteredLogs}
+                  filteredActivities={filteredActivities}
                   currentPage={currentPage}
                   totalPages={totalPages}
                   handlePageChange={handlePageChange}
@@ -239,14 +267,14 @@ const ActivitiesTable = ({
 const ActivitiesTablePagination = ({
   indexOfFirstItem,
   indexOfLastItem,
-  filteredLogs,
+  filteredActivities,
   currentPage,
   totalPages,
   handlePageChange
 }: {
   indexOfFirstItem: number
   indexOfLastItem: number
-  filteredLogs: ActivityType[]
+  filteredActivities: ActivityType[]
   currentPage: number
   totalPages: number
   handlePageChange: (page: number) => void
@@ -254,7 +282,7 @@ const ActivitiesTablePagination = ({
   return (
     <>
       <div className='text-sm text-muted-foreground'>
-        Showing {indexOfFirstItem + 1} to {indexOfLastItem} of {filteredLogs.length} logs
+        Showing {indexOfFirstItem + 1} to {indexOfLastItem} of {filteredActivities.length} logs
       </div>
       <Pagination>
         <PaginationContent>
