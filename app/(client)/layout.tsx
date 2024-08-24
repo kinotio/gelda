@@ -24,6 +24,11 @@ const menus = [
     icon: 'MessagesSquare'
   },
   {
+    label: 'Activities',
+    path: PATH.CLIENT_ACTIVITIES,
+    icon: 'Activity'
+  },
+  {
     label: 'Settings',
     path: PATH.CLIENT_SETTINGS,
     icon: 'Settings'
