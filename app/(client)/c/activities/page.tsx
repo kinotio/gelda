@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { ActivityIcon, SearchIcon, FilterIcon, Calendar as CalendarIcon } from 'lucide-react'
-import { addDays, format } from 'date-fns'
+import { format } from 'date-fns'
 import { DateRange } from 'react-day-picker'
 
 import { Card, CardHeader, CardDescription, CardContent } from '@/components/ui/card'
@@ -237,17 +237,7 @@ const ActivitiesTable = ({
       </TableHeader>
       <TableBody>
         {loading ? (
-          <TableRow>
-            <TableCell>
-              <div className='h-6 w-full rounded-md bg-muted' />
-            </TableCell>
-            <TableCell>
-              <div className='h-6 w-full rounded-md bg-muted' />
-            </TableCell>
-            <TableCell>
-              <div className='h-6 w-full rounded-md bg-muted' />
-            </TableCell>
-          </TableRow>
+          <SkeletonLoader />
         ) : (
           <>
             {currentItems.map((log) => (
@@ -282,7 +272,8 @@ const ActivitiesTablePagination = ({
   return (
     <>
       <div className='text-sm text-muted-foreground'>
-        Showing {indexOfFirstItem + 1} to {indexOfLastItem} of {filteredActivities.length} logs
+        Showing {indexOfFirstItem + 1} to {indexOfLastItem} of {filteredActivities.length}{' '}
+        activities
       </div>
       <Pagination>
         <PaginationContent>
@@ -309,6 +300,22 @@ const ActivitiesTablePagination = ({
           </PaginationItem>
         </PaginationContent>
       </Pagination>
+    </>
+  )
+}
+
+const SkeletonLoader = () => {
+  return (
+    <>
+      {Array.from({ length: 3 }).map((_, idx) => (
+        <TableRow key={idx}>
+          {Array.from({ length: 3 }).map((_, idx) => (
+            <TableCell key={idx}>
+              <div className='h-6 w-full rounded-md bg-muted' />
+            </TableCell>
+          ))}
+        </TableRow>
+      ))}
     </>
   )
 }

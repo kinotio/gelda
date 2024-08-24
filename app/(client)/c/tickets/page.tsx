@@ -19,11 +19,11 @@ import { Loader } from '@/components/ui/shared/loader'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
-import { useTickets } from '@/hooks/use-tickets'
-
 import { COLOR_BY_STATUS_ID, COLOR_BY_PRIORITY_ID, COLOR_BY_RESOLUTION_ID } from '@/lib/constants'
-import { formatDate } from '@/lib/utils'
+import { formatDate, cn } from '@/lib/utils'
 import { TicketType } from '@/lib/definitions'
+
+import { useTickets } from '@/hooks/use-tickets'
 
 const columns: ColumnDef<TicketType>[] = [
   {
@@ -65,14 +65,12 @@ const columns: ColumnDef<TicketType>[] = [
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       )
-    }
-    // cell: ({ row }) => (
-    //   <span
-    //     className={`capitalize inline-flex items-center gap-2 rounded-full px-2 py-1 text-xs font-medium ${COLOR_BY_STATUS_ID[row.original.status_id ?? 0]}`}
-    //   >
-    //     {row.original.status?.name}
-    //   </span>
-    // )
+    },
+    cell: ({ row }) => (
+      <Badge variant='outline' className={cn(COLOR_BY_STATUS_ID[row.original.status_id ?? 0])}>
+        {row.original.ticket_statuses?.name}
+      </Badge>
+    )
   },
   {
     accessorKey: 'priority',
@@ -87,14 +85,15 @@ const columns: ColumnDef<TicketType>[] = [
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       )
-    }
-    // cell: ({ row }) => (
-    //   <span
-    //     className={`capitalize inline-flex items-center gap-2 rounded-full px-2 py-1 text-xs font-medium ${COLOR_BY_PRIORITY_ID[row.original.priorityId ?? 0]}`}
-    //   >
-    //     {row.original.priority?.name}
-    //   </span>
-    // )
+    },
+    cell: ({ row }) => (
+      <Badge
+        variant='secondary'
+        className={cn(COLOR_BY_PRIORITY_ID[row.original.priority_id ?? 0])}
+      >
+        {row.original.ticket_priorities?.name}
+      </Badge>
+    )
   },
   {
     accessorKey: 'resolution',
@@ -109,14 +108,15 @@ const columns: ColumnDef<TicketType>[] = [
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       )
-    }
-    // cell: ({ row }) => (
-    //   <span
-    //     className={`capitalize inline-flex items-center gap-2 rounded-full px-2 py-1 text-xs font-medium ${COLOR_BY_RESOLUTION_ID[row.original.resolutionId ?? 0]}`}
-    //   >
-    //     {row.original.resolution?.name}
-    //   </span>
-    // )
+    },
+    cell: ({ row }) => (
+      <Badge
+        variant='secondary'
+        className={cn(COLOR_BY_RESOLUTION_ID[row.original.resolution_id ?? 0])}
+      >
+        {row.original.ticket_resolutions?.name}
+      </Badge>
+    )
   },
   {
     accessorKey: 'createdAt',
@@ -173,21 +173,17 @@ const Page = () => {
 
       {loading ? (
         <div className='w-full h-[40vh] flex justify-center items-center'>
-          <Loader />
+          <SkeletonLoader />
         </div>
       ) : (
-        <>
-          {Array.isArray(tickets) && tickets.length > 0 ? (
-            <DataTable data={tickets} columns={columns} options={{ pageSize: 7 }} />
-          ) : (
-            <Card className='p-8'>
+        <DataTable data={tickets} columns={columns} options={{ pageSize: 7 }} />
+      )}
+
+      {/* <Card className='p-8'>
               <CardContent className='flex items-center justify-center pt-6'>
                 <div className='text-2xl font-bold'>Oops, no tickets have been created for now</div>
               </CardContent>
-            </Card>
-          )}
-        </>
-      )}
+            </Card> */}
     </div>
   )
 }
@@ -221,42 +217,57 @@ const Metrics = () => {
       </div>
 
       {loading ? (
-        <div className='w-full flex justify-center items-center'>
-          <Loader />
+        <div className='w-full flex justify-start items-start gap-4'>
+          {Array.from({ length: 7 }).map((_, idx) => (
+            <div key={idx} className='h-32 w-64 rounded-md bg-muted' />
+          ))}
         </div>
       ) : (
         <div id='scroll-container' className='overflow-x-auto custom-scroll w-[95vw]'>
           <div className='grid grid-flow-col auto-cols-max gap-4'>
-            <>
-              {Array.isArray(memorizedTicketsMetrics) && memorizedTicketsMetrics.length > 0 ? (
-                <>
-                  {memorizedTicketsMetrics.map((metric, idx) => (
-                    <Card key={idx} className='col-span-1 w-64'>
-                      <CardContent className='flex justify-between items-center p-6'>
-                        <div>
-                          <Badge variant='secondary'>{metric.type}</Badge>
-                          <h3 className='text-lg font-semibold capitalize'>{metric.name}</h3>
-                          <p className='text-sm text-muted-foreground'>{metric.description}</p>
-                        </div>
-                        <span className='text-3xl font-bold'>{metric.count}</span>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </>
-              ) : (
-                <Card className='w-[94vw] p-8'>
+            {memorizedTicketsMetrics.map((metric, idx) => (
+              <Card key={idx} className='col-span-1 w-64'>
+                <CardContent className='flex justify-between items-center p-6'>
+                  <div>
+                    <Badge variant='secondary'>{metric.type}</Badge>
+                    <h3 className='text-lg font-semibold capitalize'>{metric.name}</h3>
+                    <p className='text-sm text-muted-foreground'>{metric.description}</p>
+                  </div>
+                  <span className='text-3xl font-bold'>{metric.count}</span>
+                </CardContent>
+              </Card>
+            ))}
+
+            {/* <Card className='w-[94vw] p-8'>
                   <CardContent className='flex items-center justify-center pt-6'>
                     <div className='text-2xl font-bold'>
                       Oops, no tickets metrics have been found for now
                     </div>
                   </CardContent>
-                </Card>
-              )}
-            </>
+                </Card> */}
           </div>
         </div>
       )}
     </section>
+  )
+}
+
+const SkeletonLoader = () => {
+  return (
+    <div className='border rounded-lg w-full'>
+      <div className='animate-pulse space-y-2'>
+        <div className='px-4 py-3 border-b'>
+          <div className='h-5 bg-muted rounded-md w-32' />
+        </div>
+        {Array.from({ length: 6 }).map((_, idx) => (
+          <div key={idx} className='p-4 grid grid-cols-4 gap-4'>
+            {Array.from({ length: 4 }).map((_, idx) => (
+              <div key={idx} className='h-5 bg-muted rounded-md' />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 
