@@ -30,3 +30,25 @@ export const sluggify = (text: string): string =>
     .trim()
     .replace(/[\s\W-]+/g, '-')
     .replace(/^-+|-+$/g, '')
+
+export const readableTimestamp = (isoTimestamp: string) => {
+  const locale = navigator.language || 'en-US'
+  const date = new Date(isoTimestamp)
+
+  return date.toLocaleString(locale, {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: true
+  })
+}
+
+export const formatToReadable = (text: string): string => {
+  return text
+    .replace(/_/g, ' ') // Replace underscores with spaces
+    .replace(/\b\w/g, (char) => char.toUpperCase()) // Capitalize the first letter of each word
+}

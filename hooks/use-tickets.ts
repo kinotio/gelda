@@ -58,15 +58,20 @@ export const useTickets = () => {
       .finally(() => setLoading(false))
   }
 
-  return {
+  const states = {
     loading,
     message,
     tickets,
+    ticketsMetrics,
+    ticketPriorities
+  }
+
+  const methods = {
     list,
     create,
     listTicketPriorities,
-    ticketPriorities,
-    metrics,
-    ticketsMetrics
+    metrics
   }
+
+  return { ...states, ...methods }
 }

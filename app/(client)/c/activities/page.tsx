@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ActivityIcon, SearchIcon, FilterIcon } from 'lucide-react'
 
 import { Card, CardHeader, CardDescription, CardContent } from '@/components/ui/card'
@@ -31,6 +31,10 @@ import {
   PaginationNext
 } from '@/components/ui/pagination'
 
+import { readableTimestamp, formatToReadable } from '@/lib/utils'
+
+import { useActivities } from '@/hooks/use-activities'
+
 const Page = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
@@ -40,82 +44,9 @@ const Page = () => {
     timestamp: ''
   })
 
-  const activityLogs = [
-    {
-      id: 1,
-      type: 'Login',
-      timestamp: '2023-04-15 10:30:00',
-      description: 'User logged in to the system'
-    },
-    {
-      id: 2,
-      type: 'File Upload',
-      timestamp: '2023-04-16 14:20:00',
-      description: 'User uploaded a new file to the system'
-    },
-    {
-      id: 3,
-      type: 'Order Placed',
-      timestamp: '2023-04-17 09:45:00',
-      description: 'User placed a new order'
-    },
-    {
-      id: 4,
-      type: 'Password Change',
-      timestamp: '2023-04-18 16:10:00',
-      description: 'User changed their password'
-    },
-    {
-      id: 5,
-      type: 'Payment Received',
-      timestamp: '2023-04-19 11:00:00',
-      description: 'Payment received for an order'
-    },
-    {
-      id: 6,
-      type: 'Account Created',
-      timestamp: '2023-04-20 13:25:00',
-      description: 'New user account created'
-    },
-    {
-      id: 7,
-      type: 'Order Cancelled',
-      timestamp: '2023-04-21 08:35:00',
-      description: 'User cancelled an order'
-    },
-    {
-      id: 8,
-      type: 'File Download',
-      timestamp: '2023-04-22 15:50:00',
-      description: 'User downloaded a file from the system'
-    },
-    {
-      id: 9,
-      type: 'Email Sent',
-      timestamp: '2023-04-23 12:15:00',
-      description: 'System sent an email to a user'
-    },
-    {
-      id: 10,
-      type: 'Account Deactivated',
-      timestamp: '2023-04-24 18:40:00',
-      description: 'User account deactivated'
-    },
-    {
-      id: 11,
-      type: 'Payment Refunded',
-      timestamp: '2023-04-25 14:05:00',
-      description: 'Payment refunded for an order'
-    },
-    {
-      id: 12,
-      type: 'User Invited',
-      timestamp: '2023-04-26 10:00:00',
-      description: 'User invited to the system'
-    }
-  ]
+  const { list, loading, activities } = useActivities()
 
-  const filteredLogs = activityLogs.filter((log) => {
+  const filteredLogs = activities.filter((log) => {
     const { type, timestamp } = filters
 
     return (
@@ -130,6 +61,11 @@ const Page = () => {
   const totalPages = Math.ceil(filteredLogs.length / itemsPerPage)
 
   const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber)
+
+  useEffect(() => {
+    list()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className='flex flex-1 flex-col gap-8 p-6 md:gap-12 md:p-12'>
@@ -212,13 +148,29 @@ const Page = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {currentItems.map((log) => (
-                      <TableRow key={log.id}>
-                        <TableCell>{log.type}</TableCell>
-                        <TableCell>{log.timestamp}</TableCell>
-                        <TableCell>{log.description}</TableCell>
+                    {loading ? (
+                      <TableRow>
+                        <TableCell>
+                          <div className='h-6 w-full rounded-md bg-muted' />
+                        </TableCell>
+                        <TableCell>
+                          <div className='h-6 w-full rounded-md bg-muted' />
+                        </TableCell>
+                        <TableCell>
+                          <div className='h-6 w-full rounded-md bg-muted' />
+                        </TableCell>
                       </TableRow>
-                    ))}
+                    ) : (
+                      <>
+                        {currentItems.map((log) => (
+                          <TableRow key={log.id}>
+                            <TableCell>{formatToReadable(log.type)}</TableCell>
+                            <TableCell>{readableTimestamp(log.timestamp)}</TableCell>
+                            <TableCell>{log.description}</TableCell>
+                          </TableRow>
+                        ))}
+                      </>
+                    )}
                   </TableBody>
                 </Table>
               </div>
