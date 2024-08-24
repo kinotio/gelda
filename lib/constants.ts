@@ -153,3 +153,14 @@ export const METRICS = [
     count: 0
   }
 ]
+
+export const ACTIVITIES_TYPES = [
+  'unknown',
+  'login',
+  'account_created',
+  'password_change',
+  'ticket_created',
+  'inboxes_preferences_change',
+  'profile_information_change',
+  'logout'
+] as string[]
