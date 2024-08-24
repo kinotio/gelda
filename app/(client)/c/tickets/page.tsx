@@ -15,7 +15,6 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { DataTable } from '@/components/ui/datatable'
-import { Loader } from '@/components/ui/shared/loader'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
