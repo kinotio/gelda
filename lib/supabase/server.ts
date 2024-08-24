@@ -8,6 +8,8 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
   throw new Error('Missing Supabase environment variables')
 }
 
+type HandleNewValueType = (payload: any) => void
+
 const createClient = () => {
   const cookieStore = cookies()
 
@@ -26,5 +28,39 @@ const createClient = () => {
 }
 
 const supabase = createClient()
+
+export const onInsertListener = ({
+  tableName,
+  handleNewValue
+}: {
+  tableName: string
+  handleNewValue: HandleNewValueType
+}) => {
+  return supabase
+    .channel(`public:${tableName}`)
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: tableName }, (payload) =>
+      handleNewValue(payload.new)
+    )
+    .subscribe() as any
+}
+
+export const onDeleteListener = ({
+  tableName,
+  handleNewValue
+}: {
+  tableName: string
+  handleNewValue: HandleNewValueType
+}) => {
+  return supabase
+    .channel(`public:${tableName}`)
+    .on('postgres_changes', { event: 'DELETE', schema: 'public', table: tableName }, (payload) =>
+      handleNewValue(payload.old)
+    )
+    .subscribe() as any
+}
+
+export const removeListener = ({ listener }: { listener: any }) => {
+  supabase.removeChannel(supabase.channel(listener))
+}
 
 export { supabase }
