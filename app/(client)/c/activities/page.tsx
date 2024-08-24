@@ -30,15 +30,26 @@ import {
   PaginationLink,
   PaginationNext
 } from '@/components/ui/pagination'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import { DatePickerWithRange } from '@/components/ui/shared/range-datepicker'
 
 import { readableTimestamp, formatToReadable } from '@/lib/utils'
+import { ACTIVITIES_TYPES } from '@/lib/constants'
 
 import { useActivities } from '@/hooks/use-activities'
+import { ActivityType } from '@/lib/definitions'
 
 const Page = () => {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(10)
+  const [searchTerm, setSearchTerm] = useState<string>('')
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10)
   const [filters, setFilters] = useState({
     type: '',
     timestamp: ''
@@ -61,6 +72,8 @@ const Page = () => {
   const totalPages = Math.ceil(filteredLogs.length / itemsPerPage)
 
   const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber)
+
+  const handleResetFilters = () => setFilters({ type: '', timestamp: '' })
 
   useEffect(() => {
     list()
@@ -96,6 +109,7 @@ const Page = () => {
                     className='pl-10 pr-4 py-2 rounded-md w-full border border-input bg-background focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary'
                   />
                 </div>
+
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant='outline' size='icon'>
@@ -103,24 +117,38 @@ const Page = () => {
                       <span className='sr-only'>Filters</span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align='end' className='w-[300px]'>
+                  <DropdownMenuContent align='end'>
                     <DropdownMenuLabel>Filters</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <div className='grid gap-6 p-2'>
                       <div className='grid gap-4'>
                         <Label htmlFor='type-filter'>Type</Label>
-                        <Input
-                          id='type-filter'
-                          type='text'
-                          placeholder='Filter by type'
+                        <Select
                           value={filters.type}
-                          onChange={(e) =>
-                            setFilters((prev) => ({ ...prev, type: e.target.value }))
-                          }
-                        />
+                          onValueChange={(type) => setFilters({ ...filters, type })}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder='Filter by type' />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              {ACTIVITIES_TYPES.map((type: string) => (
+                                <SelectItem key={type} value={type}>
+                                  {formatToReadable(type)}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
                       </div>
+
                       <div className='grid gap-4'>
                         <Label htmlFor='timestamp-filter'>Timestamp</Label>
+                        <DatePickerWithRange
+                          onSelect={() => {
+                            console.log('changed')
+                          }}
+                        />
                         <Input
                           id='timestamp-filter'
                           type='text'
@@ -134,87 +162,126 @@ const Page = () => {
                           }
                         />
                       </div>
+
+                      <Button variant='outline' onClick={handleResetFilters}>
+                        Reset filters
+                      </Button>
                     </div>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
               <div className='overflow-x-auto'>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Activity Type</TableHead>
-                      <TableHead>Timestamp</TableHead>
-                      <TableHead>Description</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {loading ? (
-                      <TableRow>
-                        <TableCell>
-                          <div className='h-6 w-full rounded-md bg-muted' />
-                        </TableCell>
-                        <TableCell>
-                          <div className='h-6 w-full rounded-md bg-muted' />
-                        </TableCell>
-                        <TableCell>
-                          <div className='h-6 w-full rounded-md bg-muted' />
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      <>
-                        {currentItems.map((log) => (
-                          <TableRow key={log.id}>
-                            <TableCell>{formatToReadable(log.type)}</TableCell>
-                            <TableCell>{readableTimestamp(log.timestamp)}</TableCell>
-                            <TableCell>{log.description}</TableCell>
-                          </TableRow>
-                        ))}
-                      </>
-                    )}
-                  </TableBody>
-                </Table>
+                <ActivitiesTable loading={loading} currentItems={currentItems} />
               </div>
               <div className='flex items-center justify-between mt-6'>
-                <div className='text-sm text-muted-foreground'>
-                  Showing {indexOfFirstItem + 1} to {indexOfLastItem} of {filteredLogs.length} logs
-                </div>
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      {currentPage !== 1 ? (
-                        <PaginationPrevious
-                          href='#'
-                          onClick={() => handlePageChange(currentPage - 1)}
-                        />
-                      ) : null}
-                    </PaginationItem>
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                      <PaginationItem key={page}>
-                        <PaginationLink
-                          href='#'
-                          isActive={page === currentPage}
-                          onClick={() => handlePageChange(page)}
-                        >
-                          {page}
-                        </PaginationLink>
-                      </PaginationItem>
-                    ))}
-                    <PaginationItem>
-                      {currentPage !== totalPages ? (
-                        <PaginationNext
-                          href='#'
-                          onClick={() => handlePageChange(currentPage + 1)}
-                        />
-                      ) : null}
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
+                <ActivitiesTablePagination
+                  indexOfFirstItem={indexOfFirstItem}
+                  indexOfLastItem={indexOfLastItem}
+                  filteredLogs={filteredLogs}
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  handlePageChange={handlePageChange}
+                />
               </div>
             </div>
           </CardContent>
         </Card>
       </section>
     </div>
+  )
+}
+
+const ActivitiesTable = ({
+  loading,
+  currentItems
+}: {
+  loading: boolean
+  currentItems: ActivityType[]
+}) => {
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Activity Type</TableHead>
+          <TableHead>Timestamp</TableHead>
+          <TableHead>Description</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {loading ? (
+          <TableRow>
+            <TableCell>
+              <div className='h-6 w-full rounded-md bg-muted' />
+            </TableCell>
+            <TableCell>
+              <div className='h-6 w-full rounded-md bg-muted' />
+            </TableCell>
+            <TableCell>
+              <div className='h-6 w-full rounded-md bg-muted' />
+            </TableCell>
+          </TableRow>
+        ) : (
+          <>
+            {currentItems.map((log) => (
+              <TableRow key={log.id}>
+                <TableCell>{formatToReadable(log.type)}</TableCell>
+                <TableCell>{readableTimestamp(log.timestamp)}</TableCell>
+                <TableCell>{log.description}</TableCell>
+              </TableRow>
+            ))}
+          </>
+        )}
+      </TableBody>
+    </Table>
+  )
+}
+
+const ActivitiesTablePagination = ({
+  indexOfFirstItem,
+  indexOfLastItem,
+  filteredLogs,
+  currentPage,
+  totalPages,
+  handlePageChange
+}: {
+  indexOfFirstItem: number
+  indexOfLastItem: number
+  filteredLogs: ActivityType[]
+  currentPage: number
+  totalPages: number
+  handlePageChange: (page: number) => void
+}) => {
+  return (
+    <>
+      <div className='text-sm text-muted-foreground'>
+        Showing {indexOfFirstItem + 1} to {indexOfLastItem} of {filteredLogs.length} logs
+      </div>
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            {currentPage !== 1 ? (
+              <PaginationPrevious href='#' onClick={() => handlePageChange(currentPage - 1)} />
+            ) : null}
+          </PaginationItem>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <PaginationItem key={page}>
+              <PaginationLink
+                href='#'
+                isActive={page === currentPage}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            {currentPage !== totalPages ? (
+              <PaginationNext href='#' onClick={() => handlePageChange(currentPage + 1)} />
+            ) : null}
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </>
   )
 }
 
