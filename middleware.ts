@@ -116,8 +116,8 @@ export const middleware = async (request: NextRequest) => {
   let response = NextResponse.next({ request })
   const supabase = createSupabaseServerClient(request, response)
 
-  const accessToken = cookieStore.get('access-token')
-  const refreshToken = cookieStore.get('refresh-token')
+  const accessToken = cookieStore.get('sb-access-token')
+  const refreshToken = cookieStore.get('sb-refresh-token')
 
   const { error, data } = await supabase.auth.getUser()
 

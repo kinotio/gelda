@@ -22,11 +22,11 @@ export const login = async (form: LoginFormType) => {
     password: form.password
   })
 
-  cookieStore.set('access-token', data?.session?.access_token ?? '', {
+  cookieStore.set('sb-access-token', data?.session?.access_token ?? '', {
     sameSite: true,
     secure: true
   })
-  cookieStore.set('refresh-token', data?.session?.refresh_token ?? '', {
+  cookieStore.set('sb-refresh-token', data?.session?.refresh_token ?? '', {
     sameSite: true,
     secure: true
   })
@@ -78,8 +78,8 @@ export const getUser = async () => {
   let user = null
   const cookieStore = cookies()
 
-  const accessToken = cookieStore.get('access-token')
-  const refreshToken = cookieStore.get('refresh-token')
+  const accessToken = cookieStore.get('sb-access-token')
+  const refreshToken = cookieStore.get('sb-refresh-token')
 
   const { error: getAuthUserError, data } = await supabase.auth.getUser()
 
@@ -155,6 +155,19 @@ export const updateProfileInformation = async (form: UpdateProfileInformationFor
   return data
 }
 
+export const updatePassword = async (form: UpdatePasswordFormType) => {
+  await getUser()
+
+  const { data, error } = await supabase.auth.updateUser({
+    password: form.newPassword
+  })
+
+  if (error)
+    throw new Error(`An error occurred while updating auth user password: ${error.message}`)
+
+  return data
+}
+
 export const getUserInboxesPreferences = async () => {
   const user = await getUser()
 
@@ -194,19 +207,6 @@ export const getUserInboxes = async () => {
     .limit(10)
 
   if (error) throw new Error(`An error occurred while getting user inboxes: ${error.message}`)
-
-  return data
-}
-
-export const updatePassword = async (form: UpdatePasswordFormType) => {
-  await getUser()
-
-  const { data, error } = await supabase.auth.updateUser({
-    password: form.newPassword
-  })
-
-  if (error)
-    throw new Error(`An error occurred while updating auth user password: ${error.message}`)
 
   return data
 }

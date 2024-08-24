@@ -6,6 +6,8 @@ import { TicketFormType, TicketType } from '@/lib/definitions'
 import { STATUS_BY_NAME, METRICS } from '@/lib/constants'
 import { sluggify } from '@/lib/utils'
 
+import { getUser } from '@/server/actions/auth'
+
 const DEFAULT_TYPE = 'client'
 const DEFAULT_TICKETS_PER_PAGE = 10
 
@@ -28,10 +30,7 @@ export const list = async ({
   type?: 'client' | 'admin'
   limit?: number
 }) => {
-  const { error: sessionError } = await supabase.auth.getSession()
-
-  if (sessionError)
-    throw new Error(`An error occurred while getting session: ${sessionError.message}`)
+  await getUser()
 
   if (type === 'client') {
     const {
@@ -63,10 +62,7 @@ export const list = async ({
 }
 
 export const create = async (form: TicketFormType) => {
-  const { error: sessionError } = await supabase.auth.getSession()
-
-  if (sessionError)
-    throw new Error(`An error occurred while getting session: ${sessionError.message}`)
+  await getUser()
 
   if (!form.title || !form.description || !form.priorityId)
     throw new Error('Missing required ticket fields: title, description, or priority')
@@ -98,10 +94,7 @@ export const create = async (form: TicketFormType) => {
 }
 
 export const listTicketPriorities = async () => {
-  const { error: sessionError } = await supabase.auth.getSession()
-
-  if (sessionError)
-    throw new Error(`An error occurred while getting session: ${sessionError.message}`)
+  await getUser()
 
   const { data, error: selectError } = await supabase.from('ticket_priorities').select('*')
 
@@ -113,13 +106,8 @@ export const listTicketPriorities = async () => {
 
 export const metrics = async ({ type = DEFAULT_TYPE }: { type?: 'client' | 'admin' }) => {
   let results: any[] = []
-  const {
-    data: { user },
-    error: userError
-  } = await supabase.auth.getUser()
 
-  if (userError || !user)
-    throw new Error(`An error occurred while getting user: ${userError?.message}`)
+  const user = await getUser()
 
   if (type === 'client') {
     const { data, error: selectError } = await supabase

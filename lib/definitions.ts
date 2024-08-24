@@ -50,7 +50,7 @@ export type UpdateProfileInformationFormType = {
 }
 
 export type InboxesPreferencesType = {
-  preference: any
+  preference: string
 }
 
 export type InboxeType = {
@@ -68,4 +68,11 @@ export type MenuType = {
   label: string
   path: string
   icon: string
+}
+
+export type ActivityType = {
+  id: number
+  type: string
+  description: string
+  timestamp: string
 }

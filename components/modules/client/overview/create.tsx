@@ -118,7 +118,7 @@ const Create = () => {
               {errors.priorityId && <ErrorMessage message={errors.priorityId.message as string} />}
             </div>
 
-            <Button className='w-1/5' type='submit' disabled={loading}>
+            <Button type='submit' disabled={loading}>
               {loading ? 'Creating...' : 'Create Ticket'}
             </Button>
           </div>
