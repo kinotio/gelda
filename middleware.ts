@@ -64,7 +64,7 @@ const handleUnauthenticatedClient = (
   }
 
   if (role === 'admin' && request.nextUrl.pathname === PATH.ADMIN) {
-    url.pathname = PATH.CLIENT_OVERVIEW
+    url.pathname = PATH.ADMIN_DASHBOARD
     return NextResponse.redirect(url)
   }
 
