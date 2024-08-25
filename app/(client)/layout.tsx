@@ -5,7 +5,7 @@ import { UserLayout } from '@/components/layouts/user-layout'
 import { PATH } from '@/lib/constants'
 import { MenuType } from '@/lib/definitions'
 
-export const metadata: Metadata = { title: 'Gelda - Client' }
+export const metadata: Metadata = { title: 'Gelda | Client' }
 
 const menus = [
   {
