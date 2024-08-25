@@ -7,6 +7,7 @@ import { STATUS_BY_NAME, METRICS } from '@/lib/constants'
 import { sluggify } from '@/lib/utils'
 
 import { getUser } from '@/server/actions/auth'
+import { save } from '@/server/actions/activities'
 
 const DEFAULT_TYPE = 'client'
 const DEFAULT_TICKETS_PER_PAGE = 10
@@ -49,6 +50,7 @@ export const list = async ({
       .select(query)
       .eq('creator_id', user?.id)
       .limit(limit)
+      .order('created_at', { ascending: false })
 
     if (selectError || !data)
       throw new Error(`An error occurred while getting tickets: ${selectError.message}`)
@@ -65,7 +67,7 @@ export const list = async ({
 }
 
 export const create = async (form: TicketFormType) => {
-  await getUser()
+  const user = await getUser()
 
   if (!form.title || !form.description || !form.priorityId)
     throw new Error('Missing required ticket fields: title, description, or priority')
@@ -76,14 +78,6 @@ export const create = async (form: TicketFormType) => {
     priority_id: form.priorityId
   } as TicketType
 
-  const {
-    data: { user },
-    error: userError
-  } = await supabase.auth.getUser()
-
-  if (userError || !user)
-    throw new Error(`An error occurred while getting user: ${userError?.message}`)
-
   data.slug = sluggify(form.title)
   data.creator_id = user?.id as string
   data.status_id = STATUS_BY_NAME.OPEN
@@ -92,6 +86,11 @@ export const create = async (form: TicketFormType) => {
 
   if (insertError)
     throw new Error(`An error occurred while creating ticket: ${insertError.message}`)
+
+  await save({
+    type: 'ticket_created',
+    description: 'New ticket created'
+  })
 
   return insertData
 }

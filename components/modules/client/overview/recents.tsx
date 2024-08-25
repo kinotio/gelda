@@ -73,10 +73,7 @@ const Recents = () => {
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge
-                        variant='secondary'
-                        className={cn(COLOR_BY_PRIORITY_ID[ticket.priority_id])}
-                      >
+                      <Badge className={cn(COLOR_BY_PRIORITY_ID[ticket.priority_id])}>
                         {ticket.ticket_priorities?.name}
                       </Badge>
                     </TableCell>
