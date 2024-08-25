@@ -14,6 +14,8 @@ import {
   UpdatePasswordFormType
 } from '@/lib/definitions'
 
+import { save } from '@/server/actions/activities'
+
 export const login = async (form: LoginFormType) => {
   const cookieStore = cookies()
 
@@ -32,6 +34,11 @@ export const login = async (form: LoginFormType) => {
   })
 
   if (signInError) throw new Error(`An error occurred while signin: ${signInError.message}`)
+
+  await save({
+    type: 'login',
+    description: 'Account logged in'
+  })
 
   revalidatePath('/', 'layout')
   redirect('/')
@@ -67,6 +74,11 @@ export const logout = async () => {
   const { error } = await supabase.auth.signOut()
 
   if (error) throw error
+
+  await save({
+    type: 'logout',
+    description: 'Account logged out'
+  })
 
   supaCookies.map((cookie) => cookies().delete(cookie.name))
 
@@ -152,6 +164,11 @@ export const updateProfileInformation = async (form: UpdateProfileInformationFor
   if (updateUserError)
     throw new Error(`An error occurred while updating user: ${updateUserError.message}`)
 
+  await save({
+    type: 'profile_information_change',
+    description: 'Account profile information changed'
+  })
+
   return data
 }
 
@@ -164,6 +181,11 @@ export const updatePassword = async (form: UpdatePasswordFormType) => {
 
   if (error)
     throw new Error(`An error occurred while updating auth user password: ${error.message}`)
+
+  await save({
+    type: 'password_change',
+    description: 'Account password changed'
+  })
 
   return data
 }
@@ -193,6 +215,11 @@ export const updateUserInboxesPreferences = async (preference: string) => {
 
   if (error)
     throw new Error(`An error occurred while updating user inboxes preferences: ${error.message}`)
+
+  await save({
+    type: 'inboxes_preferences_change',
+    description: 'Account inboxes preferences changed'
+  })
 
   return data
 }

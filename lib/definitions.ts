@@ -88,3 +88,13 @@ export type ActivityType = {
   description: string
   timestamp: string
 }
+
+export type ActivitiesType =
+  | 'unknown'
+  | 'login'
+  | 'account_created'
+  | 'password_change'
+  | 'ticket_created'
+  | 'inboxes_preferences_change'
+  | 'profile_information_change'
+  | 'logout'
