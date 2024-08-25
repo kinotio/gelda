@@ -23,20 +23,9 @@ const Discussion = () => {
       </CardHeader>
       <CardContent className='h-[600px] overflow-y-scroll'>
         <div className='space-y-4'>
-          <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900'>
-            Hi
-          </div>
-          <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800'>
-            Hi, how can I assist you today?
-          </div>
-          {Array.from({ length: 20 }).map((_, idx) => (
-            <div
-              key={idx}
-              className='flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900'
-            >
-              I m having trouble with my computer. Can you help me?
-            </div>
-          ))}
+          <UserMessage message='Hey' />
+          <BotMessage message='Hi, how can I assist you today?' />
+          <UserMessage message='I m having trouble with my computer. Can you help me?' />
         </div>
       </CardContent>
       <CardFooter>
@@ -54,6 +43,22 @@ const Discussion = () => {
         </div>
       </CardFooter>
     </Card>
+  )
+}
+
+const BotMessage = ({ message }: { message: string }) => {
+  return (
+    <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800'>
+      {message}
+    </div>
+  )
+}
+
+const UserMessage = ({ message }: { message: string }) => {
+  return (
+    <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900'>
+      {message}
+    </div>
   )
 }
 

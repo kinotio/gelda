@@ -23,7 +23,7 @@ const SidebarHistory = () => {
         <h2 className='text-xl font-bold'>Conversation History</h2>
       </div>
       <div className='flex flex-col gap-4 h-[78vh] overflow-y-scroll pr-6'>
-        {Array.from({ length: 20 }).map((_, idx) => (
+        {Array.from({ length: 6 }).map((_, idx) => (
           <SidebarHistoryCard key={idx} />
         ))}
       </div>
