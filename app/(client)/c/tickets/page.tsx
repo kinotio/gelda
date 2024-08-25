@@ -19,7 +19,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
 import { COLOR_BY_STATUS_ID, COLOR_BY_PRIORITY_ID, COLOR_BY_RESOLUTION_ID } from '@/lib/constants'
-import { formatDate, cn } from '@/lib/utils'
+import { cn, readableTimestamp } from '@/lib/utils'
 import { TicketType } from '@/lib/definitions'
 
 import { useTickets } from '@/hooks/use-tickets'
@@ -132,7 +132,9 @@ const columns: ColumnDef<TicketType>[] = [
       )
     },
     cell: ({ row }) => (
-      <div className='capitalize'>{formatDate(row.original.created_at?.toString() as string)}</div>
+      <div className='capitalize'>
+        {readableTimestamp(row.original.created_at?.toString() as string)}
+      </div>
     )
   },
   {
