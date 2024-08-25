@@ -52,7 +52,7 @@ const Header = () => {
         <div className='flex items-center justify-center gap-4'>
           <Badge variant='outline' className='h-8 cursor-pointer'>
             <Link href={'/c/overview'} prefetch={false}>
-              New ticket
+              Create ticket
             </Link>
           </Badge>
           <Badge className='h-8 cursor-pointer'>
