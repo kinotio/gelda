@@ -164,3 +164,14 @@ export const ACTIVITIES_TYPES = [
   'profile_information_change',
   'logout'
 ] as string[]
+
+export const BADGE_VARIANT: { [key: number]: string } = {
+  1: 'secondary',
+  2: 'default',
+  3: 'destructive'
+}
+
+export const BADGE_BY_RESOLUTION_ID: { [key: number]: string } = {
+  1: 'default',
+  2: 'destructive'
+}

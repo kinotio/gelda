@@ -17,8 +17,8 @@ import { Badge } from '@/components/ui/badge'
 
 import { useTickets } from '@/hooks/use-tickets'
 
-import { COLOR_BY_PRIORITY_ID, COLOR_BY_STATUS_ID, PATH } from '@/lib/constants'
-import { shortText, cn } from '@/lib/utils'
+import { BADGE_VARIANT, PATH } from '@/lib/constants'
+import { shortText } from '@/lib/utils'
 
 const Recents = () => {
   const { tickets, loading, list } = useTickets()
@@ -68,12 +68,12 @@ const Recents = () => {
                     <TableCell>#{ticket.id}</TableCell>
                     <TableCell className='text-wrap'>{shortText(ticket.title)}</TableCell>
                     <TableCell>
-                      <Badge variant='outline' className={cn(COLOR_BY_STATUS_ID[ticket.status_id])}>
+                      <Badge variant={BADGE_VARIANT[ticket.status_id] as any}>
                         {ticket.ticket_statuses?.name}
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge className={cn(COLOR_BY_PRIORITY_ID[ticket.priority_id])}>
+                      <Badge variant={BADGE_VARIANT[ticket.priority_id] as any}>
                         {ticket.ticket_priorities?.name}
                       </Badge>
                     </TableCell>
