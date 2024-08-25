@@ -50,6 +50,16 @@ const Header = () => {
       </Link>
       <nav className='ml-auto gap-3 sm:gap-3 flex justify-center items-center'>
         <div className='flex items-center justify-center gap-4'>
+          <Badge variant='outline' className='h-8 cursor-pointer'>
+            <Link href={'/c/overview'} prefetch={false}>
+              Create ticket
+            </Link>
+          </Badge>
+          <Badge className='h-8 cursor-pointer'>
+            <Link href={'https://github.com/kinotio/gelda/issues'} target='_blank'>
+              Feedback
+            </Link>
+          </Badge>
           <Inboxes />
           <ToggleTheme />
           <UserSettings />
