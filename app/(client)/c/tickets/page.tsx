@@ -18,8 +18,8 @@ import { DataTable } from '@/components/ui/datatable'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
-import { COLOR_BY_STATUS_ID, COLOR_BY_PRIORITY_ID, COLOR_BY_RESOLUTION_ID } from '@/lib/constants'
-import { cn, readableTimestamp } from '@/lib/utils'
+import { BADGE_VARIANT } from '@/lib/constants'
+import { readableTimestamp } from '@/lib/utils'
 import { TicketType } from '@/lib/definitions'
 
 import { useTickets } from '@/hooks/use-tickets'
@@ -65,11 +65,14 @@ const columns: ColumnDef<TicketType>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => (
-      <Badge variant='outline' className={cn(COLOR_BY_STATUS_ID[row.original.status_id ?? 0])}>
-        {row.original.ticket_statuses?.name}
-      </Badge>
-    )
+    cell: ({ row }) => {
+      const ticket = row.original
+      return (
+        <Badge variant={BADGE_VARIANT[ticket.status_id] as any}>
+          {ticket.ticket_statuses?.name}
+        </Badge>
+      )
+    }
   },
   {
     accessorKey: 'priority',
@@ -85,14 +88,14 @@ const columns: ColumnDef<TicketType>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => (
-      <Badge
-        variant='secondary'
-        className={cn(COLOR_BY_PRIORITY_ID[row.original.priority_id ?? 0])}
-      >
-        {row.original.ticket_priorities?.name}
-      </Badge>
-    )
+    cell: ({ row }) => {
+      const ticket = row.original
+      return (
+        <Badge variant={BADGE_VARIANT[ticket.priority_id] as any}>
+          {ticket.ticket_priorities?.name}
+        </Badge>
+      )
+    }
   },
   {
     accessorKey: 'resolution',
@@ -108,14 +111,14 @@ const columns: ColumnDef<TicketType>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => (
-      <Badge
-        variant='secondary'
-        className={cn(COLOR_BY_RESOLUTION_ID[row.original.resolution_id ?? 0])}
-      >
-        {row.original.ticket_resolutions?.name}
-      </Badge>
-    )
+    cell: ({ row }) => {
+      const ticket = row.original
+      return (
+        <Badge variant={BADGE_VARIANT[ticket.resolution_id] as any}>
+          {ticket.ticket_resolutions?.name}
+        </Badge>
+      )
+    }
   },
   {
     accessorKey: 'createdAt',
