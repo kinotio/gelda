@@ -43,6 +43,13 @@ const UserLayout = ({
 }
 
 const Header = () => {
+  const { authenticate, authenticatedUser } = useAuth()
+
+  useEffect(() => {
+    authenticate()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <header className='w-full pt-4 pb-2 px-6 flex items-center justify-between bg-white dark:dark:bg-slate-950'>
       <Link className='flex items-center justify-center' href='/'>
@@ -50,12 +57,15 @@ const Header = () => {
       </Link>
       <nav className='ml-auto gap-3 sm:gap-3 flex justify-center items-center'>
         <div className='flex items-center justify-center gap-4'>
-          <Badge variant='outline' className='h-8 cursor-pointer'>
-            <Link href={'/c/overview'} prefetch={false}>
-              Create ticket
-            </Link>
-          </Badge>
-          <Badge className='h-8 cursor-pointer'>
+          {authenticatedUser?.user_roles[0].role === 'client' ? (
+            <Badge className='h-8 cursor-pointer font-medium text-center'>
+              <Link href={'/c/overview'} prefetch={false}>
+                Create Ticket
+              </Link>
+            </Badge>
+          ) : null}
+
+          <Badge variant='outline' className='h-8 cursor-pointer font-medium text-center'>
             <Link href={'https://github.com/kinotio/gelda/issues'} target='_blank'>
               Feedback
             </Link>

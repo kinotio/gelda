@@ -46,6 +46,10 @@ export type TicketPriorityType = {
   slug: string
 }
 
+export type UserRoleType = {
+  role: string
+}
+
 export type UserType = {
   id: string
   email: string
@@ -53,6 +57,7 @@ export type UserType = {
   username: string
   status: string
   created_at: string
+  user_roles: UserRoleType[]
 }
 
 export type UpdateProfileInformationFormType = {

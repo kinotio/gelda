@@ -108,9 +108,11 @@ export const getUser = async () => {
     user = data.user
   }
 
+  const query = '*, user_roles (role)'
+
   const { data: getUserData, error: getUserError } = await supabase
     .from('users')
-    .select()
+    .select(query)
     .eq('id', user?.id)
     .limit(1)
 
