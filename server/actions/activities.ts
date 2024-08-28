@@ -1,25 +1,29 @@
 'use server'
 
 import { supabase } from '@/lib/supabase/server'
-import { ActivityType, ActivitiesType } from '@/lib/definitions'
+import { ActivitiesType } from '@/lib/definitions'
 
 import { getUser } from '@/server/actions/auth'
 
-const DEFAULT_ACTIVITIES_PER_PAGE = 10
-
-export const list = async ({ limit = DEFAULT_ACTIVITIES_PER_PAGE }: { limit?: number }) => {
+export const list = async ({
+  currentPage = 1,
+  perPage = 6
+}: {
+  currentPage?: number
+  perPage?: number
+}) => {
   const user = await getUser()
 
-  const { data, error } = await supabase
+  const { data, error, count } = await supabase
     .from('activities')
-    .select('id, type, description, timestamp')
+    .select('id, type, description, timestamp', { count: 'exact' })
     .eq('user_id', user.id)
-    .limit(limit)
     .order('timestamp', { ascending: false })
+    .range((currentPage - 1) * perPage, currentPage * perPage - 1)
 
   if (error) throw new Error(`An error occurred while listing activities: ${error.message}`)
 
-  return data as ActivityType[]
+  return { data, count }
 }
 
 export const save = async ({
