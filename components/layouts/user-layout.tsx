@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { GithubIcon, InboxIcon, LogOutIcon, UserIcon, CalendarCheckIcon } from 'lucide-react'
+import { isEmpty } from 'lodash'
 
 import { GeldaLogo } from '@/components/svg/gelda-logo'
 import { ToggleTheme } from '@/components/shared/toogle-theme'
@@ -18,10 +19,17 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Navigation } from '@/components/shared/navigation'
 
-import { APP_VERSION, USER_ROLES, USER_INBOXES_PREFERENCES, PATH } from '@/lib/constants'
-import { MenuType } from '@/lib/definitions'
+import {
+  APP_VERSION,
+  USER_ROLES,
+  USER_INBOXES_PREFERENCES,
+  PATH,
+  EVENT_TYPES
+} from '@/lib/constants'
+import { MenuType, Event } from '@/lib/definitions'
 
 import { useAuth } from '@/hooks/use-auth'
+import { useEvents } from '@/hooks/use-events'
 
 const UserLayout = ({
   menus,
@@ -82,11 +90,25 @@ const Header = () => {
 const Inboxes = () => {
   const { loading, getUserInboxes, inboxes, authenticatedUser, authenticate } = useAuth()
 
+  const predicateFn = useCallback((event: Event) => event.type === 'inboxes_preferences_change', [])
+  const { events } = useEvents(predicateFn)
+
   useEffect(() => {
     authenticate()
     getUserInboxes()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    if (Array.isArray(events) && events.length > 0) {
+      const inboxesPreferencesEvent = events
+        .filter(({ type }) => type === EVENT_TYPES.inboxesPreferencesChange)
+        .shift()
+
+      if (!isEmpty(inboxesPreferencesEvent)) authenticate()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [events])
 
   const Inboxes = () => {
     if (!loading) {

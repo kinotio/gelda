@@ -154,7 +154,7 @@ export const METRICS = [
   }
 ]
 
-export const ACTIVITIES_TYPES = [
+const BASE_EVENT_TYPES = [
   'unknown',
   'login',
   'account_created',
@@ -164,6 +164,19 @@ export const ACTIVITIES_TYPES = [
   'profile_information_change',
   'logout'
 ] as string[]
+
+export const ACTIVITIES_TYPES = BASE_EVENT_TYPES
+
+export const EVENT_TYPES: { [key: string]: string } = {
+  unknown: 'unknown',
+  login: 'login',
+  accountCreated: 'account_created',
+  passwordChange: 'password_change',
+  ticketCreated: 'ticket_created',
+  inboxesPreferencesChange: 'inboxes_preferences_change',
+  profileInformationChange: 'profile_information_change',
+  logout: 'logout'
+}
 
 export const BADGE_VARIANT: { [key: number]: string } = {
   1: 'secondary',

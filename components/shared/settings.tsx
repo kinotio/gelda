@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { BellIcon, BellOffIcon, EyeIcon, EyeOffIcon } from 'lucide-react'
 
@@ -13,8 +13,10 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
 import { NAME_PATTERN, EMAIL_PATTERN, PASSWORD_PATTERN } from '@/lib/constants'
+import { Event } from '@/lib/definitions'
 
 import { useAuth } from '@/hooks/use-auth'
+import { useEvents } from '@/hooks/use-events'
 
 const UpdateProfileFormSchema = z.object({
   name: z.string().min(3, { message: 'Name is required' }),
@@ -238,11 +240,15 @@ const InboxesPreferencesSettings = () => {
   } = useAuth()
   const [userInboxesPreferences, setUserInboxesPreferences] = useState<string>('')
 
+  const predicateFn = useCallback((event: Event) => event.type === 'inboxes_preferences_change', [])
+  const { events, publish } = useEvents(predicateFn)
+
   const preference = inboxesPreferences?.[0].preference as string
 
   const onSubmitSaveUserInboxesPreferences = async () => {
     updateUserInboxesPreferences(userInboxesPreferences).finally(() => {
       authenticate()
+      publish({ type: 'inboxes_preferences_change', message: 'User inboxes preferences changed' })
     })
   }
 
@@ -262,7 +268,7 @@ const InboxesPreferencesSettings = () => {
         <CardTitle>Inboxes Preferences</CardTitle>
       </CardHeader>
       {loading ? (
-        <div className='w-full flex flex-col gap-2'>
+        <div className='container w-full flex flex-col gap-2 py-6'>
           <div className='h-14 rounded-md bg-muted' />
           <div className='h-14 rounded-md bg-muted' />
         </div>
