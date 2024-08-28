@@ -12,6 +12,7 @@ export const useActivities = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [activities, setActivities] = useState<ActivityType[]>([])
+  const [total, setTotal] = useState<number>(0)
 
   const { newData } = useRealtime<ActivityType>({ table: 'activities' })
 
@@ -20,15 +21,18 @@ export const useActivities = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newData])
 
-  const list = async () => {
+  const list = async ({ currentPage, perPage }: { currentPage?: number; perPage?: number }) => {
     setLoading(true)
-    listAction({})
-      .then((data) => setActivities(data))
+    listAction({ currentPage, perPage })
+      .then(({ data, count }) => {
+        setActivities(data)
+        setTotal(count as number)
+      })
       .catch((error) => setMessage(error.message))
       .finally(() => setLoading(false))
   }
 
-  const states = { loading, message, activities }
+  const states = { loading, message, activities, total }
 
   const methods = { list }
 

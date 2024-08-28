@@ -52,13 +52,13 @@ import { useActivities } from '@/hooks/use-activities'
 const Page = () => {
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [itemsPerPage, setItemsPerPage] = useState<number>(10)
+  const [itemsPerPage, setItemsPerPage] = useState<number>(6)
   const [filters, setFilters] = useState({
     type: ''
   })
   const [date, setDate] = useState<DateRange | undefined>()
 
-  const { list, loading, activities } = useActivities()
+  const { list, loading, activities, total } = useActivities()
 
   const filteredActivities = activities.filter((log) => {
     const { type } = filters
@@ -72,8 +72,8 @@ const Page = () => {
   })
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = filteredActivities.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(filteredActivities.length / itemsPerPage)
+
+  const totalPages = Math.ceil(total / itemsPerPage)
 
   const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber)
 
@@ -83,9 +83,9 @@ const Page = () => {
   }
 
   useEffect(() => {
-    list()
+    list({ currentPage: currentPage, perPage: itemsPerPage })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [currentPage])
 
   return (
     <div className='flex flex-1 flex-col gap-8 p-6 md:gap-12 md:p-12'>
@@ -199,7 +199,7 @@ const Page = () => {
                 </DropdownMenu>
               </div>
               <div className='overflow-x-auto'>
-                <ActivitiesTable loading={loading} currentItems={currentItems} />
+                <ActivitiesTable loading={loading} filteredActivities={filteredActivities} />
               </div>
               <div className='flex items-center justify-between mt-6'>
                 <ActivitiesTablePagination
@@ -221,10 +221,10 @@ const Page = () => {
 
 const ActivitiesTable = ({
   loading,
-  currentItems
+  filteredActivities
 }: {
   loading: boolean
-  currentItems: ActivityType[]
+  filteredActivities: ActivityType[]
 }) => {
   return (
     <Table>
@@ -240,11 +240,11 @@ const ActivitiesTable = ({
           <SkeletonLoader />
         ) : (
           <>
-            {currentItems.map((log) => (
-              <TableRow key={log.id}>
-                <TableCell>{formatToReadable(log.type)}</TableCell>
-                <TableCell>{readableTimestamp(log.timestamp)}</TableCell>
-                <TableCell>{log.description}</TableCell>
+            {filteredActivities.map((activity) => (
+              <TableRow key={activity.id}>
+                <TableCell>{formatToReadable(activity.type)}</TableCell>
+                <TableCell>{readableTimestamp(activity.timestamp)}</TableCell>
+                <TableCell>{activity.description}</TableCell>
               </TableRow>
             ))}
           </>
@@ -285,7 +285,6 @@ const ActivitiesTablePagination = ({
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <PaginationItem key={page}>
               <PaginationLink
-                href='#'
                 isActive={page === currentPage}
                 onClick={() => handlePageChange(page)}
               >
@@ -295,7 +294,7 @@ const ActivitiesTablePagination = ({
           ))}
           <PaginationItem>
             {currentPage !== totalPages ? (
-              <PaginationNext href='#' onClick={() => handlePageChange(currentPage + 1)} />
+              <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
             ) : null}
           </PaginationItem>
         </PaginationContent>
