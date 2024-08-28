@@ -175,3 +175,13 @@ export const BADGE_BY_RESOLUTION_ID: { [key: number]: string } = {
   1: 'default',
   2: 'destructive'
 }
+
+export const USER_ROLES = {
+  client: 'client',
+  admin: 'admin'
+}
+
+export const USER_INBOXES_PREFERENCES = {
+  everything: 'everything',
+  ignoring: 'ignoring'
+}
