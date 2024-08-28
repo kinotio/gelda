@@ -99,7 +99,7 @@ export type ActivityType = {
   timestamp: string
 }
 
-export type ActivitiesType =
+type BaseEventType =
   | 'unknown'
   | 'login'
   | 'account_created'
@@ -108,3 +108,11 @@ export type ActivitiesType =
   | 'inboxes_preferences_change'
   | 'profile_information_change'
   | 'logout'
+
+export type ActivitiesType = BaseEventType
+export type EventType = BaseEventType
+
+export type Event = {
+  type: EventType
+  message: string
+}
