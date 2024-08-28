@@ -50,6 +50,10 @@ export type UserRoleType = {
   role: string
 }
 
+export type getUserInboxesPreferencesType = {
+  preference: string
+}
+
 export type UserType = {
   id: string
   email: string
@@ -58,6 +62,7 @@ export type UserType = {
   status: string
   created_at: string
   user_roles: UserRoleType[]
+  inboxes_preferences: getUserInboxesPreferencesType[]
 }
 
 export type UpdateProfileInformationFormType = {

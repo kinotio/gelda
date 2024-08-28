@@ -108,7 +108,7 @@ export const getUser = async () => {
     user = data.user
   }
 
-  const query = '*, user_roles (role)'
+  const query = '*, user_roles (role), inboxes_preferences (preference)'
 
   const { data: getUserData, error: getUserError } = await supabase
     .from('users')

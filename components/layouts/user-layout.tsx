@@ -18,7 +18,7 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Navigation } from '@/components/shared/navigation'
 
-import { APP_VERSION } from '@/lib/constants'
+import { APP_VERSION, USER_ROLES, USER_INBOXES_PREFERENCES, PATH } from '@/lib/constants'
 import { MenuType } from '@/lib/definitions'
 
 import { useAuth } from '@/hooks/use-auth'
@@ -57,7 +57,7 @@ const Header = () => {
       </Link>
       <nav className='ml-auto gap-3 sm:gap-3 flex justify-center items-center'>
         <div className='flex items-center justify-center gap-4'>
-          {authenticatedUser?.user_roles[0].role === 'client' ? (
+          {authenticatedUser?.user_roles[0].role === USER_ROLES.client ? (
             <Badge className='h-8 cursor-pointer font-medium text-center'>
               <Link href={'/c/overview'} prefetch={false}>
                 Create Ticket
@@ -80,12 +80,63 @@ const Header = () => {
 }
 
 const Inboxes = () => {
-  const { loading, getUserInboxes, inboxes } = useAuth()
+  const { loading, getUserInboxes, inboxes, authenticatedUser, authenticate } = useAuth()
 
   useEffect(() => {
+    authenticate()
     getUserInboxes()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const Inboxes = () => {
+    if (!loading) {
+      if (
+        authenticatedUser?.inboxes_preferences[0].preference === USER_INBOXES_PREFERENCES.ignoring
+      ) {
+        return (
+          <div className='space-y-4 text-center flex flex-col'>
+            <span>
+              You set the inboxes preference to be ignore , update your Inboxes Preferences in
+              settings
+            </span>
+            <Link href={PATH.CLIENT_SETTINGS} className='underline text-sm'>
+              View settings
+            </Link>
+          </div>
+        )
+      }
+
+      if (Array.isArray(inboxes) && inboxes.length > 0) {
+        return (
+          <div className='space-y-4'>
+            <div className='flex items-start gap-3'>
+              <div className='flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground'>
+                <CalendarCheckIcon className='h-4 w-4' />
+              </div>
+              <div className='flex-1 space-y-1'>
+                <p className='text-sm font-medium'>Meeting Reminder</p>
+                <p className='text-sm text-muted-foreground'>
+                  Your weekly team meeting is in 15 minutes.
+                </p>
+              </div>
+            </div>
+          </div>
+        )
+      } else {
+        return (
+          <div className='space-y-4 text-center'>
+            <span>You have no inboxes</span>
+          </div>
+        )
+      }
+    }
+
+    return (
+      <div className='w-full flex flex-col gap-3 space-y-4'>
+        <div className='h-14 rounded-md bg-muted' />
+      </div>
+    )
+  }
 
   return (
     <DropdownMenu>
@@ -96,33 +147,7 @@ const Inboxes = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[360px] p-4'>
         <DropdownMenuLabel className='mb-2 text-lg font-bold'>Inboxes</DropdownMenuLabel>
-        {loading ? (
-          <div className='w-full flex flex-col gap-3 space-y-4'>
-            <div className='h-14 rounded-md bg-muted' />
-          </div>
-        ) : (
-          <>
-            {Array.isArray(inboxes) && inboxes.length > 0 ? (
-              <div className='space-y-4'>
-                <div className='flex items-start gap-3'>
-                  <div className='flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground'>
-                    <CalendarCheckIcon className='h-4 w-4' />
-                  </div>
-                  <div className='flex-1 space-y-1'>
-                    <p className='text-sm font-medium'>Meeting Reminder</p>
-                    <p className='text-sm text-muted-foreground'>
-                      Your weekly team meeting is in 15 minutes.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className='space-y-4 text-center'>
-                <span>You have no inboxes</span>
-              </div>
-            )}
-          </>
-        )}
+        <Inboxes />
       </DropdownMenuContent>
     </DropdownMenu>
   )
