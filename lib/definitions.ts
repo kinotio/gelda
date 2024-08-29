@@ -100,6 +100,7 @@ export type ActivityType = {
   id: number
   type: string
   description: string
+  device: 'desktop' | 'mobile'
   timestamp: string
 }
 

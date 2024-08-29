@@ -51,7 +51,10 @@ export const register = async (form: RegisterFormType) => {
 
   if (Array.isArray(data) && data.length > 0) throw new Error('Username already taken')
 
-  const { error: signUpError } = await supabase.auth.signUp({
+  const {
+    data: { user },
+    error: signUpError
+  } = await supabase.auth.signUp({
     email: form.email,
     password: form.password,
     options: {
@@ -63,6 +66,12 @@ export const register = async (form: RegisterFormType) => {
   })
 
   if (signUpError) throw new Error(`An error occurred while signup: ${signUpError.message}`)
+
+  await save({
+    user,
+    type: 'account_created',
+    description: 'User account created'
+  })
 
   revalidatePath('/auth/login', 'layout')
   redirect('/auth/login')
