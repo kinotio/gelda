@@ -71,14 +71,14 @@ export const register = async (form: RegisterFormType) => {
 export const logout = async () => {
   const supaCookies = cookies().getAll()
 
-  const { error } = await supabase.auth.signOut()
-
-  if (error) throw error
-
   await save({
     type: 'logout',
     description: 'Account logged out'
   })
+
+  const { error } = await supabase.auth.signOut()
+
+  if (error) throw error
 
   supaCookies.map((cookie) => cookies().delete(cookie.name))
 
