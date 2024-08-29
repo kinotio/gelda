@@ -40,11 +40,15 @@ export type TicketType = {
   ticket_priorities?: TicketCommonType
 }
 
-export type TicketPriorityType = {
+type TicketBaseRelationType = {
   id: number
   name: string
   slug: string
 }
+
+export type TicketPriorityType = TicketBaseRelationType
+export type TicketStatusType = TicketBaseRelationType
+export type TicketResolutionType = TicketBaseRelationType
 
 export type UserRoleType = {
   role: string

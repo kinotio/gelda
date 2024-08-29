@@ -7,10 +7,18 @@ import {
   create as createAction,
   listTicketPriorities as listTicketPrioritiesAction,
   metrics as metricsAction,
-  getTicketById as getTicketByIdAction
+  getTicketById as getTicketByIdAction,
+  listTicketStatuses as listTicketStatusesAction,
+  listTicketResolutions as listTicketResolutionsAction
 } from '@/server/actions/tickets'
 
-import { TicketType, TicketFormType, TicketPriorityType } from '@/lib/definitions'
+import {
+  TicketType,
+  TicketFormType,
+  TicketPriorityType,
+  TicketStatusType,
+  TicketResolutionType
+} from '@/lib/definitions'
 
 import { useRealtime } from '@/hooks/use-realtime'
 
@@ -19,8 +27,11 @@ export const useTickets = () => {
   const [message, setMessage] = useState<string>('')
   const [tickets, setTickets] = useState<TicketType[]>([])
   const [ticket, setTicket] = useState<TicketType>()
+  const [ticketStatuses, setTicketStatuses] = useState<TicketStatusType[]>([])
   const [ticketPriorities, setTicketPriorities] = useState<TicketPriorityType[]>([])
+  const [ticketResolutions, setTicketResolutions] = useState<TicketResolutionType[]>([])
   const [ticketsMetrics, setTicketsMetrics] = useState<any[]>([])
+  const [total, setTotal] = useState<number>(0)
 
   const { newData } = useRealtime<TicketType>({ table: 'tickets' })
 
@@ -33,10 +44,13 @@ export const useTickets = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newData])
 
-  const list = async () => {
+  const list = async ({ currentPage, perPage }: { currentPage?: number; perPage?: number }) => {
     setLoading(true)
-    listAction({})
-      .then((data) => setTickets(data))
+    listAction({ currentPage, perPage })
+      .then(({ data, count }) => {
+        setTickets(data)
+        setTotal(count as number)
+      })
       .catch((error) => setMessage(error.message))
       .finally(() => setLoading(false))
   }
@@ -56,10 +70,26 @@ export const useTickets = () => {
       .finally(() => setLoading(false))
   }
 
+  const listTicketStatuses = async () => {
+    setLoading(true)
+    listTicketStatusesAction()
+      .then((data) => setTicketStatuses(data))
+      .catch((error) => setMessage(error.message))
+      .finally(() => setLoading(false))
+  }
+
   const listTicketPriorities = async () => {
     setLoading(true)
     listTicketPrioritiesAction()
       .then((data) => setTicketPriorities(data))
+      .catch((error) => setMessage(error.message))
+      .finally(() => setLoading(false))
+  }
+
+  const listTicketResolutions = async () => {
+    setLoading(true)
+    listTicketResolutionsAction()
+      .then((data) => setTicketResolutions(data))
       .catch((error) => setMessage(error.message))
       .finally(() => setLoading(false))
   }
@@ -78,7 +108,10 @@ export const useTickets = () => {
     tickets,
     ticketsMetrics,
     ticketPriorities,
-    ticket
+    ticket,
+    total,
+    ticketStatuses,
+    ticketResolutions
   }
 
   const methods = {
@@ -86,7 +119,9 @@ export const useTickets = () => {
     create,
     listTicketPriorities,
     metrics,
-    getTicketById
+    getTicketById,
+    listTicketStatuses,
+    listTicketResolutions
   }
 
   return { ...states, ...methods }

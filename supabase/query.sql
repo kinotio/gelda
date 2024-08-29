@@ -374,7 +374,8 @@ values
 insert into public.ticket_resolutions (name, slug)
 values
     ('Resolved', 'resolved'),
-    ('Unresolved',  'unresolved');
+    ('Unresolved',  'unresolved'),
+    ('Unknown', 'unknown'),
 
 insert into public.role_permissions (role, permission)
 values
