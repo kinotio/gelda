@@ -26,7 +26,7 @@ const Recents = () => {
   const hasTickets = Array.isArray(tickets) && tickets.length > 0
 
   useEffect(() => {
-    list()
+    list({ currentPage: 1, perPage: 13 })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
