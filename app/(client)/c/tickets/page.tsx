@@ -417,33 +417,38 @@ const TicketsTablePagination = ({
 }) => {
   return (
     <>
-      <div className='text-sm text-muted-foreground'>
-        Showing {indexOfFirstItem + 1} to {indexOfLastItem} of {filteredTickets.length} activities
-      </div>
-      <Pagination className='justify-end'>
-        <PaginationContent>
-          <PaginationItem>
-            {currentPage !== 1 ? (
-              <PaginationPrevious href='#' onClick={() => handlePageChange(currentPage - 1)} />
-            ) : null}
-          </PaginationItem>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <PaginationItem key={page}>
-              <PaginationLink
-                isActive={page === currentPage}
-                onClick={() => handlePageChange(page)}
-              >
-                {page}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
-          <PaginationItem>
-            {currentPage !== totalPages ? (
-              <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
-            ) : null}
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      {Array.isArray(filteredTickets) && filteredTickets.length > 0 ? (
+        <>
+          <div className='text-sm text-muted-foreground'>
+            Showing {indexOfFirstItem + 1} to {indexOfLastItem} of {filteredTickets.length}{' '}
+            activities
+          </div>
+          <Pagination className='justify-end'>
+            <PaginationContent>
+              <PaginationItem>
+                {currentPage !== 1 ? (
+                  <PaginationPrevious href='#' onClick={() => handlePageChange(currentPage - 1)} />
+                ) : null}
+              </PaginationItem>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <PaginationItem key={page}>
+                  <PaginationLink
+                    isActive={page === currentPage}
+                    onClick={() => handlePageChange(page)}
+                  >
+                    {page}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              <PaginationItem>
+                {currentPage !== totalPages ? (
+                  <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
+                ) : null}
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </>
+      ) : null}
     </>
   )
 }
