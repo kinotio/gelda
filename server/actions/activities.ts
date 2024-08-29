@@ -1,5 +1,7 @@
 'use server'
 
+import { User } from '@supabase/supabase-js'
+
 import { supabase } from '@/lib/supabase/server'
 import { ActivitiesType } from '@/lib/definitions'
 
@@ -16,7 +18,7 @@ export const list = async ({
 
   const { data, error, count } = await supabase
     .from('activities')
-    .select('id, type, description, timestamp', { count: 'exact' })
+    .select('id, type, description, device, timestamp', { count: 'exact' })
     .eq('user_id', user.id)
     .order('timestamp', { ascending: false })
     .range((currentPage - 1) * perPage, currentPage * perPage - 1)
@@ -27,18 +29,23 @@ export const list = async ({
 }
 
 export const save = async ({
+  user,
   type,
   description
 }: {
+  user?: User | null
   type: ActivitiesType
   description: string
 }) => {
-  const user = await getUser()
+  const userFromSession = await getUser()
+
+  const { device } = await (await fetch(`${process.env.APP_URL}/api/device`)).json()
 
   const { data, error } = await supabase.from('activities').insert({
     type,
     description,
-    user_id: user.id
+    device,
+    user_id: user?.id ?? userFromSession.id
   })
 
   if (error) throw new Error(`An error occurred while saving activity: ${error.message}`)

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { ActivityIcon, SearchIcon, FilterIcon, Calendar as CalendarIcon } from 'lucide-react'
+import { ActivityIcon, SearchIcon, FilterIcon, Calendar as CalendarIcon, icons } from 'lucide-react'
 import { format } from 'date-fns'
 import { DateRange } from 'react-day-picker'
 
@@ -42,12 +42,18 @@ import {
 } from '@/components/ui/select'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Icon } from '@/components/ui/icon'
 
 import { readableTimestamp, formatToReadable, cn } from '@/lib/utils'
 import { ACTIVITIES_TYPES } from '@/lib/constants'
 import { ActivityType } from '@/lib/definitions'
 
 import { useActivities } from '@/hooks/use-activities'
+
+const deviceIcons = {
+  desktop: 'Laptop',
+  mobile: 'Smartphone'
+}
 
 const Page = () => {
   const [searchTerm, setSearchTerm] = useState<string>('')
@@ -233,6 +239,7 @@ const ActivitiesTable = ({
           <TableHead>Activity Type</TableHead>
           <TableHead>Timestamp</TableHead>
           <TableHead>Description</TableHead>
+          <TableHead>Device</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -245,6 +252,9 @@ const ActivitiesTable = ({
                 <TableCell>{formatToReadable(activity.type)}</TableCell>
                 <TableCell>{readableTimestamp(activity.timestamp)}</TableCell>
                 <TableCell>{activity.description}</TableCell>
+                <TableCell>
+                  <Icon name={deviceIcons[activity.device] as keyof typeof icons} size={20} />
+                </TableCell>
               </TableRow>
             ))}
           </>

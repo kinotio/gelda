@@ -27,6 +27,7 @@ drop type if exists public.app_role cascade;
 drop type if exists public.user_status cascade;
 drop type if exists public.user_inboxes_preferences cascade;
 drop type if exists public.app_activities cascade;
+drop type if exists public.app_activities_device cascade;
 
 -- Drop functions if already exists
 drop function if exists public.handle_new_user() cascade;
@@ -40,6 +41,7 @@ create type public.app_role as enum ('client', 'admin');
 create type public.user_status as enum ('ONLINE', 'OFFLINE');
 create type public.user_inboxes_preferences as enum ('everything', 'ignoring');
 create type public.app_activities as enum ('unknown', 'login', 'account_created', 'password_change','ticket_created', 'inboxes_preferences_change', 'profile_information_change', 'logout');
+create type public.app_activities_device as enum ('desktop', 'mobile');
 ----------------------------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------------------------
@@ -187,6 +189,7 @@ create table public.activities (
   type          app_activities default 'unknown'::public.app_activities,
   description   text not null,
   user_id       uuid references public.users not null,
+  device        app_activities_device not null,
   timestamp     timestamp with time zone default timezone('utc'::text, now()) not null
 );
 ----------------------------------------------------------------------------------------------
@@ -312,7 +315,6 @@ begin
   values (new.id, new.email, new.raw_user_meta_data ->> 'username', new.raw_user_meta_data ->> 'name');
 
   insert into public.inboxes_preferences (user_id) values (new.id);
-  insert into public.activities (type, description, user_id) values ('account_created', 'User account created', new.id);
 
   select count(*) = 1 from auth.users into is_admin;
 
@@ -375,7 +377,7 @@ insert into public.ticket_resolutions (name, slug)
 values
     ('Resolved', 'resolved'),
     ('Unresolved',  'unresolved'),
-    ('Unknown', 'unknown'),
+    ('Unknown', 'unknown');
 
 insert into public.role_permissions (role, permission)
 values
