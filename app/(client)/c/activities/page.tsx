@@ -60,12 +60,12 @@ const Page = () => {
 
   const { list, loading, activities, total } = useActivities()
 
-  const filteredActivities = activities.filter((log) => {
+  const filteredActivities = activities.filter((activity) => {
     const { type } = filters
-    const logTimestamp = new Date(log.timestamp)
+    const logTimestamp = new Date(activity.timestamp)
     return (
-      log.type.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      log.type.toLowerCase().includes(type.toLowerCase()) &&
+      activity.type.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      activity.type.toLowerCase().includes(type.toLowerCase()) &&
       (!date?.from || logTimestamp >= new Date(date.from)) &&
       (!date?.to || logTimestamp <= new Date(date.to))
     )
@@ -275,7 +275,7 @@ const ActivitiesTablePagination = ({
         Showing {indexOfFirstItem + 1} to {indexOfLastItem} of {filteredActivities.length}{' '}
         activities
       </div>
-      <Pagination>
+      <Pagination className='justify-end'>
         <PaginationContent>
           <PaginationItem>
             {currentPage !== 1 ? (

@@ -39,7 +39,8 @@ export const PRIORITY_BY_NAME = {
 
 export const RESOLUTION_BY_NAME = {
   RESOLVED: 1,
-  UNRESOLVED: 2
+  UNRESOLVED: 2,
+  UNKNOWN: 3
 }
 
 export const PATH = {
@@ -186,7 +187,8 @@ export const BADGE_VARIANT: { [key: number]: string } = {
 
 export const BADGE_BY_RESOLUTION_ID: { [key: number]: string } = {
   1: 'default',
-  2: 'destructive'
+  2: 'secondary',
+  3: 'outline'
 }
 
 export const USER_ROLES = {

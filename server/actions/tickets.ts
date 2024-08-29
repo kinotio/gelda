@@ -3,14 +3,14 @@
 import { supabase } from '@/lib/supabase/server'
 
 import { TicketFormType, TicketType } from '@/lib/definitions'
-import { STATUS_BY_NAME, METRICS } from '@/lib/constants'
+import { STATUS_BY_NAME, METRICS, RESOLUTION_BY_NAME } from '@/lib/constants'
 import { sluggify } from '@/lib/utils'
 
 import { getUser } from '@/server/actions/auth'
 import { save } from '@/server/actions/activities'
+import { count } from 'console'
 
 const DEFAULT_TYPE = 'client'
-const DEFAULT_TICKETS_PER_PAGE = 10
 
 type MetricType = {
   type: string
@@ -26,10 +26,12 @@ type Metric = Record<
 
 export const list = async ({
   type = DEFAULT_TYPE,
-  limit = DEFAULT_TICKETS_PER_PAGE
+  currentPage = 1,
+  perPage = 7
 }: {
   type?: 'client' | 'admin'
-  limit?: number
+  currentPage?: number
+  perPage?: number
 }) => {
   await getUser()
 
@@ -45,25 +47,33 @@ export const list = async ({
     if (userError || !user)
       throw new Error(`An error occurred while getting user: ${userError?.message}`)
 
-    const { data, error: selectError } = await supabase
+    const {
+      data,
+      error: selectError,
+      count
+    } = await supabase
       .from('tickets')
-      .select(query)
+      .select(query, { count: 'exact' })
       .eq('creator_id', user?.id)
-      .limit(limit)
       .order('created_at', { ascending: false })
+      .range((currentPage - 1) * perPage, currentPage * perPage - 1)
 
     if (selectError || !data)
       throw new Error(`An error occurred while getting tickets: ${selectError.message}`)
 
-    return data
+    return { data, count }
   }
 
-  const { data, error: selectError } = await supabase.from('tickets').select(query).limit(10)
+  const { data, error: selectError } = await supabase
+    .from('tickets')
+    .select(query, { count: 'exact' })
+    .order('created_at', { ascending: false })
+    .range((currentPage - 1) * perPage, currentPage * perPage - 1)
 
   if (selectError || !data)
     throw new Error(`An error occurred while getting tickets: ${selectError.message}`)
 
-  return data
+  return { data, count }
 }
 
 export const create = async (form: TicketFormType) => {
@@ -81,6 +91,7 @@ export const create = async (form: TicketFormType) => {
   data.slug = sluggify(form.title)
   data.creator_id = user?.id as string
   data.status_id = STATUS_BY_NAME.OPEN
+  data.resolution_id = RESOLUTION_BY_NAME.UNKNOWN
 
   const { data: insertData, error: insertError } = await supabase.from('tickets').insert(data)
 
@@ -108,6 +119,17 @@ export const getTicketById = async (id: number) => {
   return data
 }
 
+export const listTicketStatuses = async () => {
+  await getUser()
+
+  const { data, error: selectError } = await supabase.from('ticket_statuses').select('*')
+
+  if (selectError || !data)
+    throw new Error(`An error occurred while getting statuses: ${selectError.message}`)
+
+  return data
+}
+
 export const listTicketPriorities = async () => {
   await getUser()
 
@@ -115,6 +137,17 @@ export const listTicketPriorities = async () => {
 
   if (selectError || !data)
     throw new Error(`An error occurred while getting priorities: ${selectError.message}`)
+
+  return data
+}
+
+export const listTicketResolutions = async () => {
+  await getUser()
+
+  const { data, error: selectError } = await supabase.from('ticket_resolutions').select('*')
+
+  if (selectError || !data)
+    throw new Error(`An error occurred while getting resolutions: ${selectError.message}`)
 
   return data
 }
