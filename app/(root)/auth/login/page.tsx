@@ -32,7 +32,7 @@ const Page = () => {
         </h2>
         <p className='mt-2 text-center text-sm'>
           Or{' '}
-          <Link href='/auth/register' className='font-medium' prefetch={false}>
+          <Link href='/auth/register' className='font-medium underline' prefetch={false}>
             register for a new account
           </Link>
         </p>
