@@ -39,7 +39,7 @@ const Page = () => {
         </h2>
         <p className='mt-2 text-center text-sm'>
           Or{' '}
-          <Link href='/auth/login' className='font-medium' prefetch={false}>
+          <Link href='/auth/login' className='font-medium underline' prefetch={false}>
             login to your account
           </Link>
         </p>
