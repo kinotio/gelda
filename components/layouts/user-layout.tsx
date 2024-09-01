@@ -40,7 +40,7 @@ const UserLayout = ({
 }>) => {
   return (
     <>
-      <div className='fixed top-0 w-full'>
+      <div className='fixed top-0 w-full z-50'>
         <Header />
         <Navigation menus={menus} />
       </div>

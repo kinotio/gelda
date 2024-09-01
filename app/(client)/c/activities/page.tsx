@@ -94,7 +94,7 @@ const Page = () => {
   }, [currentPage])
 
   return (
-    <div className='flex flex-1 flex-col gap-8 p-6 md:gap-12 md:p-12'>
+    <div className='flex flex-1 flex-col gap-8 p-6 md:gap-12 md:p-12 mb-[100px]'>
       <section className='w-[800px] mx-auto pb-12 md:pb-16 lg:pb-20 px-4 md:px-6 gap-6 flex flex-col'>
         <div className='grid gap-8'>
           <div className='gap-2 flex items-center'>

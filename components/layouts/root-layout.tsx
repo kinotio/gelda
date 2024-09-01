@@ -19,7 +19,7 @@ const RootLayout = ({
       <div className='fixed top-0 w-full'>
         <Header />
       </div>
-      <main className='flex items-center justify-center mt-[100px]'>{children}</main>
+      <main className='flex items-center justify-center mt-[100px] mb-[100px]'>{children}</main>
       <Footer />
     </>
   )
