@@ -116,7 +116,7 @@ const Page = () => {
   }, [currentPage])
 
   return (
-    <div className='flex min-h-[calc(92vh_-_theme(spacing.16))] flex-1 flex-col gap-6 p-6 md:p-12'>
+    <div className='flex flex-1 flex-col gap-6 p-6 md:p-12 mb-[100px]'>
       <Metrics />
 
       <section className='w-full mx-auto pb-12 md:pb-16 lg:pb-20 gap-6 flex flex-col'>
