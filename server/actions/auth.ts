@@ -17,20 +17,9 @@ import {
 import { save } from '@/server/actions/activities'
 
 export const login = async (form: LoginFormType) => {
-  const cookieStore = cookies()
-
-  const { data, error: signInError } = await supabase.auth.signInWithPassword({
+  const { error: signInError } = await supabase.auth.signInWithPassword({
     email: form.email,
     password: form.password
-  })
-
-  cookieStore.set('sb-access-token', data?.session?.access_token ?? '', {
-    sameSite: true,
-    secure: true
-  })
-  cookieStore.set('sb-refresh-token', data?.session?.refresh_token ?? '', {
-    sameSite: true,
-    secure: true
   })
 
   if (signInError) throw new Error(`An error occurred while signin: ${signInError.message}`)
@@ -78,8 +67,6 @@ export const register = async (form: RegisterFormType) => {
 }
 
 export const logout = async () => {
-  const supaCookies = cookies().getAll()
-
   await save({
     type: 'logout',
     description: 'Account logged out'
@@ -87,35 +74,24 @@ export const logout = async () => {
 
   const { error } = await supabase.auth.signOut()
 
-  if (error) throw error
+  if (error) throw new Error(`An error occurred while logout: ${error?.message}`)
 
-  supaCookies.map((cookie) => cookies().delete(cookie.name))
+  cookies()
+    .getAll()
+    .map((cookie) => cookies().delete(cookie.name))
 
   revalidatePath('/', 'layout')
   redirect('/')
 }
 
 export const getUser = async () => {
-  let user = null
-  const cookieStore = cookies()
+  const {
+    error: getAuthUserError,
+    data: { user }
+  } = await supabase.auth.getUser()
 
-  const accessToken = cookieStore.get('sb-access-token')
-  const refreshToken = cookieStore.get('sb-refresh-token')
-
-  const { error: getAuthUserError, data } = await supabase.auth.getUser()
-
-  if (!data.user || getAuthUserError) {
-    const {
-      data: { user: sessionUser }
-    } = await supabase.auth.setSession({
-      access_token: accessToken?.value ?? '',
-      refresh_token: refreshToken?.value ?? ''
-    })
-
-    user = sessionUser
-  } else {
-    user = data.user
-  }
+  if (getAuthUserError)
+    throw new Error(`An error occurred while fetching auth user: ${getAuthUserError?.message}`)
 
   const query = '*, user_roles (role), inboxes_preferences (preference)'
 
@@ -128,14 +104,9 @@ export const getUser = async () => {
   if (getUserError || !getUserData)
     throw new Error(`An error occurred while fetching user: ${getUserError?.message}`)
 
-  user = getUserData[0]
+  if (isEmpty(user)) return logout()
 
-  if (isEmpty(user)) {
-    const supaCookies = cookies().getAll()
-    supaCookies.map((cookie) => cookies().delete(cookie.name))
-  }
-
-  return user
+  return getUserData[0]
 }
 
 export const getUserRoles = async () => {

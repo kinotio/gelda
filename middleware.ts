@@ -1,8 +1,6 @@
-import { cookies } from 'next/headers'
 import { NextResponse, type NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import type { User, SupabaseClient } from '@supabase/supabase-js'
-import { isEmpty } from 'lodash'
 
 import { PATH } from '@/lib/constants'
 
@@ -26,17 +24,8 @@ const handleGettingUserRole = async ({
   supabase: SupabaseClient<any, 'public', any>
   user: User | null
 }) => {
-  const { data: userRole, error } = await supabase
-    .from('user_roles')
-    .select('role')
-    .eq('user_id', user?.id)
-    .limit(1)
-
-  if (error || !userRole) {
-    throw new Error(`An error occurred while getting user role: ${error?.message}`)
-  }
-
-  return userRole
+  const { data } = await supabase.from('user_roles').select('role').eq('user_id', user?.id).limit(1)
+  return data
 }
 
 const isProtectedRoute = (pathname: string): boolean => {
@@ -99,7 +88,11 @@ const isApiRoute = (pathname: string): boolean => {
   else return false
 }
 
-const createSupabaseServerClient = (request: NextRequest, response: NextResponse) => {
+export const middleware = async (request: NextRequest) => {
+  let supabaseResponse = NextResponse.next({
+    request
+  })
+
   const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     cookies: {
       getAll() {
@@ -107,62 +100,28 @@ const createSupabaseServerClient = (request: NextRequest, response: NextResponse
       },
       setAll(cookiesToSet) {
         cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
-        response = NextResponse.next({
-          request
-        })
+        supabaseResponse = NextResponse.next({ request })
         cookiesToSet.forEach(({ name, value, options }) =>
-          response.cookies.set(name, value, options)
+          supabaseResponse.cookies.set(name, value, options)
         )
       }
     }
   })
 
-  return supabase
-}
-
-export const middleware = async (request: NextRequest) => {
-  const cookieStore = cookies()
-
-  let response = NextResponse.next({ request })
-  const supabase = createSupabaseServerClient(request, response)
-
-  const accessToken = cookieStore.get('sb-access-token')
-  const refreshToken = cookieStore.get('sb-refresh-token')
-
-  const { error, data } = await supabase.auth.getUser()
-
   const { pathname } = request.nextUrl
 
-  let role = null
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
 
-  if (!data.user || error) {
-    const {
-      data: { user: sessionUser }
-    } = await supabase.auth.setSession({
-      access_token: accessToken?.value ?? '',
-      refresh_token: refreshToken?.value ?? ''
-    })
+  const userRole = await handleGettingUserRole({ supabase, user: user })
+  const role = userRole?.[0]?.role
 
-    if (sessionUser) {
-      const userRole = await handleGettingUserRole({ supabase, user: sessionUser })
-      role = userRole[0].role
-    }
-
-    if (isProtectedRoute(pathname)) {
-      return isApiRoute(pathname)
-        ? handleUnauthenticatedApi()
-        : handleUnauthenticatedClient(sessionUser, role, request)
-    }
-  } else {
-    const userRole = await handleGettingUserRole({ supabase, user: data.user })
-    role = userRole[0].role
-
-    if (isProtectedRoute(pathname)) {
-      return isApiRoute(pathname)
-        ? handleUnauthenticatedApi()
-        : handleUnauthenticatedClient(data.user, role, request)
-    }
+  if (isProtectedRoute(pathname)) {
+    return isApiRoute(pathname)
+      ? handleUnauthenticatedApi()
+      : handleUnauthenticatedClient(user, role, request)
   }
 
-  return response
+  return supabaseResponse
 }
