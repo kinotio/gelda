@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import {
+  ArrowLeftIcon,
   ArrowRightIcon,
   RectangleHorizontalIcon,
   SearchIcon,
@@ -309,10 +310,16 @@ const Metrics = () => {
   return (
     <section>
       <div className='flex justify-between items-center mb-4'>
-        <Button variant='ghost' onClick={() => handleScroll(0)}>
-          <RectangleHorizontalIcon className='mr-2' size={20} />
-          <h2 className='text-2xl font-bold cursor-pointer'>Metrics</h2>
-        </Button>
+        <div className='flex items-center gap-4'>
+          <div className='flex items-center'>
+            <RectangleHorizontalIcon className='mr-2' size={20} />
+            <h2 className='text-2xl font-bold cursor-pointer'>Metrics</h2>
+          </div>
+
+          <Button variant='ghost' onClick={() => handleScroll(0)}>
+            <ArrowLeftIcon className='h-4 w-4' />
+          </Button>
+        </div>
 
         <Button variant='ghost' onClick={() => handleScroll(200)}>
           <ArrowRightIcon className='h-4 w-4' />
