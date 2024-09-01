@@ -119,7 +119,7 @@ const Create = () => {
             </div>
 
             <Button type='submit' disabled={loading}>
-              {loading ? 'Creating...' : 'Create Ticket'}
+              Create Ticket
             </Button>
           </div>
         </form>

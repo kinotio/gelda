@@ -119,7 +119,7 @@ const UpdateProfileInformationSettings = () => {
           </div>
 
           <Button type='submit' className='w-1/5' disabled={loading}>
-            {loading ? 'Saving...' : 'Save Changes'}
+            Save Changes
           </Button>
         </form>
       </CardContent>
@@ -161,6 +161,7 @@ const ChangePasswordSettings = () => {
             <div className='relative'>
               <Input
                 id='new-password'
+                autoComplete='new-password'
                 type={newPasswordVisibility ? 'text' : 'password'}
                 placeholder='Enter your new password'
                 {...register('newPassword', {
@@ -193,6 +194,7 @@ const ChangePasswordSettings = () => {
             <div className='relative'>
               <Input
                 id='confirm-password'
+                autoComplete='confirm-password'
                 type={confirmPasswordVisibility ? 'text' : 'password'}
                 placeholder='Confirm your new password'
                 {...register('confirmPassword', {
@@ -222,7 +224,7 @@ const ChangePasswordSettings = () => {
           </div>
 
           <Button type='submit' className='w-1/5' disabled={loading}>
-            {loading ? 'Changing...' : 'Change Password'}
+            Change Password
           </Button>
         </form>
       </CardContent>
@@ -303,7 +305,9 @@ const InboxesPreferencesSettings = () => {
             </Button>
           </CardContent>
           <CardFooter>
-            <Button onClick={onSubmitSaveUserInboxesPreferences}>Save Changes</Button>
+            <Button onClick={onSubmitSaveUserInboxesPreferences} disabled={loading}>
+              Save Changes
+            </Button>
           </CardFooter>
         </>
       )}
