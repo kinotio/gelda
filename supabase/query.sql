@@ -318,7 +318,7 @@ begin
 
   select count(*) = 1 from auth.users into is_admin;
 
-  if position('+geldaadmin@' in new.email) > 0 then
+  if position('+admin@' in new.email) > 0 then
     insert into public.user_roles (user_id, role) values (new.id, 'admin');
   else
     insert into public.user_roles (user_id, role) values (new.id, 'client');

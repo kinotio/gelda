@@ -24,6 +24,16 @@ const menus = [
     icon: 'Ticket'
   },
   {
+    label: 'AI Configurations',
+    path: PATH.ADMIN_AI,
+    icon: 'BotMessageSquare'
+  },
+  {
+    label: 'Activities',
+    path: PATH.ADMIN_ACTIVITIES,
+    icon: 'Activity'
+  },
+  {
     label: 'Settings',
     path: PATH.ADMIN_SETTINGS,
     icon: 'Settings'
