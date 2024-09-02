@@ -64,6 +64,7 @@ export const PATH = {
   ADMIN_TICKETS: '/a/tickets',
   ADMIN_TICKETS_VIEW: '/a/tickets/[id]',
   ADMIN_AI: '/a/ai',
+  ADMIN_ACTIVITIES: '/a/activities',
   ADMIN_SETTINGS: '/a/settings'
 }
 

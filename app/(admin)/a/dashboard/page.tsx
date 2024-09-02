@@ -13,7 +13,7 @@ const Page = () => {
   }, [])
 
   return (
-    <div>
+    <div className='mb-[100px]'>
       <h1>Welcome, {authenticatedUser?.email}</h1>
     </div>
   )
