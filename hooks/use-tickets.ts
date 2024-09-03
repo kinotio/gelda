@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 
 import {
+  listAll as listAllAction,
   list as listAction,
   create as createAction,
   listTicketPriorities as listTicketPrioritiesAction,
@@ -25,6 +26,7 @@ import { useRealtime } from '@/hooks/use-realtime'
 export const useTickets = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
+  const [allTickets, setAllTickets] = useState<TicketType[]>([])
   const [tickets, setTickets] = useState<TicketType[]>([])
   const [ticket, setTicket] = useState<TicketType>()
   const [ticketStatuses, setTicketStatuses] = useState<TicketStatusType[]>([])
@@ -44,9 +46,28 @@ export const useTickets = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newData])
 
-  const list = async ({ currentPage, perPage }: { currentPage?: number; perPage?: number }) => {
+  const listAll = async () => {
     setLoading(true)
-    listAction({ currentPage, perPage })
+    listAllAction()
+      .then(({ data, count }) => {
+        setAllTickets(data)
+        setTotal(count as number)
+      })
+      .catch((error) => setMessage(error.message))
+      .finally(() => setLoading(false))
+  }
+
+  const list = async ({
+    type,
+    currentPage,
+    perPage
+  }: {
+    type?: 'client' | 'admin'
+    currentPage?: number
+    perPage?: number
+  }) => {
+    setLoading(true)
+    listAction({ type, currentPage, perPage })
       .then(({ data, count }) => {
         setTickets(data)
         setTotal(count as number)
@@ -111,7 +132,8 @@ export const useTickets = () => {
     ticket,
     total,
     ticketStatuses,
-    ticketResolutions
+    ticketResolutions,
+    allTickets
   }
 
   const methods = {
@@ -121,7 +143,8 @@ export const useTickets = () => {
     metrics,
     getTicketById,
     listTicketStatuses,
-    listTicketResolutions
+    listTicketResolutions,
+    listAll
   }
 
   return { ...states, ...methods }
