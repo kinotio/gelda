@@ -13,7 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { Badge } from '@/components/ui/badge'
 import { Card, CardHeader, CardDescription, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -36,8 +35,7 @@ import {
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
-import { BADGE_VARIANT, BADGE_BY_RESOLUTION_ID } from '@/lib/constants'
-import { readableTimestamp, formatToReadable, cn } from '@/lib/utils'
+import { readableTimestamp, cn } from '@/lib/utils'
 import { UserType } from '@/lib/definitions'
 
 import { useUsers } from '@/hooks/use-users'
