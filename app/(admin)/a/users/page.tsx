@@ -33,56 +33,36 @@ import {
   PaginationLink,
   PaginationNext
 } from '@/components/ui/pagination'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 import { BADGE_VARIANT, BADGE_BY_RESOLUTION_ID } from '@/lib/constants'
 import { readableTimestamp, formatToReadable, cn } from '@/lib/utils'
-import { TicketType } from '@/lib/definitions'
+import { UserType } from '@/lib/definitions'
 
-import { useTickets } from '@/hooks/use-tickets'
+import { useUsers } from '@/hooks/use-users'
 
 const Page = () => {
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [itemsPerPage, setItemsPerPage] = useState<number>(9)
   const [filters, setFilters] = useState({
-    status: '',
-    priority: '',
-    resolution: ''
+    name: '',
+    username: '',
+    email: ''
   })
   const [date, setDate] = useState<DateRange | undefined>()
 
-  const {
-    list,
-    loading,
-    tickets,
-    total,
-    listTicketStatuses,
-    listTicketPriorities,
-    listTicketResolutions,
-    ticketStatuses,
-    ticketPriorities,
-    ticketResolutions
-  } = useTickets()
+  const { list, loading, users, total } = useUsers()
 
-  const filteredTickets = tickets.filter((ticket) => {
-    const { status, priority, resolution } = filters
-    const ticketCreatedAt = new Date(ticket.created_at)
+  const filteredUsers = users.filter((user) => {
+    const { name, username, email } = filters
+    const ticketCreatedAt = new Date(user.created_at)
 
     return (
-      ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      ticket.ticket_statuses?.name.toLowerCase().includes(status.toLowerCase()) &&
-      ticket.ticket_priorities?.name.toLowerCase().includes(priority.toLowerCase()) &&
-      ticket.ticket_resolutions?.name.toLowerCase().includes(resolution.toLowerCase()) &&
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      user.username.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (!date?.from || ticketCreatedAt >= new Date(date.from)) &&
       (!date?.to || ticketCreatedAt <= new Date(date.to))
     )
@@ -96,15 +76,12 @@ const Page = () => {
   const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber)
 
   const handleResetFilters = () => {
-    setFilters({ status: '', priority: '', resolution: '' })
+    setFilters({ name: '', username: '', email: '' })
     setDate(undefined)
   }
 
   useEffect(() => {
-    list({ type: 'admin', currentPage: currentPage, perPage: itemsPerPage })
-    listTicketStatuses()
-    listTicketPriorities()
-    listTicketResolutions()
+    list({ currentPage: currentPage, perPage: itemsPerPage })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage])
 
@@ -120,7 +97,7 @@ const Page = () => {
 
         <Card className='w-full'>
           <CardHeader>
-            <CardDescription>View and filter ticket actions</CardDescription>
+            <CardDescription>View and filter user actions</CardDescription>
           </CardHeader>
           <CardContent>
             <div className='w-full flex flex-col gap-6'>
@@ -131,7 +108,7 @@ const Page = () => {
                   </div>
                   <Input
                     type='text'
-                    placeholder='Search activity logs...'
+                    placeholder='Search user...'
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className='pl-10 pr-4 py-2 rounded-md w-full border border-input bg-background focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary'
@@ -150,70 +127,7 @@ const Page = () => {
                     <DropdownMenuSeparator />
                     <div className='grid gap-6 p-2'>
                       <div className='grid gap-4'>
-                        <Label htmlFor='status-filter'>Status</Label>
-                        <Select
-                          value={filters.status}
-                          onValueChange={(status) => setFilters({ ...filters, status })}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder='Filter by status' />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              {ticketStatuses.map((status) => (
-                                <SelectItem key={status.id} value={status.name}>
-                                  {formatToReadable(status.slug)}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className='grid gap-4'>
-                        <Label htmlFor='priority-filter'>Priority</Label>
-                        <Select
-                          value={filters.priority}
-                          onValueChange={(priority) => setFilters({ ...filters, priority })}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder='Filter by priority' />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              {ticketPriorities.map((priority) => (
-                                <SelectItem key={priority.id} value={priority.name}>
-                                  {formatToReadable(priority.slug)}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className='grid gap-4'>
-                        <Label htmlFor='resolution-filter'>Resolution</Label>
-                        <Select
-                          value={filters.resolution}
-                          onValueChange={(resolution) => setFilters({ ...filters, resolution })}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder='Filter by resolution' />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              {ticketResolutions.map((resolution) => (
-                                <SelectItem key={resolution.id} value={resolution.name}>
-                                  {formatToReadable(resolution.slug)}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className='grid gap-4'>
-                        <Label htmlFor='createdAt-filter'>Created At</Label>
+                        <Label htmlFor='createdAt-filter'>Joined At</Label>
                         <div className='grid gap-2'>
                           <Popover>
                             <PopoverTrigger asChild>
@@ -262,13 +176,13 @@ const Page = () => {
                 </DropdownMenu>
               </div>
               <div className='overflow-x-auto'>
-                <TicketsTable loading={loading} filteredTickets={filteredTickets} />
+                <TicketsTable loading={loading} filteredUsers={filteredUsers} />
               </div>
               <div className='flex items-center justify-between mt-6'>
                 <TicketsTablePagination
                   indexOfFirstItem={indexOfFirstItem}
                   indexOfLastItem={indexOfLastItem}
-                  filteredTickets={filteredTickets}
+                  filteredUsers={filteredUsers}
                   currentPage={currentPage}
                   totalPages={totalPages}
                   handlePageChange={handlePageChange}
@@ -284,21 +198,20 @@ const Page = () => {
 
 const TicketsTable = ({
   loading,
-  filteredTickets
+  filteredUsers
 }: {
   loading: boolean
-  filteredTickets: TicketType[]
+  filteredUsers: UserType[]
 }) => {
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Ref</TableHead>
-          <TableHead>Title</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Priority</TableHead>
-          <TableHead>Resolution</TableHead>
-          <TableHead>Created At</TableHead>
+          <TableHead>ID</TableHead>
+          <TableHead>Name</TableHead>
+          <TableHead>Username</TableHead>
+          <TableHead>Email</TableHead>
+          <TableHead>Joined At</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -306,26 +219,13 @@ const TicketsTable = ({
           <SkeletonLoader />
         ) : (
           <>
-            {filteredTickets.map((ticket) => (
-              <TableRow key={ticket.id}>
-                <TableCell>#{ticket.id}</TableCell>
-                <TableCell>{ticket.title}</TableCell>
-                <TableCell>
-                  <Badge variant={BADGE_VARIANT[ticket.status_id] as any}>
-                    {ticket.ticket_statuses?.name}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <Badge variant={BADGE_VARIANT[ticket.priority_id] as any}>
-                    {ticket.ticket_priorities?.name}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <Badge variant={BADGE_BY_RESOLUTION_ID[ticket.resolution_id] as any}>
-                    {ticket.ticket_resolutions?.name}
-                  </Badge>
-                </TableCell>
-                <TableCell>{readableTimestamp(ticket.created_at)}</TableCell>
+            {filteredUsers.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell>{user.id}</TableCell>
+                <TableCell>{user.name}</TableCell>
+                <TableCell>{user.username}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{readableTimestamp(user.created_at)}</TableCell>
               </TableRow>
             ))}
           </>
@@ -338,25 +238,24 @@ const TicketsTable = ({
 const TicketsTablePagination = ({
   indexOfFirstItem,
   indexOfLastItem,
-  filteredTickets,
+  filteredUsers,
   currentPage,
   totalPages,
   handlePageChange
 }: {
   indexOfFirstItem: number
   indexOfLastItem: number
-  filteredTickets: TicketType[]
+  filteredUsers: UserType[]
   currentPage: number
   totalPages: number
   handlePageChange: (page: number) => void
 }) => {
   return (
     <>
-      {Array.isArray(filteredTickets) && filteredTickets.length > 0 ? (
+      {Array.isArray(filteredUsers) && filteredUsers.length > 0 ? (
         <>
           <div className='text-sm text-muted-foreground'>
-            Showing {indexOfFirstItem + 1} to {indexOfLastItem} of {filteredTickets.length}{' '}
-            activities
+            Showing {indexOfFirstItem + 1} to {indexOfLastItem} of {filteredUsers.length} activities
           </div>
           <Pagination className='justify-end'>
             <PaginationContent>
