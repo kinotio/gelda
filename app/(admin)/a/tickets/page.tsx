@@ -131,7 +131,7 @@ const Page = () => {
                   </div>
                   <Input
                     type='text'
-                    placeholder='Search activity logs...'
+                    placeholder='Search ticket...'
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className='pl-10 pr-4 py-2 rounded-md w-full border border-input bg-background focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary'
