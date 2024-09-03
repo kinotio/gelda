@@ -8,7 +8,6 @@ import { sluggify } from '@/lib/utils'
 
 import { getUser } from '@/server/actions/auth'
 import { save } from '@/server/actions/activities'
-import { count } from 'console'
 
 const DEFAULT_TYPE = 'client'
 
@@ -23,6 +22,23 @@ type Metric = Record<
   string,
   { status_id: number; priority_id: number; resolution_id: number | null; count: number }
 >
+
+export const listAll = async () => {
+  await getUser()
+
+  const query = '*'
+
+  const {
+    data,
+    error: selectError,
+    count
+  } = await supabase.from('tickets').select(query, { count: 'exact' })
+
+  if (selectError)
+    throw new Error(`An error occurred while getting tickets: ${selectError.message}`)
+
+  return { data, count }
+}
 
 export const list = async ({
   type = DEFAULT_TYPE,
@@ -64,7 +80,11 @@ export const list = async ({
     return { data, count }
   }
 
-  const { data, error: selectError } = await supabase
+  const {
+    data,
+    error: selectError,
+    count
+  } = await supabase
     .from('tickets')
     .select(query, { count: 'exact' })
     .order('created_at', { ascending: false })
