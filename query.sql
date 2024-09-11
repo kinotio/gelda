@@ -125,6 +125,8 @@ create table public.ai_configurations (
   provider      text not null,
   model         text not null,
   ai_token_id   text not null,
+  temperature   integer,
+  max_tokens    text,
   is_global     boolean,
   creator_id    uuid references public.users not null,
   created_at    timestamp with time zone default timezone('utc'::text, now()) not null,
