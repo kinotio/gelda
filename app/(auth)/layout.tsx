@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { RootLayout } from '@/components/layouts/root-layout'
+import { AuthLayout } from '@/components/layouts/auth-layout'
 
 export const metadata: Metadata = { title: 'Gelda' }
 
@@ -9,7 +9,7 @@ const SubLayout = ({
 }: Readonly<{
   children: React.ReactNode
 }>) => {
-  return <RootLayout>{children}</RootLayout>
+  return <AuthLayout>{children}</AuthLayout>
 }
 
 export default SubLayout
