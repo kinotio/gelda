@@ -130,7 +130,7 @@ const Page = () => {
   )
 }
 
-function BarChart(props) {
+function BarChart(props: any) {
   return (
     <div {...props}>
       <ResponsiveBar
@@ -183,7 +183,7 @@ function BarChart(props) {
   )
 }
 
-function LineChart(props) {
+function LineChart(props: any) {
   return (
     <div {...props}>
       <ResponsiveLine
