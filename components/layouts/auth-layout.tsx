@@ -55,7 +55,7 @@ const Footer = () => {
             href='https://kinotio.io'
             className='text-primary transition-all border-primary hover:border-b-2 ml-1'
           >
-            Developed by Kinotio. All rights reserved.
+            Developed by Kinotio.
           </Link>
         </h3>
       </div>
