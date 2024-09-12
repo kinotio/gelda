@@ -9,7 +9,7 @@ import { KinotioLogo } from '@/components/svg/kinotio-logo'
 
 import { getCurrentYear } from '@/lib/utils'
 
-const RootLayout = ({
+const AuthLayout = ({
   children
 }: Readonly<{
   children: React.ReactNode
@@ -70,4 +70,4 @@ const Footer = () => {
   )
 }
 
-export { RootLayout }
+export { AuthLayout }
