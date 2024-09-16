@@ -24,8 +24,9 @@ CMD pnpm start
 
 FROM base as dev
 ENV NODE_ENV=development
-RUN pnpm i --frozen-lockfile
+WORKDIR /app
 COPY . .
+RUN pnpm i --frozen-lockfile
 CMD pnpm dev
 
 EXPOSE 3000
